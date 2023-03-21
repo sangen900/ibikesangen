@@ -21,4 +21,4 @@ st.markdown(
     """
 )
 
-st.image('bike_image.jpg')
+st.image('bike_image.png')

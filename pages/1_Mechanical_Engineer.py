@@ -17,11 +17,54 @@ st.markdown(
     you will only be shown the most appropriate materials and manufacturing processes.
     """)
 
+st.markdown("---")
 
 if not path.isfile('parts_selction.csv'):
-    df = pd.DataFrame(columns=['Part', 'Material', 'Process'])
+    selection_df = pd.DataFrame(columns=['Part', 'Material', 'Process'])
 else:
-    df = pd.read_csv('parts_selction.csv')
+    selection_df = pd.read_csv('parts_selction.csv')
+    st.markdown("These are the previously selected parts with the materials and the manufacturing processes")
+    st.dataframe(selection_df, width=3000)
+    st.markdown("---")
+
+if not path.isfile('parts_material_process_justification.csv'):
+    justification_df = pd.DataFrame(columns=['Part', 'Material Justification', 'Process Justification'])
+else:
+    justification_df = pd.read_csv('parts_material_process_justification.csv')
+    st.markdown("These are the previously selected parts with justificaions for materials manufacturing processes")
+    st.dataframe(justification_df, width=3000)
+    st.markdown("---")
+
+if path.isfile('material_feedback.csv'):
+    st.markdown("Here is the feedback by the :red[Industrial Engineer] on the selected materials")
+    material_feedback_df = pd.read_csv('material_feedback.csv')
+    st.dataframe(material_feedback_df, width=3000)
+    st.markdown("---")
+
+if path.isfile('process_feedback.csv'):
+    st.markdown("Here is the feedback by the :red[Industrial Engineer] on the selected manufacturing processes")
+    process_feedback_df = pd.read_csv('process_feedback.csv')
+    st.dataframe(process_feedback_df, width=3000)
+    st.markdown("---")
+
+if path.isfile('pm_feedback_mech_1'):
+    st.markdown("""
+                Here is the feedback by the :red[Project Manager] on the selected parts, materials, and
+                 manufacturing processes""")
+    with open ('pm_feedback_mech_1', 'rb') as f:
+        text = f.read().decode()
+    with st.expander("Expand to see feedback!"):
+        st.markdown(f":red[{text}]")
+    st.markdown("---")
+
+if path.isfile('pm_feedback_mech_2'):
+    st.markdown("""
+                Here is the feedback by the :red[Project Manager] on your justificaions""")
+    with open ('pm_feedback_mech_2', 'rb') as f:
+        text = f.read().decode()
+    with st.expander("Expand to see feedback!"):
+        st.markdown(f":red[{text}]")
+    st.markdown("---")
 
 parts = ['Select Part',
          'Frame',
@@ -42,32 +85,60 @@ parts = ['Select Part',
          'Seat',
          ]
 
-st.markdown('### :blue[Select a part]')
-part = st.selectbox(
-    label='Part', 
-    options=parts,
-    label_visibility='collapsed',
-)
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown('### :blue[Select a part]')
+    part = st.selectbox(
+        label='Part', 
+        options=parts,
+        label_visibility='collapsed',
+    )
 
 
 def make_selections(materials, processes, minimize, maximize):
-    st.write('Objectives are:')
-    st.write(f'**:red[Minimize:]** {minimize}')
-    st.write(f'**:blue[Maximize:]** {maximize}')
-    st.markdown('### :blue[Select an appropriate material]')
-    material = st.selectbox(
-        label="Material",
-        options=materials,
-        label_visibility='collapsed',
-    )
+    with col2:
+        st.write('Objectives are:')
+        st.write(f'**:red[Minimize:]** {minimize}')
+        st.write(f'**:blue[Maximize:]** {maximize}')
+    st.markdown("---")
+
+    col3, col4 = st.columns(2)
+    with col3:
+        st.markdown('#### :blue[Select an appropriate material]')
+        st.text("")
+        st.text("")
+        material = st.selectbox(
+            label="Material",
+            options=materials,
+            label_visibility='collapsed',
+        )
+        st.text("")
+        st.markdown("#### :red[Justify material selection]")
+        st.text("")
+        st.text("")
+        material_just = st.text_area(label="", 
+                                value="Your justification(100 Chars Max)", 
+                                label_visibility="collapsed",
+                                max_chars=100,
+                                key=0,)
     
-    st.markdown('### :blue[Select an appropriate manufacturing process]')
-    process = st.selectbox(
-        label="Manufacturing Process",
-        options=processes,
-        label_visibility='collapsed',
-    )
-    return material, process
+    with col4:
+        st.markdown('#### :blue[Select an appropriate manufacturing process]')
+        process = st.selectbox(
+            label="Manufacturing Process",
+            options=processes,
+            label_visibility='collapsed',
+        )
+        st.text("")
+        st.markdown("#### :red[Justify manufacturing process selection]")
+        process_just = st.text_area(label="", 
+                                    value="Your justification (100 Chars Max)", 
+                                    label_visibility="collapsed",
+                                    max_chars=100,
+                                    key=1)
+    st.markdown("---")
+    return material, process, material_just, process_just
 
 
 if part == 'Frame':
@@ -88,7 +159,7 @@ if part == 'Frame':
                  'Joining',
                  'Surface Treatment'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 elif part == 'Handlebars':
     minimize =  'Price'
@@ -109,7 +180,7 @@ elif part == 'Handlebars':
                  'Joining',
                  'Surface Treatment'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 elif part == 'Stem':
     minimize =  'Price'
@@ -127,7 +198,7 @@ elif part == 'Stem':
                  'Heat Treatment',
                  'Joining',
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 elif part == 'Suspension Fork':
     minimize =  'Weight (Density)'
@@ -144,7 +215,7 @@ elif part == 'Suspension Fork':
                  'Reaction Bonding',
                  'Hot Pressing',
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 elif part == 'Disc Brake Rotor':
     minimize =  'Price'
@@ -165,7 +236,7 @@ elif part == 'Disc Brake Rotor':
                  'Surface Treatment',
                  'Casting'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 
 elif part == 'Tire':
@@ -183,7 +254,7 @@ elif part == 'Tire':
                  'Polymer Extrusion', 
                  'Polymer Thermoforming',
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 elif part == 'Rim':
     minimize =  'Weight (Density)'
@@ -200,7 +271,7 @@ elif part == 'Rim':
                  'Casting', 
                  'Forging',
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 elif part == 'Hub':
     minimize =  'Price'
@@ -217,7 +288,7 @@ elif part == 'Hub':
                  'Drawing',
                  'Swaging'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 elif part == 'Spoke':
     minimize =  'Price'
@@ -233,7 +304,7 @@ elif part == 'Spoke':
                  'Casting', 
                  'Machining'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 elif part == 'Pedal':
     minimize =  'Price'
@@ -253,7 +324,7 @@ elif part == 'Pedal':
                  'Joining',
                  'Surface Treatment'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 elif part == 'Crank Arm':
     minimize =  'Weight(Density)'
@@ -269,7 +340,7 @@ elif part == 'Crank Arm':
                  'Casting', 
                  'Machining'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 elif part == 'Crank Set':
     minimize =  'Weight(Density)'
@@ -285,7 +356,7 @@ elif part == 'Crank Set':
                  'Casting', 
                  'Machining'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 elif part == 'Cassette':
     minimize =  'Weight(Density)'
@@ -302,7 +373,7 @@ elif part == 'Cassette':
                  'Casting', 
                  'Machining'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 
 elif part == 'Chain':
@@ -323,7 +394,7 @@ elif part == 'Chain':
                  'Joining',
                  'Surface Treatment'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 
 elif part == 'Seat Post':
@@ -342,7 +413,7 @@ elif part == 'Seat Post':
                  'Joining',
                  'Surface Treatment'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 
 elif part == 'Seat':
@@ -361,7 +432,7 @@ elif part == 'Seat':
                  'Open Die Forging',
                  'Casting'
                  ]
-    material, process = make_selections(materials, processes, minimize, maximize)
+    material, process, material_just, process_just = make_selections(materials, processes, minimize, maximize)
 
 st.text("")
 st.text("")
@@ -373,13 +444,20 @@ st.write(
 
 if st.button('Reset Table'):
     os.system('rm parts_selction.csv')
+    os.system('rm parts_material_process_justification.csv')
 
 else:
     try:
-        df.loc[len(df)] = [part, material, process]
-        df = df.drop_duplicates(subset=['Part'], keep='last')
-        df.index = range(1, len(df)+1)
-        df.to_csv('parts_selction.csv', index=False)
-        st.dataframe(df, width=4000)
+        selection_df.loc[len(selection_df)] = [part, material, process]
+        selection_df = selection_df.drop_duplicates(subset=['Part'], keep='last')
+        selection_df.index = range(1, len(selection_df)+1)
+        selection_df.to_csv('parts_selction.csv', index=False)
+        st.dataframe(selection_df, width=4000)
+
+        justification_df.loc[len(justification_df)] = [part, material_just, process_just]
+        justification_df = justification_df.drop_duplicates(subset=['Part'], keep='last')
+        justification_df.index = range(1, len(justification_df)+1)
+        justification_df.to_csv('parts_material_process_justification.csv', index=False)
+        st.dataframe(justification_df, width=4000)
     except:
         pass

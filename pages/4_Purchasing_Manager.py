@@ -75,3 +75,18 @@ if path.isfile('orders.csv'):
     st.write(f'Total Annual Demand: **:red[{total_ann_demand:,}]**')
     st.write(f'**:blue[Economic Order Quantity]: :red[{round(np.sqrt((2*total_order_cost*total_ann_demand)/total_hold_cost), 2):,}]**')
     st.markdown('---')
+
+    with st.expander('Give Feedback!'):
+        if path.isfile('purchasing_manager_feedback'):
+            with open('purchasing_manager_feedback', 'rb') as f:
+                previous_feedback = f.read().decode()
+            feedback = st.text_area('feedback ...',
+                                    value=previous_feedback,
+                                    label_visibility='collapsed')
+            
+        else:
+            feedback = st.text_area('feedback ...',
+                                    value='Your feedback...',
+                                    label_visibility='collapsed')
+        with open('purchasing_manager_feedback', 'w') as f:
+            f.write(feedback)

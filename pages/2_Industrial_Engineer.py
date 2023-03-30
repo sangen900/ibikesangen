@@ -120,6 +120,15 @@ with tab1:
             st.markdown(f":red[{text}]")
         st.markdown("---")
 
+    if path.isfile('purchasing_manager_feedback'):
+        st.markdown("""
+                    Here is the feedback by the :red[Purchasing Manager] on the order quantities""")
+        with open('purchasing_manager_feedback', 'rb') as f:
+            purch_manager_feedback = f.read().decode()
+        with st.expander('Expand to see feedback'):
+            st.markdown(f":red[{purch_manager_feedback}]")
+        st.markdown("---")
+
 
 def forecasting(seed):
     st.markdown("---")

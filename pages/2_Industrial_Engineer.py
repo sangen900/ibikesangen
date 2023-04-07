@@ -258,11 +258,14 @@ with tab2:
                 st.text('')
                 st.write('### Your ordered parts and quantities')
                 orders_df.index = list(range(1, len(orders_df)+1))
-                st.dataframe(orders_df,
-                            width=3000)
                 orders_df.to_csv('orders.csv', index=False)
             except:
                 pass
+
+    try:
+        st.dataframe(orders_df, width=3000)
+    except:
+        pass
 
 
 with tab3:

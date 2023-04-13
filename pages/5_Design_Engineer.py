@@ -2,7 +2,6 @@ import streamlit as st
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
-from matplotlib_inline import backend_inline
 
 
 st.set_page_config(page_title='Design Engineer')
@@ -24,10 +23,6 @@ st.image('design_eng_2.png')
 st.markdown('---')
 st.image('design_eng_3.png')
 st.markdown('---')
-
-def use_svg_display():  #@save
-    """Use the svg format to display a plot in Jupyter."""
-    backend_inline.set_matplotlib_formats('svg')
 
 # Input parameters
 w = st.number_input('Insert Wheel base (m)', value=1.02)
@@ -123,14 +118,14 @@ for i in range (1, 101):
     vel[i-1,0] = i/10;
     aa = s.subs(v, i/10) 
     sol[i-1,:] = np.fromiter(aa, dtype=complex)
-########################################################   
-use_svg_display()
-plt.figure(figsize=(12, 8))
-plt.plot(vel, np.real(sol), linewidth=2)
-plt.plot(5.4995*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
-plt.plot(8.5345*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
-plt.title('Eigenvalue vs. velocity diagram of the benchmark model')
-plt.xlabel('Velocity (m/s)')
-plt.ylabel('Real part of the eigenvalues')
-plt.grid(linestyle='-.')
+########################################################
+with st.spinner('Wait for it...'):
+    plt.figure(figsize=(12, 8))
+    plt.plot(vel, np.real(sol), linewidth=2)
+    plt.plot(5.4995*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
+    plt.plot(8.5345*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
+    plt.title('Eigenvalue vs. velocity diagram of the benchmark model')
+    plt.xlabel('Velocity (m/s)')
+    plt.ylabel('Real part of the eigenvalues')
+    plt.grid(linestyle='-.')
 st.pyplot()

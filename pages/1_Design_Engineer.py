@@ -21,41 +21,50 @@ st.image('design_eng_1.png')
 st.markdown('---')
 st.image('design_eng_2.png')
 st.markdown('---')
-st.image('design_eng_3.png')
-st.markdown('---')
+#st.image('design_eng_3.png')
+#st.markdown('---')
 
 # Input parameters
-w = st.number_input('Insert Wheel base (m)', value=1.02)
-c = st.number_input('Insert Trail (m)', value=0.08)
-lamda = st.number_input('Steer axis tilt (rad)', value=np.pi/10)
-g = st.number_input('Gravitational acceleration (N/kg or m/s)', value=9.81)
-# %v=np.zeros((100, 1));% Forward velocity of bicycle (m/s)
+
+w = st.slider('Insert Wheel base (m)', min_value=0.8, max_value=1.2, value=0.8, step=0.01)
+
+c=0.08; # Trail (m)
+lamda=np.pi/10; # Steer axis tilt (rad)
+g=9.81; # Gravitational acceleration (N/kg or m/s)
+#v=zeros(100,1);# Forward velocity of bicycle (m/s)
 # Rear wheel, R
-rR = st.number_input('Radius (m)', value=0.3)
-mR = st.number_input('Mass (kg)', value=2)
-IRxx = st.number_input('Mass moments of inertia (kg m**2) ', value=0.0603)
-IRyy = st.number_input('Mass moments of inertia (kg m**2)', value=0.0603)
+
+rR = st.slider('Rear Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
+
+mR=2; # Mass (kg)
+IRxx=0.0603; # Mass moments of inertia (kg m^2) 
+IRyy=0.0603; # Mass moments of inertia (kg m^2)
 # Read body and frame assembly, B
-xB = st.number_input('Position of center of mass (m)', value=0.3)
-zB = st.number_input('Position of center of mass (m)', value=-0.9)
-mB = st.number_input('Mass (kg)', value=85)
-IBxx = st.number_input('Mass moment of inertia (kg m**2)', value=9.2)
-IByy = st.number_input('Mass moment of inertia (kg m**2)', value=11)
-IBzz = st.number_input('Mass moment of inertia (kg m**2)', value=2.8)
-IBxz = st.number_input('Mass moment of inertia (kg m**2)', value=0)
+xB=0.3; # Position of center of mass (m)
+zB=-0.9; # Position of center of mass (m)
+
+mB = st.slider('Mass (kg)', min_value=50, max_value=100, value=50)
+
+IBxx=9.2; # Mass moment of inertia (kg m^2)
+IByy=11; # Mass moment of inertia (kg m^2)
+IBzz=2.8; # Mass moment of inertia (kg m^2)
+IBxz=0; # Mass moment of inertia (kg m^2)
 # Front handlebar and fork assembly, H
-xH = st.number_input('Position of center of mass (m)', value=0.91)
-zH = st.number_input('Position of center of mass (m)', value=-0.68)
-mH = st.number_input('Mass (kg)', value=4)
-IHxx = st.number_input('Mass moment of inertia (kg m**2)', value=0.05892)
-IHyy = st.number_input('Mass moment of inertia (kg m**2)', value=0.12)
-IHzz = st.number_input('Mass moment of inertia (kg m**2)', value=0.00708)
-IHxz = st.number_input('Mass moment of inertia (kg m**2)', value=0, key=1)
+xH=0.91; # Position of center of mass (m)
+zH=-0.68; # Position of center of mass (m)
+mH=4; # Mass (kg)
+IHxx=0.05892; # Mass moment of inertia (kg m^2)
+IHyy=0.12; # Mass moment of inertia (kg m^2)
+IHzz=0.00708; # Mass moment of inertia (kg m^2)
+IHxz=0; # Mass moment of inertia (kg m^2)
 # Front wheel, F
-rF = st.number_input('Radius (m)', value=0.35)
-mF = st.number_input('Mass (kg)', value=3)
-IFxx = st.number_input('Mass moments of inertia (kg m**2)', value=0.1405)
-IFyy = st.number_input('Mass moments of inertia (kg m**2)', value=0.1405, key=2)
+
+rF = st.slider('Fron Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
+
+mF=3; # Mass (kg)
+IFxx=0.1405; # Mass moments of inertia (kg m^2) 
+IFyy=0.1405; # Mass moments of inertia (kg m^2)
+
 # Calculation
 # Total mass and center of mass location with respect to rear contact point p 
 
@@ -118,14 +127,17 @@ for i in range (1, 101):
     vel[i-1,0] = i/10;
     aa = s.subs(v, i/10) 
     sol[i-1,:] = np.fromiter(aa, dtype=complex)
+
+real_sol=np.real(sol)
+real_sol_index=np.where(np.sum(real_sol < 0, axis=1) == 4)[0]
 ########################################################
 with st.spinner('Wait for it...'):
     plt.figure(figsize=(12, 8))
-    plt.plot(vel, np.real(sol), linewidth=2)
-    plt.plot(5.4995*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
-    plt.plot(8.5345*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
-    plt.title('Eigenvalue vs. velocity diagram of the benchmark model')
+    plt.plot(vel, real_sol, linewidth=2)
+    plt.plot(vel[real_sol_index[0]]*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
+    plt.plot(vel[real_sol_index[-1]]*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
+    plt.title('Solution roots vs. velocity diagram of the standard model')
     plt.xlabel('Velocity (m/s)')
-    plt.ylabel('Real part of the eigenvalues')
+    plt.ylabel('Real part of the Solution roots')
     plt.grid(linestyle='-.')
 st.pyplot()

@@ -146,20 +146,20 @@ st.pyplot()
 ########################################################
 plt.figure(figsize=(12, 8))
 h = int(1024*(8/12))
-w = 1024
-img = 255 * np.ones((h, w, 3), np.uint8)
+w_ = 1024
+img = 255 * np.ones((h, w_, 3), np.uint8)
 
-radius_1 = 100
+radius_1 = int((rR / 0.4) * 100)
 center_coordinates_1 = (200, h - radius_1-100)
 
-length = 300
-radius_2 = 100
+length = int((w / 1.2) * 500)
+radius_2 = int((rF / 0.4) * 100)
 center_coordinates_2 = (200+length, h - radius_2-100)
 
 color = (0, 0, 0)
 thickness = 2
 
-
+#####################################
 pt3 = center_coordinates_1[0] - radius_1
 pt4 = center_coordinates_1[1]
 img = cv.line(img, center_coordinates_1, (pt3, pt4), (255, 0, 0), 2)
@@ -170,7 +170,7 @@ fontScale              = 0.75
 fontColor              = (0, 0, 0)
 thickness              = 2
 
-cv.putText(img,f'R = {radius_1}"', 
+cv.putText(img,f'R = {rR} m', 
     bottomLeftCornerOfText, 
     font, 
     fontScale,
@@ -181,7 +181,7 @@ cv.putText(img,f'R = {radius_1}"',
 img = cv.circle(img, center_coordinates_1, radius_1, color, thickness)
 
 #####################################
-pt3 = center_coordinates_2[0] - radius_1
+pt3 = center_coordinates_2[0] - radius_2
 pt4 = center_coordinates_2[1]
 img = cv.line(img, center_coordinates_2, (pt3, pt4), (255, 0, 0), 2)
 
@@ -191,7 +191,7 @@ fontScale              = 0.75
 fontColor              = (0, 0, 0)
 thickness              = 2
 
-cv.putText(img,f'R = {radius_2}"', 
+cv.putText(img,f'R = {rF} m', 
     bottomLeftCornerOfText, 
     font, 
     fontScale,
@@ -217,7 +217,7 @@ fontColor              = (0, 0, 0)
 thickness              = 2
 # lineType               = 1
 
-cv.putText(img,f'W = {length}"', 
+cv.putText(img,f'W = {w} m', 
     bottomLeftCornerOfText, 
     font, 
     fontScale,
@@ -225,7 +225,7 @@ cv.putText(img,f'W = {length}"',
     thickness,
           )
 
-#####################################3
+#####################################
 
 offset = int(np.sin(np.pi/10) * (center_coordinates_2[1] - int(3*radius_2)))
 
@@ -240,5 +240,4 @@ img = cv.line(img, head, head2, color, thickness)
 plt.imshow(img)
 plt.xticks([])
 plt.yticks([])
-plt.box(False)
 st.pyplot()

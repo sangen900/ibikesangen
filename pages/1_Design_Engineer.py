@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
+import cv2 as cv
 
 
 st.set_page_config(page_title='Design Engineer')
@@ -140,4 +141,104 @@ with st.spinner('Wait for it...'):
     plt.xlabel('Velocity (m/s)')
     plt.ylabel('Real part of the Solution roots')
     plt.grid(linestyle='-.')
+st.pyplot()
+
+########################################################
+plt.figure(figsize=(12, 8))
+h = int(1024*(8/12))
+w = 1024
+img = 255 * np.ones((h, w, 3), np.uint8)
+
+radius_1 = 100
+center_coordinates_1 = (200, h - radius_1-100)
+
+length = 300
+radius_2 = 100
+center_coordinates_2 = (200+length, h - radius_2-100)
+
+color = (0, 0, 0)
+thickness = 2
+
+
+pt3 = center_coordinates_1[0] - radius_1
+pt4 = center_coordinates_1[1]
+img = cv.line(img, center_coordinates_1, (pt3, pt4), (255, 0, 0), 2)
+
+font                   = cv.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = center_coordinates_1[0] - 60, center_coordinates_1[1] + 20
+fontScale              = 0.75
+fontColor              = (0, 0, 0)
+thickness              = 2
+
+cv.putText(img,f'R = {radius_1}"', 
+    bottomLeftCornerOfText, 
+    font, 
+    fontScale,
+    fontColor,
+    thickness,
+          )
+
+img = cv.circle(img, center_coordinates_1, radius_1, color, thickness)
+
+#####################################
+pt3 = center_coordinates_2[0] - radius_1
+pt4 = center_coordinates_2[1]
+img = cv.line(img, center_coordinates_2, (pt3, pt4), (255, 0, 0), 2)
+
+font                   = cv.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = center_coordinates_2[0] - 60, center_coordinates_2[1] + 20
+fontScale              = 0.75
+fontColor              = (0, 0, 0)
+thickness              = 2
+
+cv.putText(img,f'R = {radius_2}"', 
+    bottomLeftCornerOfText, 
+    font, 
+    fontScale,
+    fontColor,
+    thickness,
+          )
+
+img = cv.circle(img, center_coordinates_2, radius_2, color, thickness)
+
+#####################################
+pt1 = center_coordinates_1[0]
+pt2 = center_coordinates_1[1] + radius_1 + 20
+
+pt3 = center_coordinates_2[0]
+pt4 = center_coordinates_2[1] + radius_2 + 20
+
+img = cv.line(img, (pt1, pt2), (pt3, pt4), (255, 0, 0), 2)
+
+font                   = cv.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = (int((pt1+pt2)/3), pt2+25)
+fontScale              = 0.75
+fontColor              = (0, 0, 0)
+thickness              = 2
+# lineType               = 1
+
+cv.putText(img,f'W = {length}"', 
+    bottomLeftCornerOfText, 
+    font, 
+    fontScale,
+    fontColor,
+    thickness,
+          )
+
+#####################################3
+
+offset = int(np.sin(np.pi/10) * (center_coordinates_2[1] - int(3*radius_2)))
+
+head = (center_coordinates_2[0]-offset, center_coordinates_2[1] - int(3*radius_2))
+img = cv.line(img, center_coordinates_2, head, color, thickness)
+
+img = cv.line(img, head, center_coordinates_1, color, thickness)
+
+head2 = head[0] - 100, head[1]
+img = cv.line(img, head, head2, color, thickness)
+
+plt.imshow(img)
+plt.xticks([])
+plt.yticks([])
+plt.box(False)
 st.pyplot()

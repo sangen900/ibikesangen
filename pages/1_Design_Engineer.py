@@ -27,7 +27,16 @@ st.markdown('---')
 
 # Input parameters
 
-w = st.slider('Insert Wheel base (m)', min_value=0.8, max_value=1.2, value=0.8, step=0.01)
+# w = st.slider('Insert Wheel base (m)', min_value=0.8, max_value=1.2, value=0.8, step=0.01)
+
+col1, col2 = st.columns([1, 2])
+
+with col1:
+    w = st.slider('Insert Wheel base (m)', min_value=0.8, max_value=1.2, value=0.8, step=0.01)
+    mB = st.slider('Mass (kg)', min_value=50, max_value=100, value=50)
+    rF = st.slider('Fron Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
+    rR = st.slider('Rear Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
+
 
 c=0.08; # Trail (m)
 lamda=np.pi/10; # Steer axis tilt (rad)
@@ -35,7 +44,7 @@ g=9.81; # Gravitational acceleration (N/kg or m/s)
 #v=zeros(100,1);# Forward velocity of bicycle (m/s)
 # Rear wheel, R
 
-rR = st.slider('Rear Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
+# rR = st.slider('Rear Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
 
 mR=2; # Mass (kg)
 IRxx=0.0603; # Mass moments of inertia (kg m^2) 
@@ -44,7 +53,7 @@ IRyy=0.0603; # Mass moments of inertia (kg m^2)
 xB=0.3; # Position of center of mass (m)
 zB=-0.9; # Position of center of mass (m)
 
-mB = st.slider('Mass (kg)', min_value=50, max_value=100, value=50)
+# mB = st.slider('Mass (kg)', min_value=50, max_value=100, value=50)
 
 IBxx=9.2; # Mass moment of inertia (kg m^2)
 IByy=11; # Mass moment of inertia (kg m^2)
@@ -60,7 +69,8 @@ IHzz=0.00708; # Mass moment of inertia (kg m^2)
 IHxz=0; # Mass moment of inertia (kg m^2)
 # Front wheel, F
 
-rF = st.slider('Fron Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
+# rF = st.slider('Fron Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
+
 
 mF=3; # Mass (kg)
 IFxx=0.1405; # Mass moments of inertia (kg m^2) 
@@ -132,16 +142,17 @@ for i in range (1, 101):
 real_sol=np.real(sol)
 real_sol_index=np.where(np.sum(real_sol < 0, axis=1) == 4)[0]
 ########################################################
-with st.spinner('Wait for it...'):
-    plt.figure(figsize=(12, 8))
+with col2:
+    st.markdown('**:red[To obtain a better solution, increase the gap between the two vertical dashed lines.]**')
+    plt.figure(figsize=(12, 12))
     plt.plot(vel, real_sol, linewidth=2)
     plt.plot(vel[real_sol_index[0]]*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
     plt.plot(vel[real_sol_index[-1]]*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
-    plt.title('Solution roots vs. velocity diagram of the standard model')
-    plt.xlabel('Velocity (m/s)')
-    plt.ylabel('Real part of the Solution roots')
+    plt.title('Solution roots vs. velocity diagram of the standard model', fontsize=20)
+    plt.xlabel('Velocity (m/s)', fontsize=20)
+    plt.ylabel('Real part of the Solution roots', fontsize=20)
     plt.grid(linestyle='-.')
-st.pyplot()
+    st.pyplot()
 
 ########################################################
 plt.figure(figsize=(12, 8))
@@ -166,11 +177,11 @@ img = cv.line(img, center_coordinates_1, (pt3, pt4), (255, 0, 0), 2)
 
 font                   = cv.FONT_HERSHEY_SIMPLEX
 bottomLeftCornerOfText = center_coordinates_1[0] - 60, center_coordinates_1[1] + 20
-fontScale              = 0.75
+fontScale              = 0.50
 fontColor              = (0, 0, 0)
 thickness              = 2
 
-cv.putText(img,f'R = {rR} m', 
+cv.putText(img,f'R (FW) = {rR} m', 
     bottomLeftCornerOfText, 
     font, 
     fontScale,
@@ -187,11 +198,11 @@ img = cv.line(img, center_coordinates_2, (pt3, pt4), (255, 0, 0), 2)
 
 font                   = cv.FONT_HERSHEY_SIMPLEX
 bottomLeftCornerOfText = center_coordinates_2[0] - 60, center_coordinates_2[1] + 20
-fontScale              = 0.75
+fontScale              = 0.50
 fontColor              = (0, 0, 0)
 thickness              = 2
 
-cv.putText(img,f'R = {rF} m', 
+cv.putText(img,f'R (RW) = {rF} m', 
     bottomLeftCornerOfText, 
     font, 
     fontScale,
@@ -217,7 +228,7 @@ fontColor              = (0, 0, 0)
 thickness              = 2
 # lineType               = 1
 
-cv.putText(img,f'W = {w} m', 
+cv.putText(img,f'Wheel base = {w} m', 
     bottomLeftCornerOfText, 
     font, 
     fontScale,
@@ -236,6 +247,27 @@ img = cv.line(img, head, center_coordinates_1, color, thickness)
 
 head2 = head[0] - 100, head[1]
 img = cv.line(img, head, head2, color, thickness)
+
+#####################################
+center_coordinates_2 = head[0] - 150, head[1]
+img = cv.circle(img, center_coordinates_2, int(mB * 20 / 50), (255, 0, 0), -1)
+
+
+pt1, pt2 = center_coordinates_2[0] - 50, center_coordinates_2[1] - (int(mB * 20 / 50) + 10)
+font                   = cv.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = (pt1, pt2)
+fontScale              = 0.75
+fontColor              = (0, 0, 0)
+thickness              = 2
+# lineType               = 1
+
+cv.putText(img,f'Mass = {mB} kg"', 
+    bottomLeftCornerOfText, 
+    font, 
+    fontScale,
+    fontColor,
+    thickness,
+          )
 
 plt.imshow(img)
 plt.xticks([])

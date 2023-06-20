@@ -156,82 +156,82 @@ with tab1:
         plt.title('Solution roots vs. velocity diagram of the standard model', fontsize=20)
         plt.xlabel('Velocity (m/s)', fontsize=20)
         plt.ylabel('Real part of the Solution roots', fontsize=20)
-				plt.grid(linestyle='-.')
-				st.pyplot()
+		plt.grid(linestyle='-.')
+		st.pyplot()
 
-		##################################################
-		plt.figure(figsize=(12, 8))
-		h = int(1024*(8/12))
-		w_ = 1024
-		img = Image.new('RGB', (w_, h), (255, 255, 255))
-		draw = ImageDraw.Draw(img)
-		font_size = 24  # Choose the desired font size
-		font = ImageFont.truetype("Arial.ttf", font_size)
+	##################################################
+	plt.figure(figsize=(12, 8))
+	h = int(1024*(8/12))
+	w_ = 1024
+	img = Image.new('RGB', (w_, h), (255, 255, 255))
+	draw = ImageDraw.Draw(img)
+	font_size = 24  # Choose the desired font size
+	font = ImageFont.truetype("Arial.ttf", font_size)
 
-		radius_1 = int((rR / 0.4) * 100)
-		center_coordinates_1 = (200, h - radius_1 - 100)
+	radius_1 = int((rR / 0.4) * 100)
+	center_coordinates_1 = (200, h - radius_1 - 100)
 
-		length = int((w / 1.2) * 500)
-		radius_2 = int((rF / 0.4) * 100)
-		center_coordinates_2 = (200 + length, h - radius_2 - 100)
-		color = (0, 0, 0)
-		thickness = 2
+	length = int((w / 1.2) * 500)
+	radius_2 = int((rF / 0.4) * 100)
+	center_coordinates_2 = (200 + length, h - radius_2 - 100)
+	color = (0, 0, 0)
+	thickness = 2
 
-		#####################################
-		pt3 = center_coordinates_1[0] - radius_1
-		pt4 = center_coordinates_1[1]
-		draw.line([center_coordinates_1, (pt3, pt4)], fill=(255, 0, 0), width=2)
+	#####################################
+	pt3 = center_coordinates_1[0] - radius_1
+	pt4 = center_coordinates_1[1]
+	draw.line([center_coordinates_1, (pt3, pt4)], fill=(255, 0, 0), width=2)
 
-		bottomLeftCornerOfText = center_coordinates_1[0] - 60, center_coordinates_1[1] + 20
-		draw.text(bottomLeftCornerOfText, f'R (FW) = {rR} m', font=font, fill=(0, 0, 0))
+	bottomLeftCornerOfText = center_coordinates_1[0] - 60, center_coordinates_1[1] + 20
+	draw.text(bottomLeftCornerOfText, f'R (FW) = {rR} m', font=font, fill=(0, 0, 0))
 
-		draw.ellipse([(center_coordinates_1[0] - radius_1, center_coordinates_1[1] - radius_1), (center_coordinates_1[0] + radius_1, center_coordinates_1[1] + radius_1)], outline=color, width=thickness)
+	draw.ellipse([(center_coordinates_1[0] - radius_1, center_coordinates_1[1] - radius_1), (center_coordinates_1[0] + radius_1, center_coordinates_1[1] + radius_1)], outline=color, width=thickness)
 
-		#####################################
-		pt3 = center_coordinates_2[0] - radius_2
-		pt4 = center_coordinates_2[1]
-		draw.line([center_coordinates_2, (pt3, pt4)], fill=(255, 0, 0), width=2)
+	#####################################
+	pt3 = center_coordinates_2[0] - radius_2
+	pt4 = center_coordinates_2[1]
+	draw.line([center_coordinates_2, (pt3, pt4)], fill=(255, 0, 0), width=2)
 
-		bottomLeftCornerOfText = center_coordinates_2[0] - 60, center_coordinates_2[1] + 20
-		draw.text(bottomLeftCornerOfText, f'R (RW) = {rF} m', font=font, fill=(0, 0, 0))
+	bottomLeftCornerOfText = center_coordinates_2[0] - 60, center_coordinates_2[1] + 20
+	draw.text(bottomLeftCornerOfText, f'R (RW) = {rF} m', font=font, fill=(0, 0, 0))
 
-		draw.ellipse([(center_coordinates_2[0] - radius_2, center_coordinates_2[1] - radius_2), (center_coordinates_2[0] + radius_2, center_coordinates_2[1] + radius_2)], 		outline=color, width=thickness)
+	draw.ellipse([(center_coordinates_2[0] - radius_2, center_coordinates_2[1] - radius_2), (center_coordinates_2[0] + radius_2, center_coordinates_2[1] + radius_2)], 		outline=color, width=thickness)
 
-		#####################################
-		pt1 = center_coordinates_1[0]
-		pt2 = center_coordinates_1[1] + radius_1 + 20
+	#####################################
+	pt1 = center_coordinates_1[0]
+	pt2 = center_coordinates_1[1] + radius_1 + 20
 
-		pt3 = center_coordinates_2[0]
-		pt4 = center_coordinates_2[1] + radius_2 + 20
-		draw.line([(pt1, pt2), (pt3, pt4)], fill=(255, 0, 0), width=2)
+	pt3 = center_coordinates_2[0]
+	pt4 = center_coordinates_2[1] + radius_2 + 20
+	draw.line([(pt1, pt2), (pt3, pt4)], fill=(255, 0, 0), width=2)
 
-		bottomLeftCornerOfText = (int((pt1 + pt2) / 3), pt2 + 25)
-		draw.text(bottomLeftCornerOfText, f'Wheel base = {w} m', font=font, fill=(0, 0, 0))
+	bottomLeftCornerOfText = (int((pt1 + pt2) / 3), pt2 + 25)
+	draw.text(bottomLeftCornerOfText, f'Wheel base = {w} m', font=font, fill=(0, 0, 0))
 
-		#####################################
+	#####################################
 
-		offset = int(np.sin(np.pi / 10) * (center_coordinates_2[1] - int(3 * radius_2)))
+	offset = int(np.sin(np.pi / 10) * (center_coordinates_2[1] - int(3 * radius_2)))
 
-		head = (center_coordinates_2[0] - offset, center_coordinates_2[1] - int(3 * radius_2))
-		draw.line([center_coordinates_2, head], fill=color, width=thickness)
+	head = (center_coordinates_2[0] - offset, center_coordinates_2[1] - int(3 * radius_2))
+	draw.line([center_coordinates_2, head], fill=color, width=thickness)
 
-		draw.line([head, center_coordinates_1], fill=color, width=thickness)
+	draw.line([head, center_coordinates_1], fill=color, width=thickness)
 
-		head2 = head[0] - 100, head[1]
-		draw.line([head, head2], fill=color, width=thickness)
+	head2 = head[0] - 100, head[1]
+	draw.line([head, head2], fill=color, width=thickness)
 
-		#####################################
-		center_coordinates_2 = head[0] - 150, head[1]
-		draw.ellipse([(center_coordinates_2[0] - int(mB * 20 / 50), center_coordinates_2[1] - int(mB * 20 / 50)), (center_coordinates_2[0] + int(mB * 20 / 50), center_coordinates_2[1] + int(mB * 20 / 50))], fill=(255, 0, 0))
+	#####################################
+	center_coordinates_2 = head[0] - 150, head[1]
+	draw.ellipse([(center_coordinates_2[0] - int(mB * 20 / 50), center_coordinates_2[1] - int(mB * 20 / 50)), (center_coordinates_2[0] + int(mB * 20 / 50), center_coordinates_2[1] + int(mB * 20 / 50))], fill=(255, 0, 0))
 
-		pt1, pt2 = center_coordinates_2[0] - 50, center_coordinates_2[1] - (int(mB * 20 / 50) + 10)
-		bottomLeftCornerOfText = (pt1, pt2)
-		draw.text(bottomLeftCornerOfText, f'Mass = {mB} kg', font=font, fill=(0, 0, 0))
+	pt1, pt2 = center_coordinates_2[0] - 50, center_coordinates_2[1] - (int(mB * 20 / 50) + 10)
+	bottomLeftCornerOfText = (pt1, pt2)
+	draw.text(bottomLeftCornerOfText, f'Mass = {mB} kg', font=font, fill=(0, 0, 0))
 
-		plt.imshow(img)
-		plt.xticks([])
-		plt.yticks([])
-		plt.show()
+	plt.imshow(img)
+	plt.xticks([])
+	plt.yticks([])
+	plt.show()
     st.pyplot()
 
 with tab2:

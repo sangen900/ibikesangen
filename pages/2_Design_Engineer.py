@@ -160,6 +160,7 @@ with tab1:
 		st.pyplot()
 
 	##################################################
+	# this commit is for a commit
 	plt.figure(figsize=(12, 8))
 	h = int(1024*(8/12))
 	w_ = 1024

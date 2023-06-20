@@ -158,8 +158,7 @@ with tab1:
         plt.ylabel('Real part of the Solution roots', fontsize=20)
 	plt.grid(linestyle='-.')
 	st.pyplot()
-
-	##################################################
+    ########################################
     plt.figure(figsize=(12, 8))
     h = int(1024*(8/12))
     w_ = 1024

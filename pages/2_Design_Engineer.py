@@ -156,7 +156,7 @@ with tab1:
         plt.title('Solution roots vs. velocity diagram of the standard model', fontsize=20)
         plt.xlabel('Velocity (m/s)', fontsize=20)
         plt.ylabel('Real part of the Solution roots', fontsize=20)
-		plt.grid(linestyle='-.')
+	    plt.grid(linestyle='-.')
 		st.pyplot()
 	###############################################
 	plt.figure(figsize=(12, 8))

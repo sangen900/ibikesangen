@@ -156,10 +156,10 @@ with tab1:
         plt.title('Solution roots vs. velocity diagram of the standard model', fontsize=20)
         plt.xlabel('Velocity (m/s)', fontsize=20)
         plt.ylabel('Real part of the Solution roots', fontsize=20)
-	plt.grid(linestyle='-.')
-	st.pyplot()
-    ########################################
-    plt.figure(figsize=(12, 8))
+		plt.grid(linestyle='-.')
+		st.pyplot()
+	###############################################
+	plt.figure(figsize=(12, 8))
     h = int(1024*(8/12))
     w_ = 1024
     img = Image.new('RGB', (w_, h), (255, 255, 255))

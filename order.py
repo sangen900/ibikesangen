@@ -25,7 +25,7 @@ class Order:
 		if self.type == 'Road':
 			# add our road preferences to the list
 		    pref_options.append('High Speed')
-            pref_options.append('Travel long distances')
+        	pref_options.append('Travel long distances')
         	pref_options.append('Aerodynamic')
         	pref_options.append('Allows the rider to bend forward rather than sitting upright')
         	pref_options.append('Clip-in pedals')

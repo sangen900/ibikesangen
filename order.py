@@ -1,83 +1,107 @@
 import random as ran
+import streamlit as st
+from streamlit import session_state as ss
 
-class Order:
+# This module contains functions to create and manipulate an 'order' dictionary. Each order
+# represents a customer order for iBIKE. Currently, the orders are generated with a random
+# type and 3 random preferences from the user. The preferences will be unique for each order
+# and will contain two preferences specific to the bike type and one that is independent of 
+# bike type. Order will also be generate with a 'status' key that is initialized with a value
+# of 'in progress'. The iBIKE game should eventually contain mechanisms to change that status to
+# 'completed'
+# This module is ONLY for generating a random order dictionary. group.py will
+# make use of this module and will save orders to the group_state.
 
-    def __init__(self):
-	# initialize attributes for the bike order. Order will have a type (road, mountain, or city) and will have 3 other specications from the customer--2 specific to the type of the bike, and 1 general preference that could apply to any type.
-	# the preferences 
-	self.type = self.get_type()
-	spref1, spref2 = self.get_sprefs()
-	self.spref1 = spref1
-	self.spref2 = spref2
-	self.gpref = self.get_gref()
-
-    def get_type(self):
+def get_type():
+	# function to generate random bike type
+	# to be called in init()
 	type_options = ['Road','Mountain','City']
 	type = ran.choice(type_options)
 	return type
-
-    def get_sprefs(self):
-	# method to return a tuple of strings to represent the two type-specific prefences.
-	# create pref_options as an empty list
-	pref_options = []
-
-	# if the type of the bike is road . . .
-	if self.type == 'Road':
-	    # add our road preferences to the list
-	    pref_options.append('High Speed')
-            pref_options.append('Travel long distances')
-            pref_options.append('Aerodynamic')
-            pref_options.append('Allows the rider to bend forward rather than sitting upright')
-            pref_options.append('Clip-in pedals')
-            pref_options.append('Has a handlebar that supports the rider with a variety of hand posititons')
-           
-        elif self.type == 'Mountain':
-            pref_options.append('Off road racing')
-            pref_options.append('Is able to absorb shocks or vibrations from jumping or riding on uneven terrain')
-            pref_options.append('Ability to take punishment on challenging terrains')
-            pref_options.append('Large tires with a lot of traction')
-            pref_options.append('Powerful brakes to stop while goining down hills')
-            pref_options.append('Ability to take punishment on challenging terrains')
-            pref_options.append('A flat handle bar that allows the customer to keep a down hand position inline with the stem')
-            pref_options.append('A slack head angle and long wheelbase for stability during descents')
-
-      #city bike
-        else:
-            pref_options.append('Easy to pedal')
-            pref_options.append('Used mostly for paved roads but can be riden on gentle trails')
-            pref_options.append('Built for comfort and practical')
-            pref_options.append('Allows for rider to sit upright rather than forward')
-            pref_options.append('Can accommodate higher weights')
+	
+def get_sprefs(type):
+	# function to generate to rendom, unique preferences that are specific to the bike type
+	# to be called in init()--needs bike type as an argument
+	if type == 'Road':
+		pref_options = ['High Speed',
+						'Travel long distances',
+						'Aerodynamic',
+						'Allows the rider to bend forward rather than sitting upright',
+						'Clip-in pedals',
+						'Has a handlebar that supports the rider with a variety of hand posititons',
+					   ]
 		
-        spref1 = ran.choice(pref_options)
+	elif type == 'Mountain':
+		pref_options = ['Off road racing',
+						'Is able to absorb shocks or vibrations from jumping or riding on uneven terrain',
+						'Ability to take punishment on challenging terrains',
+						'Large tires with a lot of traction',
+						'Powerful brakes to stop while goining down hills',
+						'Ability to take punishment on challenging terrains',
+						'A flat handle bar that allows the customer to keep a down hand position inline with the stem',
+						'A slack head angle and long wheelbase for stability during descents',
+					   ]
+	
+	else:
+		pref_options = ['Easy to pedal',
+						'Used mostly for paved roads but can be riden on gentle trails',
+						'Built for comfort and practical',
+						'Allows for rider to sit upright rather than forward',
+						'Can accommodate higher weights',
+					   ]
+	
+	spref1 = ran.choice(pref_options)
 	pref_options.remove(spref1)
 	spref2 = ran.choice(pref_options)
-
+	
 	return spref1, spref2
 
-    def get_gpref(self):
-		
+def get_gpref():
+	# generates a random preference that is applicable to all bike types
+	# to be called in init()
+	
 	pref_options = ['Easy to control whilst cycling',
-			'Easy to maintain',
-                        'Comfortable to ride',
-                        'High Quality',
-                        'Low Cost']
-		
+					'Easy to maintain',
+					'Comfortable to ride',
+					'High Quality',
+					'Low Cost']
+	
 	pref = ran.choice(pref_options)
 		
 	return pref
-
-    def build_order(self):
-	# a method to return a string containing the customer expectations for the entire order
-	string_out = f"The customer wants a {self.type} bike with the following features:"
-	string_out += f"\n\t1) {self.spref1}"
-	string_out += f"\n\t2) {self.spref2}"
-	string_out += f"\n\t3) {self.gpref}"
-
-	return string_out
-
-    def show_order(self):
-	print self.build_order()
-
 	
-		
+"""		
+def to_string(order_key):
+	# outputs order to a string. Needs 'key' input where key is . . .
+	# 'order1', 'order2', etc.
+
+	### NOTE:  NEEDS TO LOAD ORDER FROM GROUP_STATE (not yet implemented)
+	string_out = f"The customer wants a {order['type']} bike with the following features:"
+	string_out += f"\n\t-- {order['spref1']}"
+	string_out += f"\n\t-- {order['spref2']}"
+	string_out += f"\n\t-- {order['gpref']}"
+	
+	return string_out
+"""
+
+def init(order_key):
+	
+	# initializes and returns an order dictionary
+	
+	type = get_type()
+	spref1, spref2 = get_sprefs(type)
+	gpref = get_gpref()
+	
+	order = {'key' : order_key,
+			 'type' : type,
+			 'spref1' : spref1, 
+			 'spref2' : spref2,
+			 'gpref' : gpref,
+			 'status' : 'unfulfilled',
+			 'checklist' : {},
+			}
+
+	for role in ss.roles:
+		order['checklist'][role] = False
+
+	return order

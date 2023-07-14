@@ -96,7 +96,7 @@ def main():
 		instructor.render()
 
 	elif ss.welcomed:
-		student.render()
+		player.render()
 
 	#while True:
 	#	time.sleep(5)

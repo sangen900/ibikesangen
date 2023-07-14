@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit import session_state as ss
 import os
 import shutil
-from modules import instructor, student
+from modules import instructor, player
 import time
 
 def switch_welcome():

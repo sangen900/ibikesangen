@@ -443,7 +443,7 @@ def render():
 		continue the process.
 		""")
 
-	if st.button('Reset Table'):
+	if st.button('Reset Table', key=-1):
 		os.system(ss.filepath+'rm parts_selction.csv')
 		os.system(ss.filepath+'rm parts_material_process_justification.csv')
 
@@ -478,7 +478,7 @@ def feedback():
 			f.write(fb_m_d)
 		st.markdown("---")
 
-	if st.button('Clear Feedback', key=0):
+	if st.button('Clear Feedback', key=10):
 		if path.isfile(ss.filepath+'fb_m_d.txt'):
 			os.remove(ss.filepath+'fb_m_d.txt')
 
@@ -495,7 +495,7 @@ def feedback():
 			f.write(fb_m_i)
 		st.markdown("---")
 
-	if st.button('Clear Feedback', key=1):
+	if st.button('Clear Feedback', key=11):
 		if path.isfile(ss.filepath+'fb_m_i.txt'):
 			os.remove(ss.filepath+'fb_m_i.txt')
 
@@ -512,7 +512,7 @@ def feedback():
 			f.write(fb_m_pm)
 		st.markdown("---")
 
-	if st.button('Clear Feedback', key=2):
+	if st.button('Clear Feedback', key=12):
 		if path.isfile(ss.filepath+'fb_m_pm.txt'):
 			os.remove(ss.filepath+'fb_m_pm.txt')
 
@@ -528,7 +528,7 @@ def feedback():
 			f.write(fb_m_pum)
 		st.markdown("---")
 
-	if st.button('Clear Feedback', key=3):
+	if st.button('Clear Feedback', key=13):
 		if path.isfile(ss.filepath+'fb_m_pum.txt'):
 			os.remove(ss.filepath+'fb_m_pum.txt')
 

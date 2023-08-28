@@ -44,7 +44,7 @@ def group_assign(group_key):
 		st.write("I'm sorry, the group you chose is full. Please select a differet group.")
 	else:
 		ss.group = group_key
-		ss['filepath'] = 'files/data'+ss.group+'/'
+		ss['filepath'] = 'files/data/'+ss.group+'/'
 		group_state['player_count'] += 1
 		ss['player'] = group_state['player_count']
 		if group_state['player_count'] == 5:
@@ -72,7 +72,7 @@ def display_role_page():
 	elif ss.role == 'Design Engineer':
 		st.title("Welcome to the Design Engineer Page!")
 		st.write("There is more to this page that is not being shown right now because it is slow to load and I need faster game testing. The images generated in Design_Engineer.render() seem to slow the app down.")
-		# d_e.render()
+		d_e.render()
 	elif ss.role == 'Mechanical Engineer':
 		m_e.render()
 	elif ss.role == 'Industrial Engineer':
@@ -293,4 +293,3 @@ def synchronize():
 		group_state = group.load(ss.group)
 		if group_state != ss.group_state:
 			st.experimental_rerun()
-

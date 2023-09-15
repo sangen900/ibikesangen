@@ -36,7 +36,8 @@ def init(group_key):
 				   'status' : 'waiting',
 				   'filepath' : filepath,
 				   'available_roles' : ss.roles,
-				  }
+				   'roles_reported' : list((True, True, True, True))
+		      }
 	os.mkdir(dirpath)
 	with open(filepath,'w') as file:
 		json.dump(group_state,file)

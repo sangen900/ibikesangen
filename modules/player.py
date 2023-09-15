@@ -14,7 +14,7 @@ def render():
 	if not ss.setup_complete:
 		init()
 	else:
-		st.title('iBIKE Game')
+		st.title('iBIKE Simulation')
 		st.write('Work with your team members to complete orders!')
 		ss.group_state = group.load(ss.group)
 		if ss.group_state['status'] != 'completed':
@@ -70,8 +70,6 @@ def display_role_page():
 	if ss.role == 'Project Manager':
 		pr_m.render()
 	elif ss.role == 'Design Engineer':
-		st.title("Welcome to the Design Engineer Page!")
-		st.write("There is more to this page that is not being shown right now because it is slow to load and I need faster game testing. The images generated in Design_Engineer.render() seem to slow the app down.")
 		d_e.render()
 	elif ss.role == 'Mechanical Engineer':
 		m_e.render()
@@ -117,7 +115,7 @@ def display_group_info():
 
 
 def display_game_complete():
-	st.title("The Game is Over")
+	st.title("The Simulation is Over")
 	st.write("Thank you for playing!")
 
 # Callback function to assign text input widget value to session state name variable
@@ -131,7 +129,7 @@ def role_assign(role):
 	roles = group_state['available_roles']
 	
 	if role not in roles:
-		st.write("I'm sorry, the role you chose is already filled. Please select a differet role.")
+		st.write("I'm sorry, the role you chose is already filled. Please select a different role.")
 		
 	else:
 		ss.role = role
@@ -160,7 +158,7 @@ def display_role_buttons():
 
 	st.write(f"Alright, {ss.name}, you are now in {ss.group}")
 	st.write(f"Please select one of the available group roles below.")
-	st.write(f"This will be the your role for the rest of this game: ")
+	st.write(f"This will be the your role for the rest of this session: ")
 
 	group_state = group.load(ss.group)
 	roles = group_state['available_roles']
@@ -174,7 +172,7 @@ def init():
 	game_state = game.load()
 	size = len(game_state['available_groups'])
 	if size == 0: 
-		st.write("I'm sorry, this game is full. Please wait for the next round")
+		st.write("I'm sorry, this simulation is full. Please wait for the next round")
 	elif not ss.name:
 			st.title('Welcome to the Player Page!')
 			st.write('On this page, you will choose your group and role')
@@ -293,3 +291,4 @@ def synchronize():
 		group_state = group.load(ss.group)
 		if group_state != ss.group_state:
 			st.experimental_rerun()
+

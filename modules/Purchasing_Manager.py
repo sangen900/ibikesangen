@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit import session_state as ss
+from modules import group
 import numpy as np
 import pandas as pd
 import os
@@ -8,9 +9,9 @@ from os import path
 def render():
 
     if 'part_ordered' not in ss:
-	    ss['part_ordered'] = False
+        ss['part_ordered'] = False
     if 'part_cost' not in ss:
-	    ss['part_cost'] = 0.0
+        ss['part_cost'] = 0.0
 
     st.title("Welcome to the Purchasing Manager Page!")
 
@@ -76,8 +77,8 @@ def render():
 
     st.markdown('---')
     st.write('')
-    if path.isfile('orders.csv'):
-        orders = pd.read_csv('orders.csv')
+    if path.isfile(ss.filepath + 'orders.csv'):
+        orders = pd.read_csv(ss.filepath + 'orders.csv')
         orders.index = list(range(1, len(orders)+1))
         orders = orders.merge(eco_df, on='Part', how='left')
         orders['Ordering Cost ($)'] *= orders['Qty']
@@ -98,7 +99,6 @@ def render():
         #st.write(f'Total Annual Demand: **:red[{total_ann_demand:,}]**')
         #st.write(f'**:blue[Economic Order Quantity]: :red[{round(np.sqrt((2*total_order_cost*total_ann_demand)/total_hold_cost), 2):,}]**')
         st.markdown('---')
-
 
         if path.isfile('vendors.csv'):
             if st.button('Reset Vendor Selection!'):
@@ -127,6 +127,11 @@ def render():
             vendor_df.index = list(range(1, len(vendor_df)+1))
             vendor_df.to_csv('vendors.csv', index=False)
 
+	#since vendor_df must exist, it is submitted here if group_state indicates that it should be
+            group_state = group.load(ss.group_state.get('group_key'))
+            if(group_state['roles_reported'][3] == False):
+                submit_report_info(vendor_df, group_state)
+
         if len(vendor_df) > 0:
             st.dataframe(vendor_df, width=3000)
 
@@ -136,15 +141,13 @@ def render():
                     previous_feedback = f.read().decode()
                 feedback = st.text_area('feedback ...',
                                         value=previous_feedback,
-                                        label_visibility='collapsed')
-                
+                                        label_visibility='collapsed')        
             else:
                 feedback = st.text_area('feedback ...',
                                         value='Your feedback...',
                                         label_visibility='collapsed')
             with open('purchasing_manager_feedback', 'w') as f:
                 f.write(feedback)
-	
 	
 def feedback():
 	st.header("Feedback **:red[TO]**")
@@ -341,3 +344,11 @@ def order_part():
 		price = LazyPrices[idx]
 
 	ss.part_cost = price
+
+def submit_report_info(vendor_df, group_state):
+	if not os.path.exists(ss.filepath+'report/'):
+		os.makedirs(ss.filepath+'report/')
+	with open(ss.filepath+'report/'+ 'PurchasingManager' + '.txt', 'w') as f:
+		f.write(vendor_df.to_string(index=False))
+	group_state['roles_reported'][3] = True
+	group.save_group_state(group_state)

@@ -2,6 +2,7 @@ import pandas as pd
 from os import path
 import streamlit as st
 from streamlit import session_state as ss
+from modules import group
 import os
 
 def render():
@@ -145,14 +146,14 @@ def render():
 	if part == 'Frame':
 		minimize =  'Weight (Density)'
 		maximize = 'Ultimate Tensile Strength'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Age-hardening Wrought Al-Alloy',
 					'High Carbon Steel',
 					'Low Alloy Steel',
 					'Titanium Alloys',
 					'Wrought Magnesium Alloys'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Forming', 
 					'Drawing', 
 					'Machining', 
@@ -165,14 +166,14 @@ def render():
 	elif part == 'Handlebars':
 		minimize =  'Price'
 		maximize = 'Young’s Modulus'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Cast Iron - Ductile (Nodular)',
 					'Cast Iron - Gray',
 					'High Carbon Steel',
 					'Low Carbon Steel',
 					'Medium Carbon Steel'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Forming', 
 					'Drawing', 
 					'Machining', 
@@ -186,14 +187,14 @@ def render():
 	elif part == 'Stem':
 		minimize =  'Price'
 		maximize = 'Compressive Strength'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Cast Iron - Ductile (Nodular)',
 					'Cast Iron - Gray',
 					'High Carbon Steel',
 					'Low Alloy Steel',
 					'Medium Carbon Steel'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Forming', 
 					'Machining',
 					'Heat Treatment',
@@ -204,14 +205,14 @@ def render():
 	elif part == 'Suspension Fork':
 		minimize =  'Weight (Density)'
 		maximize = 'Compressive Strength'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Boron Carbide',
 					'Silica Glass',
 					'Silicon',
 					'Silicon Carbide',
 					'Silicon Nitride'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Extrusion', 
 					'Reaction Bonding',
 					'Hot Pressing',
@@ -221,14 +222,14 @@ def render():
 	elif part == 'Disc Brake Rotor':
 		minimize =  'Price'
 		maximize = 'Weight (Density)'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Cast Iron - Ductile (Nodular)',
 					'Cast Iron - Gray',
 					'High Carbon Steel',
 					'Low Alloy Steel',
 					'Low Carbon Steel'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Forming', 
 					'Drawing', 
 					'Machining',
@@ -243,14 +244,14 @@ def render():
 	elif part == 'Tire':
 		minimize =  'Weight (Density)'
 		maximize = 'Moldability'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Butyl Rubber (IIR)',
 					'Ethylene Vinyl Acetate (EVA)',
 					'Ionomer (I)',
 					'Natural Rubber (NR)',
 					'Polyethylene'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Polymer Injection Molding', 
 					'Polymer Extrusion', 
 					'Polymer Thermoforming',
@@ -260,14 +261,14 @@ def render():
 	elif part == 'Rim':
 		minimize =  'Weight (Density)'
 		maximize = 'Young’s modulus'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Alumina',
 					'Aluminium Nitride',
 					'Boron Carbide',
 					'CFRP - Epoxy Matrix (Isotropic)',
 					'Silicon Carbide'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Ring Rolling', 
 					'Casting', 
 					'Forging',
@@ -277,12 +278,12 @@ def render():
 	elif part == 'Hub':
 		minimize =  'Price'
 		maximize = 'Fatigue strength at 10^7 cycles'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Cast Iron - Ductile (Nodular)',
 					'Cast Iron - Gray',
 					'High Carbon Steel',
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Rolling', 
 					'Cold Forging (Closed die)', 
 					'Casting',
@@ -294,14 +295,14 @@ def render():
 	elif part == 'Spoke':
 		minimize =  'Price'
 		maximize = 'Specific stiffness (level3)'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Cast Iron',
 					'Dolomite',
 					'Jute Fibre',
 					'Kenaf Fibre',
 					'Mica (p)'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Casting', 
 					'Machining'
 					]
@@ -310,14 +311,14 @@ def render():
 	elif part == 'Pedal':
 		minimize =  'Price'
 		maximize = 'Ultimate Tensile Strength'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Cast Iron - Ductile (Nodular)',
 					'Cast Iron - Gray',
 					'High Carbon Steel',
 					'Low Alloy Steel',
 					'Medium Carbon Steel'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Forming', 
 					'Drawing', 
 					'Machining',
@@ -330,14 +331,14 @@ def render():
 	elif part == 'Crank Arm':
 		minimize =  'Weight(Density)'
 		maximize = 'Ultimate Tensile Strength'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Bamboo',
 					'CFRP - Epoxy Matrix',
 					'Low Alloy Steel',
 					'Titanium alloys',
 					'Wrought Magnesium Alloys'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Casting', 
 					'Machining'
 					]
@@ -346,14 +347,14 @@ def render():
 	elif part == 'Crank Set':
 		minimize =  'Weight(Density)'
 		maximize = 'Fatigue strength at 10^7 Cycles'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Boron Carbide',
 					'CFRP - Epoxy Matrix',
 					'Silicon Nitride',
 					'Titanium Alloys',
 					'Wrought Magnesium Alloys'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Casting', 
 					'Machining'
 					]
@@ -362,7 +363,7 @@ def render():
 	elif part == 'Cassette':
 		minimize =  'Weight(Density)'
 		maximize = 'Fatigue strength at 10^7 Cycles'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Butyl Rubber (IIR)',
 					'Ethylene Vinyl',
 					'Acetate (EVA)',
@@ -370,7 +371,7 @@ def render():
 					'Natural Rubber (NR)',
 					'Polyethylene (PE)'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Casting', 
 					'Machining'
 					]
@@ -380,14 +381,14 @@ def render():
 	elif part == 'Chain':
 		minimize =  'Price'
 		maximize = 'Fatigue strength at 10^7 Cycles'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Medium carbon steel',
 					'Low carbon steel',
 					'Low alloy steel',
 					'Cast iron - gray',
 					'Cast iron - ductile (nodular)'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Forming', 
 					'Drawing', 
 					'Machining',
@@ -401,14 +402,14 @@ def render():
 	elif part == 'Seat Post':
 		minimize =  'Weight (Density)'
 		maximize = 'Compressive Strength'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Cast Al-Alloys',
 					'Low carbon steel',
 					'Stainless Steel Cast',
 					'Magnesium Alloys',
 					'Low Alloy Steel'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Forming',
 					'Heat Treatment',
 					'Joining',
@@ -420,7 +421,7 @@ def render():
 	elif part == 'Seat':
 		minimize =  'Weight (Density)'
 		maximize = 'Price'
-		materials = ['Selec Material',
+		materials = ['Select Material',
 					'Polyurethane',
 					'Rigid Polymer',
 					'Foam (HD)',
@@ -428,7 +429,7 @@ def render():
 					'Flexible Polymer Foam (VLD)',
 					'Ceramic Foam'
 					]
-		processes = ['Selec Manufacturing Process',
+		processes = ['Select Manufacturing Process',
 					'Injection molding',
 					'Open Die Forging',
 					'Casting'
@@ -444,9 +445,11 @@ def render():
 		""")
 
 	if st.button('Reset Table', key=-1):
-		os.system(ss.filepath+'rm parts_selction.csv')
-		os.system(ss.filepath+'rm parts_material_process_justification.csv')
-
+		try:
+			os.system(ss.filepath+'rm parts_selction.csv')
+			os.system(ss.filepath+'rm parts_material_process_justification.csv')
+		except:
+			pass
 	else:
 		try:
 			selection_df.loc[len(selection_df)] = [part, material, process]
@@ -460,6 +463,11 @@ def render():
 			justification_df.index = range(1, len(justification_df)+1)
 			justification_df.to_csv(ss.filepath+'parts_material_process_justification.csv', index=False)
 			st.dataframe(justification_df, width=4000)
+
+			#since the dataframes must exist, they are submitted here if group_state indicates that they should be
+			group_state = group.load(ss.group_state.get('group_key'))
+			if(group_state['roles_reported'][1] == False):
+				submit_report_info(selection_df, justification_df, group_state)
 		except:
 			pass
 
@@ -568,3 +576,11 @@ def feedback():
 			text = f.read()
 		st.write(text)
 		st.markdown("---")
+
+def submit_report_info(selection_df, justification_df, group_state):
+	if not os.path.exists(ss.filepath+'report/'):
+		os.makedirs(ss.filepath+'report/')
+	with open(ss.filepath+'report/'+ 'MechanicalEngineer' + '.txt', 'w') as f:
+		f.write(selection_df.to_string(index=False, justify='center') + '\n\n' + justification_df.to_string(index=False, justify='center'))
+	group_state['roles_reported'][1] = True
+	group.save_group_state(group_state)

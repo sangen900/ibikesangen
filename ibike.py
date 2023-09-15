@@ -27,7 +27,7 @@ def display_developer_buttons():
 	with col1:
 		st.button("REFRESH", on_click=refresh)
 	with col2:
-		st.button("GAME RESET", on_click=game_reset)
+		st.button("SIMULATION RESET", on_click=game_reset)
 
 def welcome_instructor():
 
@@ -35,7 +35,7 @@ def welcome_instructor():
 
 	st.markdown(
     """
-    iBIKE is an online simuation game developed to create 
+    iBIKE is an online simuation developed to create 
     an environment for **Mechanical Engineers**, **Electrical Engineers**, 
     **Inustrial Engineers**, and **Product Managers** to practice their skills
     in selecting the appropriate parts, their order quantities, best materials 
@@ -43,7 +43,7 @@ def welcome_instructor():
     """
 	)
 	
-	st.write("click 'CONTINUE' below to begin game setup")
+	st.write("Click 'CONTINUE' below to begin setup")
 	st.button("CONTINUE", on_click=switch_welcome)
 
 	st.image('files/images/bike_image.png')
@@ -54,13 +54,13 @@ def welcome_player():
 
 	st.markdown(
     """
-    iBIKE is an online simuation game developed to create 
+    iBIKE is an online simuation developed to create 
     an environment for **Mechanical Engineers**, **Electrical Engineers**, 
     **Inustrial Engineers**, and **Product Managers** to practice their skills
     in selecting the appropriate parts, their order quantities, best materials 
     and manufacturing processes, parcticing supply chain management, and more.
 
-    **WARNING:  Do NOT close your browser while playing iBIKE! If you do close your tab by accident or get disconnect for any reason, your instructor will be able to provide you with a code to rejoin your game session.**
+    **WARNING:  Do NOT close your browser while playing iBIKE! If you do close your tab by accident or get disconnect for any reason, your instructor will be able to provide you with a code to rejoin your session.**
     """
 	)
 	st.write("Are you a New Player or are you Rejoining an existing iBIKE session?")

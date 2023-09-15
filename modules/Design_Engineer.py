@@ -3,15 +3,13 @@ import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
 from streamlit import session_state as ss
+from modules import group
 from PIL import Image, ImageDraw, ImageFont
 import os
 from os import path
 
 def render():
-	st.title('Design Engineer')
 	st.set_option('deprecation.showPyplotGlobalUse', False)
-	
-
 	st.title("Welcome to the Design Engineer Page!")
 
 	st.markdown(
@@ -38,7 +36,7 @@ def render():
 	with col1:
 		w = st.slider('Insert Wheel base (m)', min_value=0.8, max_value=1.2, value=0.8, step=0.01)
 		mB = st.slider('Mass (kg)', min_value=50, max_value=100, value=50)
-		rF = st.slider('Fron Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
+		rF = st.slider('Front Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
 		rR = st.slider('Rear Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
 
 
@@ -73,7 +71,7 @@ def render():
 	IHxz=0; # Mass moment of inertia (kg m^2)
 	# Front wheel, F
 
-	# rF = st.slider('Fron Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
+	# rF = st.slider('Front Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
 
 
 	mF=3; # Mass (kg)
@@ -148,7 +146,7 @@ def render():
 	########################################################
 	with col2:
 		st.markdown('**:red[To obtain a better solution, increase the gap between the two vertical dashed lines.]**')
-		plt.figure(figsize=(12, 12))
+		solution_graph = plt.figure(figsize=(12, 12))
 		plt.plot(vel, real_sol, linewidth=2)
 		plt.plot(vel[real_sol_index[0]]*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
 		plt.plot(vel[real_sol_index[-1]]*np.ones((len(vel),1)), np.linspace(-30, 11,len(vel)), linestyle='--', linewidth=3)
@@ -156,6 +154,12 @@ def render():
 		plt.xlabel('Velocity (m/s)', fontsize=20)
 		plt.ylabel('Real part of the Solution roots', fontsize=20)
 		plt.grid(linestyle='-.')
+
+		#checking if report is needed, since pyplot will clear the graph we need to send
+		group_state = group.load(ss.group_state.get('group_key'))
+		if(group_state['roles_reported'][0] == False):
+			submit_report_info(w, mB, rF, rR, solution_graph, group_state)
+			
 		st.pyplot()
 	
 	plt.figure(figsize=(12, 8))
@@ -338,3 +342,15 @@ def feedback():
 			text = f.read()
 		st.write(text)
 		st.markdown("---")
+
+def submit_report_info(w, mB, rF, rR, fig, group_state):
+	if not os.path.exists(ss.filepath+'report/'):
+		os.makedirs(ss.filepath+'report/')
+	with open(ss.filepath+'report/'+ 'DesignEngineer' + '.txt', 'w') as f:
+		f.write('Wheel Base: ' + str(w) + '\n' +
+		        'Mass: ' + str(mB) + '\n' +
+		        'Front Wheel Radius: '+ str(rF) + '\n' +
+		        'Rear Wheel Radius: '+ str(rR))
+	fig.savefig(ss.filepath+'report/' + 'DesignEngineer' + '_graph.png')
+	group_state['roles_reported'][0] = True
+	group.save_group_state(group_state)

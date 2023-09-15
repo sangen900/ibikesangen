@@ -22,7 +22,7 @@ def reset_switch():
 		ss.reset_requested = True
 
 def reset_check():
-	st.write("WARNING:  Reseting the game will delete progress and ALL game files. Are you sure you want to reset the game?" )
+	st.write("WARNING:  Reseting the simulation will delete progress and ALL session files. Are you sure you want to reset the simulation?" )
 	col1, col2 = st.columns(2)
 	with col1:
 		st.button("Yes", on_click=game_reset)
@@ -56,8 +56,8 @@ def render():
 		ss['code_written'] = False
 
 	if not ss.setup_complete:
-		st.title('iBIKE Game Setup')
-		st.markdown('On this page, you will specify the number of student groups participating in your game. Each group must have 5 (and no more than 5) students. You will be able to monitor the groups\' progress, and at the end of the game download each group\'s data.')
+		st.title('iBIKE Simulation Setup')
+		st.markdown('On this page, you will specify the number of student groups participating in the simulation. Each group must have 5 (and no more than 5) students. You will be able to monitor the groups\' progress, and at the end of the session download each group\'s data.')
 		init()
 
 	elif not ss.code_written:
@@ -73,7 +73,7 @@ def render():
 		col1, col2 = st.columns(2)
 		
 		with col1:
-			st.button("GAME RESET", on_click=reset_switch)
+			st.button("SIMULATION RESET", on_click=reset_switch)
 		with col2:
 			st.button("GENERATE REJOIN CODE", on_click=rejoin_switch)
 	
@@ -109,9 +109,9 @@ def init():
 		group_num = st.text_input('How many student groups do you have?', key='group_num_input', on_change=game_state_assign)
 
 	elif not ss.setup_complete:
-		st.write("Please specify the limit of concurrent, unfulfilled customer orders that you would like to allow, along with the total number of fulfilled orders required to complete the game. When you done, click \'Complete Setup\' below.'")
+		st.write("Please specify the limit of concurrent, unfulfilled customer orders that you would like to allow, along with the total number of fulfilled orders required to complete the simulation.\nWhen you are done, click \'Complete Setup\' below.")
 		st.slider("Concurrent Unfulfilled Order Limit",min_value=0,max_value=100,value=25,step=5,key='order_limit_input')
-		st.slider("Fulfilled Orders Required to Complete the Game",min_value=0,max_value=500,value=100,step=10,key='completed_limit_input')
+		st.slider("Fulfilled Orders Required to Complete the Simulation",min_value=0,max_value=500,value=100,step=10,key='completed_limit_input')
 		st.button("Complete Setup", on_click=complete_game_setup)
 
 def complete_game_setup():
@@ -149,6 +149,13 @@ def display_groups():
 					st.write(role+':  '+name)
 				else:
 					st.write(role+':  unfilled')
+			try:
+				with open(group_state.get('group_key') + '_report.zip', 'rb') as f:
+  					st.download_button('Download Group Report', f, file_name=group_state.get('group_key') + '_report.zip')
+			except FileNotFoundError:
+    				pass
+			except:
+				print('An error occurred with the ' + group_state.get('group_key') + ' report.')				
 	
 def dashboard():
 	# function to, upon setup completion, display the instructor dashboard for the rest of the game.
@@ -213,7 +220,7 @@ def display_teacher_code():
 	game_state = game.load()
 	code = game_state['teacher_code']
 	st.title(f"Instructor Rejoin Code:  {code}")
-	st.write("If you get disconnected from your game session for any reason, use the code above to reconnect to the instructor dashboard.")
+	st.write("If you get disconnected from your session for any reason, use the code above to reconnect to the instructor dashboard.")
 	st.write("Please write down your code, and click 'CONTINUE' when you have done so.")
 	st.write("NOTE:  your instructor code contains ONLY lowercase letters and integers 0 - 9")
 

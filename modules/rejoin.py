@@ -25,13 +25,13 @@ def render():
 	groups = game_state['groups']
 	num_groups = len(groups)
 	st.title("Select a player in one of the groups below in order to generate a rejoin code for that plaeyr. Click the 'View' button below to see all active rejoin codes")
-	st.write("Once a player has rejoined their game session, their rejoin code will dissapear. You may generate a rejoin code as many times as you need to for a player")
+	st.write("Once a player has rejoined their session, their rejoin code will dissapear. You may generate a rejoin code as many times as you need to for a player")
 	st.write("NOTE:  All rejoin codes contain ONLY lowercase letters and integers 0 - 9")
 	
 	st.button("View/Hide Active Rejoin Codes", on_click=switch_rejoin_view)
 	if ss.rejoin_view:
 		if len(game_state['rejoin_codes']) == 0:
-			st.write("There are no players waiting to rejoin their game session")
+			st.write("There are no players waiting to rejoin their session")
 		else:
 			for dict in game_state['rejoin_codes']:
 				st.write(f"The rejoin code for {dict['name']} in group {dict['group']} is  {dict['code']}")
@@ -135,7 +135,7 @@ def switch_rejoin_view():
 def display_rejoin_page():
 
 	st.title("Player Rejoin Page")
-	st.write("You instructor can provide you with a code to rejoin your game session")
+	st.write("You instructor can provide you with a code to rejoin your session")
 	st.text_input("Enter your rejoin code", on_change=sync_player, key='code_input')
 
 def sync_player():

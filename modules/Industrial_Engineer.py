@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit import session_state as ss
+from modules import group
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -130,7 +131,10 @@ def render():
 			orders_df = pd.read_csv(ss.filepath+'orders.csv')
 
 		if st.button('Reset Table', key=8):
-			os.remove(ss.filepath+'orders.csv')
+			try:
+				os.remove(ss.filepath+'orders.csv')
+			except:
+				pass
 			part = "Select Part"
 		else:
 			try:
@@ -138,9 +142,13 @@ def render():
 				orders_df = orders_df.drop_duplicates(subset=['Part'], keep='last')
 				orders_df.index = range(1, orders_df.shape[0] + 1)
 				orders_df.to_csv(ss.filepath+'orders.csv', index=False)
+
+				#since orders_df must exist, it is submitted here if group_state indicates that it should be
+				group_state = group.load(ss.group_state.get('group_key'))
+				if(group_state['roles_reported'][2] == False):
+					submit_report_info(orders_df, group_state)
 			except:
 				pass
-
 	try:
 		st.text('')
 		st.text('')
@@ -257,3 +265,11 @@ def feedback():
 			text = f.read()
 		st.write(text)
 		st.markdown("---")
+
+def submit_report_info(orders_df, group_state):
+	if not os.path.exists(ss.filepath+'report/'):
+		os.makedirs(ss.filepath+'report/')
+	with open(ss.filepath+'report/'+ 'IndustrialEngineer' + '.txt', 'w') as f:
+		f.write(orders_df.to_string(index=False))
+	group_state['roles_reported'][2] = True
+	group.save_group_state(group_state)

@@ -1,9 +1,19 @@
 import streamlit as st
+import numpy as np
 import pandas as pd
 from os import path
 import os
 from streamlit import session_state as ss
 from modules import order, group
+from enum import Enum
+from shutil import make_archive
+
+class ReportState(Enum):
+	INACTIVE = 1
+	CONFIRMING = 2
+	GENERATING = 3
+	FINISHED = 4
+	INVALID = 5
 
 def render():
 	
@@ -37,6 +47,37 @@ def render():
 		
 		num_requested = st.slider('Select the number of orders you would like to generate:', key="num_orders", min_value=1, max_value=ss.order_limit, value=1)
 
+	if 'report_status' not in ss:
+    		ss.report_status = ReportState.INACTIVE
+
+	#this is checked up here so that clicking "Refresh" will immediately show if the report is eady
+	if(ss.report_status == ReportState.GENERATING):
+		check_report()
+	
+	st.write(f"As Project Manager, you can report your progress to the instructor by creating a downloadable report.")
+	#report button
+	if(ss.report_status == ReportState.INACTIVE):
+		st.button('Create Report', on_click=advance_state)
+	elif(ss.report_status == ReportState.CONFIRMING):
+		st.button('Cancel Report', on_click=reset_state)
+	elif(ss.report_status == ReportState.GENERATING):
+		st.button('Refresh') #this button doesn't really do anything, but clicking it will cause the check_report to be run again
+	elif(ss.report_status == ReportState.FINISHED):
+		st.button('Close Report', on_click=advance_state)
+	else:
+		print('State Error - Button') #this should never be reached unless an error occurs
+
+	#revealed items that appear once the button is clicked for the first time
+	if(ss.report_status != ReportState.INACTIVE):
+		if(ss.report_status == ReportState.CONFIRMING):
+			st.write(f"Are you sure you want to make a report? You can continue playing, but your additional progress will not be reflected in the report.")
+			st.button('Confirm', on_click=generate_report) #this function call will advance the state
+		elif(ss.report_status == ReportState.GENERATING):
+			st.write(f"Input confirmed, generating...")			
+		elif(ss.report_status == ReportState.FINISHED):
+			st.write(f"Report generated successfully. You may now close this report.")
+		else:
+			print('State Error - Revealed Area') #this also should never be reached unless an error occurs
 	
 	if path.isfile(ss.filepath+'parts_selction.csv'):
 	    st.header(":blue[Mechanical Engineer]")
@@ -178,3 +219,41 @@ def switch_orders_display():
 		ss.display_orders = False
 	else:
 		ss.display_orders = True
+
+def advance_state():
+	ss.report_status = ReportState(ss.report_status.value + 1)
+	if (ss.report_status.value > 4):
+		reset_state()
+
+def reset_state():
+	ss.report_status = ReportState(1)
+
+def generate_report():
+	group_state = group.load(ss.group_state.get('group_key'))
+	#setting this boolean array to all false prompts the other roles to create heir files for the report
+	for i in range(4):
+		(group_state['roles_reported'])[i] = False
+	group.save_group_state(group_state)
+	
+	advance_state()
+
+def check_report():
+	#all other roles must do their render function so that we have the info for the zip file, so that is checked here
+	group_state = group.load(ss.group_state.get('group_key'))
+	submission_count = 0
+
+	#checking how many players have submitted
+	for i in range(4):
+		if((group_state['roles_reported'])[i] == True):
+			submission_count += 1
+
+	if(submission_count == group_state['player_count'] - 1):
+		#resetting boolean array so that new players who join don't try to submit a report
+		if(group_state['player_count'] < 4):
+			for i in range(4):
+				(group_state['roles_reported'])[i] = True
+
+		#making the zip file if there is at least one other player
+		if(group_state['player_count'] > 1):
+			make_archive(ss.group_state.get('group_key')+'_report', 'zip', ss.filepath, 'report')
+		advance_state()

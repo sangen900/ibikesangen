@@ -29,7 +29,7 @@ def render():
 	if 'orders_full' not in ss:
 		ss['orders_full'] = False
 
-	st.markdown("Specify the number of orders you would like to place using the slider, and then click \"Generate Customer Orders")
+	st.markdown("Specify the number of orders you would like to place using the slider, and then click \"Generate Customer Orders\".")
 
 	col1, col2 = st.columns([1, 2])
 
@@ -41,7 +41,7 @@ def render():
 			st.write(f"{ss.orders_created} orders have been recieved. There are {len(ss.group_state['orders'])} ongoing orders. Click on 'View/Hide Orders' to see order details.")
 			
 		if ss.orders_full:
-			st.write(f"WARNING: That number of incomming orders will exceed the current limit of {ss.order_limit} ongoing customer orders. Select a smaller number of orders.")
+			st.write(f"WARNING: That number of incoming orders will exceed the current limit of {ss.order_limit} ongoing customer orders. Select a smaller number of orders.")
 			
 	with col2:
 		
@@ -71,7 +71,7 @@ def render():
 	if(ss.report_status != ReportState.INACTIVE):
 		if(ss.report_status == ReportState.CONFIRMING):
 			st.write(f"Are you sure you want to make a report? You can continue playing, but your additional progress will not be reflected in the report.")
-			st.button('Confirm', on_click=generate_report) #this function call will advance the state
+			st.button('Confirm', on_click=generate_report) #this function call will advance the report state
 		elif(ss.report_status == ReportState.GENERATING):
 			st.write(f"Input confirmed, generating...")			
 		elif(ss.report_status == ReportState.FINISHED):
@@ -101,7 +101,7 @@ def feedback():
 	    with open(ss.filepath+'fb_pm_m.txt', 'r') as f:
 	        text = f.read()
 	
-	fb_pm_m = st.text_area("Your feedback to the Mechanical Engineer", text)
+	fb_pm_m = st.text_area("Your feedback to the Mechanical Engineer:", text)
 	if fb_pm_m != "":
 	    with open(ss.filepath+"fb_pm_m.txt", "w") as f:
 	        f.write(fb_pm_m)
@@ -123,7 +123,7 @@ def feedback():
 	    with open(ss.filepath+'fb_pm_i.txt', 'r') as f:
 	        text = f.read()
 	
-	fb_pm_i = st.text_area("Your feedback to the Industrial Engineer", text)
+	fb_pm_i = st.text_area("Your feedback to the Industrial Engineer:", text)
 	if fb_pm_i != "":
 	    with open(ss.filepath+"fb_pm_i.txt", "w") as f:
 	        f.write(fb_pm_i)
@@ -138,7 +138,7 @@ def feedback():
 	    with open(ss.filepath+'fb_pm_pum.txt', 'r') as f:
 	        text = f.read()
 	
-	fb_pm_pum = st.text_area("Your feedback to the Purchasing Manager", text)
+	fb_pm_pum = st.text_area("Your feedback to the Purchasing Manager:", text)
 	if fb_pm_pum != "":
 	    with open(ss.filepath+"fb_pm_pum.txt", "w") as f:
 	        f.write(fb_pm_pum)
@@ -155,7 +155,7 @@ def feedback():
 	    with open(ss.filepath+'fb_pm_d.txt', 'r') as f:
 	        text = f.read()
 	
-	fb_pm_d = st.text_area("Your feedback to the Design Engineer", text)
+	fb_pm_d = st.text_area("Your feedback to the Design Engineer:", text)
 	if fb_pm_d != "":
 	    with open(ss.filepath+"fb_pm_d.txt", "w") as f:
 	        f.write(fb_pm_d)
@@ -170,7 +170,7 @@ def feedback():
 	st.header("Feedback **:red[From]**")
 	if path.isfile(ss.filepath+'fb_d_pm.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Design Engineer]**")
+		st.write("Feedback from the **:red[Design Engineer]**:")
 		with open(ss.filepath+'fb_d_pm.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -178,7 +178,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_i_pm.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Industrial Engineer]**")
+		st.write("Feedback from the **:red[Industrial Engineer]**:")
 		with open(ss.filepath+'fb_i_pm.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -187,7 +187,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_m_pm.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Mechanical Engineer]**")
+		st.write("Feedback from the **:red[Mechanical Engineer]**:")
 		with open(ss.filepath+'fb_m_pm.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -196,7 +196,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_pum_pm.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Purchasing Manager]**")
+		st.write("Feedback from the **:red[Purchasing Manager]**:")
 		with open(ss.filepath+'fb_pum_pm.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -238,7 +238,7 @@ def generate_report():
 	advance_state()
 
 def check_report():
-	#all other roles must do their render function so that we have the info for the zip file, so that is checked here
+	#all other roles must update their page in order to automatically submit the info for the report, so that is checked here
 	group_state = group.load(ss.group_state.get('group_key'))
 	submission_count = 0
 

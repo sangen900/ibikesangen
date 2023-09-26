@@ -15,7 +15,7 @@ def render():
 		"""
 		Your role revolves around selecting the bike **Parts** to manufacture,
 		their **Materials**, and the "Manufacturing Processes". You will be given
-		each of these in a drop list from which you can make your choices. For each part,
+		each of these in a dropdown list from which you can make your selections. For each part,
 		you will only be shown the most appropriate materials and manufacturing processes.
 		""")
 
@@ -25,7 +25,7 @@ def render():
 		selection_df = pd.DataFrame(columns=['Part', 'Material', 'Process'])
 	else:
 		selection_df = pd.read_csv(ss.filepath+'parts_selction.csv')
-		st.markdown("These are the previously selected parts with the materials and the manufacturing processes")
+		st.markdown("These are the previously selected parts with the materials and the manufacturing processes:")
 		st.dataframe(selection_df, width=3000)
 		st.markdown("---")
 
@@ -33,18 +33,18 @@ def render():
 		justification_df = pd.DataFrame(columns=['Part', 'Material Justification', 'Process Justification'])
 	else:
 		justification_df = pd.read_csv(ss.filepath+'parts_material_process_justification.csv')
-		st.markdown("These are the previously selected parts with justificaions for materials manufacturing processes")
+		st.markdown("These are the previously selected parts with justificaions for materials manufacturing processes:")
 		st.dataframe(justification_df, width=3000)
 		st.markdown("---")
 
 	if path.isfile(ss.filepath+'material_feedback.csv'):
-		st.markdown("Here is the feedback by the :red[Industrial Engineer] on the selected materials")
+		st.markdown("Here is the feedback by the :red[Industrial Engineer] on the selected materials:")
 		material_feedback_df = pd.read_csv(ss.filepath+'material_feedback.csv')
 		st.dataframe(material_feedback_df, width=3000)
 		st.markdown("---")
 
 	if path.isfile(ss.filepath+'process_feedback.csv'):
-		st.markdown("Here is the feedback by the :red[Industrial Engineer] on the selected manufacturing processes")
+		st.markdown("Here is the feedback by the :red[Industrial Engineer] on the selected manufacturing processes:")
 		process_feedback_df = pd.read_csv(ss.filepath+'process_feedback.csv')
 		st.dataframe(process_feedback_df, width=3000)
 		st.markdown("---")
@@ -52,7 +52,7 @@ def render():
 	if path.isfile('pm_feedback_mech_1'):
 		st.markdown("""
 					Here is the feedback by the :red[Project Manager] on the selected parts, materials, and
-					manufacturing processes""")
+					manufacturing processes:""")
 		with open ('pm_feedback_mech_1', 'rb') as f:
 			text = f.read().decode()
 		with st.expander("Expand to see feedback!"):
@@ -61,7 +61,7 @@ def render():
 
 	if path.isfile('pm_feedback_mech_2'):
 		st.markdown("""
-					Here is the feedback by the :red[Project Manager] on your justificaions""")
+					Here is the feedback by the :red[Project Manager] on your justificaions:""")
 		with open ('pm_feedback_mech_2', 'rb') as f:
 			text = f.read().decode()
 		with st.expander("Expand to see feedback!"):
@@ -147,7 +147,7 @@ def render():
 		minimize =  'Weight (Density)'
 		maximize = 'Ultimate Tensile Strength'
 		materials = ['Select Material',
-					'Age-hardening Wrought Al-Alloy',
+					'Age-Hardening Wrought Al-Alloy',
 					'High Carbon Steel',
 					'Low Alloy Steel',
 					'Titanium Alloys',
@@ -260,7 +260,7 @@ def render():
 
 	elif part == 'Rim':
 		minimize =  'Weight (Density)'
-		maximize = 'Young’s modulus'
+		maximize = 'Young’s Modulus'
 		materials = ['Select Material',
 					'Alumina',
 					'Aluminium Nitride',
@@ -277,7 +277,7 @@ def render():
 
 	elif part == 'Hub':
 		minimize =  'Price'
-		maximize = 'Fatigue strength at 10^7 cycles'
+		maximize = 'Fatigue Strength at 10^7 cycles'
 		materials = ['Select Material',
 					'Cast Iron - Ductile (Nodular)',
 					'Cast Iron - Gray',
@@ -285,7 +285,7 @@ def render():
 					]
 		processes = ['Select Manufacturing Process',
 					'Rolling', 
-					'Cold Forging (Closed die)', 
+					'Cold Forging (Closed Die)', 
 					'Casting',
 					'Drawing',
 					'Swaging'
@@ -294,7 +294,7 @@ def render():
 
 	elif part == 'Spoke':
 		minimize =  'Price'
-		maximize = 'Specific stiffness (level3)'
+		maximize = 'Specific Stiffness (Level 3)'
 		materials = ['Select Material',
 					'Cast Iron',
 					'Dolomite',
@@ -346,7 +346,7 @@ def render():
 
 	elif part == 'Crank Set':
 		minimize =  'Weight(Density)'
-		maximize = 'Fatigue strength at 10^7 Cycles'
+		maximize = 'Fatigue Strength at 10^7 Cycles'
 		materials = ['Select Material',
 					'Boron Carbide',
 					'CFRP - Epoxy Matrix',
@@ -362,7 +362,7 @@ def render():
 
 	elif part == 'Cassette':
 		minimize =  'Weight(Density)'
-		maximize = 'Fatigue strength at 10^7 Cycles'
+		maximize = 'Fatigue Strength at 10^7 Cycles'
 		materials = ['Select Material',
 					'Butyl Rubber (IIR)',
 					'Ethylene Vinyl',
@@ -380,7 +380,7 @@ def render():
 
 	elif part == 'Chain':
 		minimize =  'Price'
-		maximize = 'Fatigue strength at 10^7 Cycles'
+		maximize = 'Fatigue Strength at 10^7 Cycles'
 		materials = ['Select Material',
 					'Medium carbon steel',
 					'Low carbon steel',
@@ -480,7 +480,7 @@ def feedback():
 		with open(ss.filepath+'fb_m_d.txt', 'r') as f:
 			text = f.read()
 
-	fb_m_d = st.text_area("Your feedback to the Design Engineer", text)
+	fb_m_d = st.text_area("Your feedback to the Design Engineer:", text)
 	if fb_m_d != "":
 		with open(ss.filepath+"fb_m_d.txt", "w") as f:
 			f.write(fb_m_d)
@@ -497,7 +497,7 @@ def feedback():
 		with open(ss.filepath+'fb_m_i.txt', 'r') as f:
 			text = f.read()
 
-	fb_m_i = st.text_area("Your feedback to the Industrial Engineer", text)
+	fb_m_i = st.text_area("Your feedback to the Industrial Engineer:", text)
 	if fb_m_i != "":
 		with open(ss.filepath+"fb_m_i.txt", "w") as f:
 			f.write(fb_m_i)
@@ -514,7 +514,7 @@ def feedback():
 		with open(ss.filepath+'fb_m_pm.txt', 'r') as f:
 			text = f.read()
 
-	fb_m_pm = st.text_area("Your feedback to the Project Manager", text)
+	fb_m_pm = st.text_area("Your feedback to the Project Manager:", text)
 	if fb_m_pm != "":
 		with open(ss.filepath+"fb_m_pm.txt", "w") as f:
 			f.write(fb_m_pm)
@@ -530,7 +530,7 @@ def feedback():
 		with open(ss.filepath+'fb_m_pum.txt', 'r') as f:
 			text = f.read()
 
-	fb_m_pum = st.text_area("Your feedback to the Purchasing Manager", text)
+	fb_m_pum = st.text_area("Your feedback to the Purchasing Manager:", text)
 	if fb_m_pum != "":
 		with open(ss.filepath+"fb_m_pum.txt", "w") as f:
 			f.write(fb_m_pum)
@@ -545,7 +545,7 @@ def feedback():
 	st.header("Feedback **:red[From]**")
 	if path.isfile(ss.filepath+'fb_d_m.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Design Engineer]**")
+		st.write("Feedback from the **:red[Design Engineer]**:")
 		with open(ss.filepath+'fb_d_m.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -553,7 +553,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_i_m.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Industrial Engineer]**")
+		st.write("Feedback from the **:red[Industrial Engineer]**:")
 		with open(ss.filepath+'fb_i_m.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -562,7 +562,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_pm_m.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Project Manager]**")
+		st.write("Feedback from the **:red[Project Manager]**:")
 		with open(ss.filepath+'fb_pm_m.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -571,7 +571,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_pum_m.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Purchasing Manager]**")
+		st.write("Feedback from the **:red[Purchasing Manager]**:")
 		with open(ss.filepath+'fb_pum_m.txt', 'r') as f:
 			text = f.read()
 		st.write(text)

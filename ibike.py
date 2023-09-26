@@ -37,13 +37,13 @@ def welcome_instructor():
     """
     iBIKE is an online simuation developed to create 
     an environment for **Mechanical Engineers**, **Electrical Engineers**, 
-    **Inustrial Engineers**, and **Product Managers** to practice their skills
+    **Industrial Engineers**, and **Product Managers** to practice their skills
     in selecting the appropriate parts, their order quantities, best materials 
     and manufacturing processes, parcticing supply chain management, and more.
     """
 	)
 	
-	st.write("Click 'CONTINUE' below to begin setup")
+	st.write("Click 'CONTINUE' below to begin setup.")
 	st.button("CONTINUE", on_click=switch_welcome)
 
 	st.image('files/images/bike_image.png')
@@ -56,17 +56,17 @@ def welcome_player():
     """
     iBIKE is an online simuation developed to create 
     an environment for **Mechanical Engineers**, **Electrical Engineers**, 
-    **Inustrial Engineers**, and **Product Managers** to practice their skills
+    **Industrial Engineers**, and **Product Managers** to practice their skills
     in selecting the appropriate parts, their order quantities, best materials 
     and manufacturing processes, parcticing supply chain management, and more.
 
-    **WARNING:  Do NOT close your browser while playing iBIKE! If you do close your tab by accident or get disconnect for any reason, your instructor will be able to provide you with a code to rejoin your session.**
+    **WARNING:  Do NOT close your browser while playing iBIKE! If you do close your tab by accident or get disconnected for any reason, your instructor will be able to provide you with a code to rejoin your session.**
     """
 	)
-	st.write("Are you a New Player or are you Rejoining an existing iBIKE session?")
+	st.write("Are you a New User or are you Rejoining an existing iBIKE session?")
 	col1, col2 = st.columns(2)
 	with col1:
-		st.button("NEW PLAYER", on_click=switch_welcome)
+		st.button("NEW USER", on_click=switch_welcome)
 	with col2:
 		st.button("REJOINING", on_click=switch_rejoin)
 

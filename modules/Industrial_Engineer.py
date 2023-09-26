@@ -44,7 +44,7 @@ def render():
 	
 	st.markdown(
 		"""
-		Your role revolves around two main points. You will forecast the demand and then order the appropriate quantities based on the forecasting results. You will be given a drop list for all the bike parts.  
+		Your role revolves around two main points. You will forecast the demand and then order the appropriate quantities based on the forecasting results. You will be given a dropdowm list for all the bike parts.  
 	""")
 	
 	st.text("")
@@ -52,18 +52,18 @@ def render():
 	st.title(':blue[Demand Forecasting]')
 
 	st.markdown("""
-	To forecast the demand,  you will  be provided with the quatities of each part per bike and
-	shown the demand for the last 12 months for each part you expand. It will show a line graph 
+	To forecast the demand, you will be provided with the quantities of each part per bike and
+	shown the demand for the last 12 months for each part that you expand. It will show a line graph 
 	encompassing the demand, the inventory level, and the moving average demand for the last 12 months. 
 	We also provide you with an initial value that you can use for your prediction. The initial value is
-	average demand minus the current invetory. 
+	average demand minus the current inventory. 
 	""")
 	
 	st.markdown("---")
 	st.markdown('#### :blue[Select Bike Parts to Order]')
 	st.markdown("""
 				You can do this sequentially. Each time you can select one part, then define the
-				order quatity.
+				order quantity.
 				""")
 
 	parts = ['Select Part',
@@ -119,7 +119,7 @@ def render():
 		st.markdown('#### :blue[Choose the order quantity]')
 		st.markdown('The initial value given below is calculated as follows:')
 		st.latex('Order = Mean~Demand - Current~Invetory')
-		order_qty = st.number_input('Quantity (The initial value is = mean demand - invetory)', 
+		order_qty = st.number_input('Quantity (The initial value is = mean demand - inventory)', 
 									label_visibility='collapsed',
 									value=qty, min_value=0)
 		st.markdown("---")
@@ -168,7 +168,7 @@ def feedback():
 		with open(ss.filepath+'fb_i_d.txt', 'r') as f:
 			text = f.read()
 
-	fb_i_d = st.text_area("Your feedback to the Design Engineer", text)
+	fb_i_d = st.text_area("Your feedback to the Design Engineer:", text)
 	if fb_i_d != "":
 		with open(ss.filepath+"fb_i_d.txt", "w") as f:
 			f.write(fb_i_d)
@@ -185,7 +185,7 @@ def feedback():
 		with open(ss.filepath+'fb_i_m.txt', 'r') as f:
 			text = f.read()
 
-	fb_i_m = st.text_area("Your feedback to the Mechanical Engineer", text)
+	fb_i_m = st.text_area("Your feedback to the Mechanical Engineer:", text)
 	if fb_i_m != "":
 		with open(ss.filepath+"fb_i_m.txt", "w") as f:
 			f.write(fb_i_m)
@@ -202,7 +202,7 @@ def feedback():
 		with open(ss.filepath+'fb_i_pm.txt', 'r') as f:
 			text = f.read()
 
-	fb_i_pm = st.text_area("Your feedback to the Project Manager", text)
+	fb_i_pm = st.text_area("Your feedback to the Project Manager:", text)
 	if fb_i_pm != "":
 		with open(ss.filepath+"fb_i_pm.txt", "w") as f:
 			f.write(fb_i_pm)
@@ -219,7 +219,7 @@ def feedback():
 		with open(ss.filepath+'fb_i_pum.txt', 'r') as f:
 			text = f.read()
 
-	fb_i_pum = st.text_area("Your feedback to the Purchasing Manager", text)
+	fb_i_pum = st.text_area("Your feedback to the Purchasing Manager:", text)
 	if fb_i_pum != "":
 		with open(ss.filepath+"fb_i_pum.txt", "w") as f:
 			f.write(fb_i_pum)
@@ -234,7 +234,7 @@ def feedback():
 	st.header("Feedback **:red[From]**")
 	if path.isfile(ss.filepath+'fb_d_i.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Design Engineer]**")
+		st.write("Feedback from the **:red[Design Engineer]**:")
 		with open(ss.filepath+'fb_d_i.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -242,7 +242,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_m_i.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Mechanical Engineer]**")
+		st.write("Feedback from the **:red[Mechanical Engineer]**:")
 		with open(ss.filepath+'fb_m_i.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -251,7 +251,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_pm_m.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Project Manager]**")
+		st.write("Feedback from the **:red[Project Manager]**:")
 		with open(ss.filepath+'fb_pm_m.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -260,7 +260,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_pum_m.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Purchasing Manager]**")
+		st.write("Feedback from the **:red[Purchasing Manager]**:")
 		with open(ss.filepath+'fb_pum_m.txt', 'r') as f:
 			text = f.read()
 		st.write(text)

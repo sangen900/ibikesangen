@@ -33,15 +33,15 @@ def render():
 	#st.experimental_rerun()
 	#synchronize()
 
-# Callback function that first checks availability and assigns a player to a group if it is not already full.
-# if a player is the 5th member of a group, that group will be removed from the available, displayed groups for all other players
+# Callback function that first checks availability and assigns a user to a group if it is not already full.
+# if a user is the 5th member of a group, that group will be removed from the available, displayed groups for all other users
 def group_assign(group_key):
 
 	group_state = group.load(group_key)
 	game_state = game.load()
 	groups = game_state['available_groups']
 	if group_key not in groups:
-		st.write("I'm sorry, the group you chose is full. Please select a differet group.")
+		st.write("I'm sorry, the group you chose is full. Please select a different group.")
 	else:
 		ss.group = group_key
 		ss['filepath'] = 'files/data/'+ss.group+'/'
@@ -156,7 +156,7 @@ def role_assign(role):
 
 def display_role_buttons():
 
-	st.write(f"Alright, {ss.name}, you are now in {ss.group}")
+	st.write(f"Alright, {ss.name}, you are now in {ss.group}.")
 	st.write(f"Please select one of the available group roles below.")
 	st.write(f"This will be the your role for the rest of this session: ")
 
@@ -174,8 +174,8 @@ def init():
 	if size == 0: 
 		st.write("I'm sorry, this simulation is full. Please wait for the next round")
 	elif not ss.name:
-			st.title('Welcome to the Player Page!')
-			st.write('On this page, you will choose your group and role')
+			st.title('Welcome to the User Page!')
+			st.write('On this page, you will choose your group and role.')
 			st.text_input('What is your name?', key='name_input' , on_change=name_assign)
 	elif not ss.group:
 		st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
@@ -212,11 +212,11 @@ def move_order(order_key):
 	group.save_group_state(group_state)
 	
 	
-# Function to be called on each player page to display widgets to select orders and pass
+# Function to be called on each user page to display widgets to select orders and pass
 # them on to the next role.
 def display_current_orders():
 
-	st.write("click the \"Refresh Orders\" button below in order to refresh your page and view current orders")
+	st.write("Click the \"Refresh Orders\" button below in order to refresh your page and view current orders.")
 	st.button("Refresh Orders")
 	
 	if len(ss.group_state['orders']) > 0:
@@ -236,7 +236,7 @@ def display_current_orders():
 			with col1:
 				st.radio('Orders Ready for your input:  ', order_keys, key='order_choice')
 			with col2:
-				st.write('please select an order for processing')
+				st.write('Please select an order for processing:')
 				if 'order_choice' in ss:
 					st.button("View "+ss.order_choice, on_click=switch_order_view)
 					if ss.order_view:
@@ -250,12 +250,12 @@ def display_current_orders():
 
 		
 		else:
-			st.write('There are no orders for you to work on right now')
+			st.write('There are no orders for you to work on right now.')
 
 		display_orders_graph()
 		
 	else:
-		st.write('There are no current customer orders. Please wait for your Project Manager to receive more orders')
+		st.write('There are no current customer orders. Please wait for your Project Manager to receive more orders.')
 
 
 
@@ -291,4 +291,3 @@ def synchronize():
 		group_state = group.load(ss.group)
 		if group_state != ss.group_state:
 			st.experimental_rerun()
-

@@ -24,14 +24,14 @@ def render():
 	game_state = game.load()
 	groups = game_state['groups']
 	num_groups = len(groups)
-	st.title("Select a player in one of the groups below in order to generate a rejoin code for that plaeyr. Click the 'View' button below to see all active rejoin codes")
-	st.write("Once a player has rejoined their session, their rejoin code will dissapear. You may generate a rejoin code as many times as you need to for a player")
-	st.write("NOTE:  All rejoin codes contain ONLY lowercase letters and integers 0 - 9")
+	st.title("Select a user in one of the groups below in order to generate a rejoin code for that user. Click the 'View' button below to see all active rejoin codes.")
+	st.write("Once a user has rejoined their session, their rejoin code will dissapear. You may generate a rejoin code as many times as you need to for a user.")
+	st.write("NOTE:  All rejoin codes contain ONLY lowercase letters and integers 0 - 9.")
 	
 	st.button("View/Hide Active Rejoin Codes", on_click=switch_rejoin_view)
 	if ss.rejoin_view:
 		if len(game_state['rejoin_codes']) == 0:
-			st.write("There are no players waiting to rejoin their session")
+			st.write("There are no users waiting to rejoin their session.")
 		else:
 			for dict in game_state['rejoin_codes']:
 				st.write(f"The rejoin code for {dict['name']} in group {dict['group']} is  {dict['code']}")
@@ -44,10 +44,10 @@ def render():
 		with cols[i]:
 			st.title(group_state['group_key'])
 			if group_state['player_count'] == 0:
-				st.write("No players have joined this group")
+				st.write("No users have joined this group.")
 			for j in range(group_state['player_count']):
 				num = j+1
-				label = 'Player '+str(num)
+				label = 'User '+str(num)
 				pname = 'p'+str(num)+'_name'
 				prole = 'p'+str(num)+'_role'
 				name = group_state[pname]
@@ -71,7 +71,7 @@ def rejoin_check():
 		if ss.rejoin_group == dict['group'] and ss.rejoin_name == dict['name'] and ss.rejoin_role == dict['role']:
 			code_exists = True
 	if code_exists:
-		st.write(f"You have already generated a rejoin code for this player. Click 'View Rejoin codes' to view the code.")
+		st.write(f"You have already generated a rejoin code for this user. Click 'View Rejoin codes' to view the code.")
 	else:
 		st.write(f"Generate Rejoin Code for {ss.rejoin_name} playing as {ss.rejoin_role} in {ss.rejoin_group} ?")
 		col1, col2 = st.columns(2)
@@ -134,9 +134,9 @@ def switch_rejoin_view():
 
 def display_rejoin_page():
 
-	st.title("Player Rejoin Page")
-	st.write("You instructor can provide you with a code to rejoin your session")
-	st.text_input("Enter your rejoin code", on_change=sync_player, key='code_input')
+	st.title("User Rejoin Page")
+	st.write("Your instructor can provide you with a code to rejoin your session.")
+	st.text_input("Enter your rejoin code:", on_change=sync_player, key='code_input')
 
 def sync_player():
 

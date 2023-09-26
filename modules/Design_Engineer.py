@@ -35,7 +35,7 @@ def render():
 
 	with col1:
 		w = st.slider('Insert Wheel base (m)', min_value=0.8, max_value=1.2, value=0.8, step=0.01)
-		mB = st.slider('Mass (kg)', min_value=50, max_value=100, value=50)
+		mB = st.slider('Mass of Rear Frame and Rider (kg)', min_value=50, max_value=100, value=50)
 		rF = st.slider('Front Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
 		rR = st.slider('Rear Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
 
@@ -48,14 +48,14 @@ def render():
 
 	# rR = st.slider('Rear Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
 
-	mR=2; # Mass (kg)
+	mR=2; # Mass of Rear Frame and Rider (kg)
 	IRxx=0.0603; # Mass moments of inertia (kg m^2) 
 	IRyy=0.0603; # Mass moments of inertia (kg m^2)
 	# Read body and frame assembly, B
 	xB=0.3; # Position of center of mass (m)
 	zB=-0.9; # Position of center of mass (m)
 
-	# mB = st.slider('Mass (kg)', min_value=50, max_value=100, value=50)
+	# mB = st.slider('Mass of Rear Frame and Rider (kg)', min_value=50, max_value=100, value=50)
 
 	IBxx=9.2; # Mass moment of inertia (kg m^2)
 	IByy=11; # Mass moment of inertia (kg m^2)
@@ -64,7 +64,7 @@ def render():
 	# Front handlebar and fork assembly, H
 	xH=0.91; # Position of center of mass (m)
 	zH=-0.68; # Position of center of mass (m)
-	mH=4; # Mass (kg)
+	mH=4; # Mass of Rear Frame and Rider (kg)
 	IHxx=0.05892; # Mass moment of inertia (kg m^2)
 	IHyy=0.12; # Mass moment of inertia (kg m^2)
 	IHzz=0.00708; # Mass moment of inertia (kg m^2)
@@ -74,7 +74,7 @@ def render():
 	# rF = st.slider('Front Wheel Radius (m)', min_value=0.3, max_value=0.4, value=0.3, step=0.01)
 
 
-	mF=3; # Mass (kg)
+	mF=3; # Mass of Rear Frame and Rider (kg)
 	IFxx=0.1405; # Mass moments of inertia (kg m^2) 
 	IFyy=0.1405; # Mass moments of inertia (kg m^2)
 
@@ -185,7 +185,7 @@ def render():
 	draw.line([center_coordinates_1, (pt3, pt4)], fill=(255, 0, 0), width=2)
 
 	bottomLeftCornerOfText = center_coordinates_1[0] - 60, center_coordinates_1[1] + 20
-	draw.text(bottomLeftCornerOfText, f'R (FW) = {rR} m', font=font, fill=(0, 0, 0))
+	draw.text(bottomLeftCornerOfText, f'R (RW) = {rR} m', font=font, fill=(0, 0, 0))
 
 	draw.ellipse([(center_coordinates_1[0] - radius_1, center_coordinates_1[1] - radius_1), (center_coordinates_1[0] + radius_1, center_coordinates_1[1] + radius_1)], outline=color, width=thickness)
 
@@ -195,7 +195,7 @@ def render():
 	draw.line([center_coordinates_2, (pt3, pt4)], fill=(255, 0, 0), width=2)
 
 	bottomLeftCornerOfText = center_coordinates_2[0] - 60, center_coordinates_2[1] + 20
-	draw.text(bottomLeftCornerOfText, f'R (RW) = {rF} m', font=font, fill=(0, 0, 0))
+	draw.text(bottomLeftCornerOfText, f'R (FW) = {rF} m', font=font, fill=(0, 0, 0))
 
 	draw.ellipse([(center_coordinates_2[0] - radius_2, center_coordinates_2[1] - radius_2), (center_coordinates_2[0] + radius_2, center_coordinates_2[1] + radius_2)], 		outline=color, width=thickness)
 
@@ -246,7 +246,7 @@ def feedback():
 		with open(ss.filepath+'fb_d_m.txt', 'r') as f:
 			text = f.read()
 
-	fb_d_m = st.text_area("Your feedback to the Mechanical Engineer", text)
+	fb_d_m = st.text_area("Your feedback to the Mechanical Engineer:", text)
 	if fb_d_m != "":
 		with open(ss.filepath+"fb_d_m.txt", "w") as f:
 			f.write(fb_d_m)
@@ -263,7 +263,7 @@ def feedback():
 		with open(ss.filepath+'fb_d_i.txt', 'r') as f:
 			text = f.read()
 
-	fb_d_i = st.text_area("Your feedback to the Industrial Engineer", text)
+	fb_d_i = st.text_area("Your feedback to the Industrial Engineer:", text)
 	if fb_d_i != "":
 		with open(ss.filepath+"fb_d_i.txt", "w") as f:
 			f.write(fb_d_i)
@@ -280,7 +280,7 @@ def feedback():
 		with open(ss.filepath+'fb_d_pm.txt', 'r') as f:
 			text = f.read()
 
-	fb_d_pm = st.text_area("Your feedback to the Project Manager", text)
+	fb_d_pm = st.text_area("Your feedback to the Project Manager:", text)
 	if fb_d_pm != "":
 		with open(ss.filepath+"fb_d_pm.txt", "w") as f:
 			f.write(fb_d_pm)
@@ -297,7 +297,7 @@ def feedback():
 		with open(ss.filepath+'fb_d_pum.txt', 'r') as f:
 			text = f.read()
 
-	fb_d_pum = st.text_area("Your feedback to the Purchasing Manager", text)
+	fb_d_pum = st.text_area("Your feedback to the Purchasing Manager:", text)
 	if fb_d_pum != "":
 		with open(ss.filepath+"fb_d_pum.txt", "w") as f:
 			f.write(fb_d_pum)
@@ -311,7 +311,7 @@ def feedback():
 	st.header("Feedback **:red[From]**")
 	if path.isfile(ss.filepath+'fb_m_d.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Mechanical Engineer]**")
+		st.write("Feedback from the **:red[Mechanical Engineer]**:")
 		with open(ss.filepath+'fb_m_d.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -319,7 +319,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_i_d.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Industrial Engineer]**")
+		st.write("Feedback from the **:red[Industrial Engineer]**:")
 		with open(ss.filepath+'fb_i_d.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -328,7 +328,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_pm_d.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Project Manager]**")
+		st.write("Feedback from the **:red[Project Manager]**:")
 		with open(ss.filepath+'fb_pm_d.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -337,7 +337,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_pum_d.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Purchasing Manager]**")
+		st.write("Feedback from the **:red[Purchasing Manager]**:")
 		with open(ss.filepath+'fb_pum_d.txt', 'r') as f:
 			text = f.read()
 		st.write(text)

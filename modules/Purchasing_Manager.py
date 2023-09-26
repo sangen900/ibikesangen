@@ -17,7 +17,7 @@ def render():
 
     st.markdown(
         """
-        Your role revolves around monitoring the order quantities made by the :blue[Industrial Engineer], 
+        Your role revolves around monitoring the order quantities selected by the :blue[Industrial Engineer], 
         the annual demand, the ordering cost, and the holding cost. The :red[Economic Order Quantity (EOQ)] will
         be calculated for you, and your task will be to give feedback to the :blue[Industrial Engineer] on their
         performance.
@@ -158,7 +158,7 @@ def feedback():
 		with open(ss.filepath+'fb_pum_d.txt', 'r') as f:
 			text = f.read()
 	
-	fb_pum_d = st.text_area("Your feedback to the Design Engineer", text)
+	fb_pum_d = st.text_area("Your feedback to the Design Engineer:", text)
 	if fb_pum_d != "":
 		with open(ss.filepath+"fb_pum_d.txt", "w") as f:
 			f.write(fb_pum_d)
@@ -175,7 +175,7 @@ def feedback():
 		with open(ss.filepath+'fb_pum_i.txt', 'r') as f:
 			text = f.read()
 
-	fb_pum_i = st.text_area("Your feedback to the Industrial Engineer", text)
+	fb_pum_i = st.text_area("Your feedback to the Industrial Engineer:", text)
 	if fb_pum_i != "":
 		with open(ss.filepath+"fb_pum_i.txt", "w") as f:
 			f.write(fb_pum_i)
@@ -192,7 +192,7 @@ def feedback():
 		with open(ss.filepath+'fb_pum_pm.txt', 'r') as f:
 			text = f.read()
 
-	fb_pum_pm = st.text_area("Your feedback to the Project Manager", text)
+	fb_pum_pm = st.text_area("Your feedback to the Project Manager:", text)
 	if fb_pum_pm != "":
 		with open(ss.filepath+"fb_pum_pm.txt", "w") as f:
 			f.write(fb_pum_pm)
@@ -209,7 +209,7 @@ def feedback():
 		with open(ss.filepath+'fb_pum_m.txt', 'r') as f:
 			text = f.read()
 
-	fb_pum_m = st.text_area("Your feedback to the Purchasing Manager", text)
+	fb_pum_m = st.text_area("Your feedback to the Purchasing Manager:", text)
 	if fb_pum_m != "":
 		with open(ss.filepath+"fb_pum_m.txt", "w") as f:
 			f.write(fb_pum_m)
@@ -224,7 +224,7 @@ def feedback():
 	st.header("Feedback **:red[From]**")
 	if path.isfile(ss.filepath+'fb_d_pum.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Design Engineer]**")
+		st.write("Feedback from the **:red[Design Engineer]**:")
 		with open(ss.filepath+'fb_d_pum.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -232,7 +232,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_i_pum.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Industrial Engineer]**")
+		st.write("Feedback from the **:red[Industrial Engineer]**:")
 		with open(ss.filepath+'fb_i_pum.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -241,7 +241,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_pm_pum.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Project Manager]**")
+		st.write("Feedback from the **:red[Project Manager]**:")
 		with open(ss.filepath+'fb_pm_pum.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
@@ -250,7 +250,7 @@ def feedback():
 
 	if path.isfile(ss.filepath+'fb_m_pum.txt'):
 		st.markdown("---")
-		st.write("Feedback from the **:red[Mechanical Engineer]**")
+		st.write("Feedback from the **:red[Mechanical Engineer]**:")
 		with open(ss.filepath+'fb_m_pum.txt', 'r') as f:
 			text = f.read()
 		st.write(text)

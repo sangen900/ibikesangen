@@ -22,7 +22,7 @@ def reset_switch():
 		ss.reset_requested = True
 
 def reset_check():
-	st.write("WARNING:  Reseting the simulation will delete progress and ALL session files. Are you sure you want to reset the simulation?" )
+	st.write("WARNING:  Resetting the simulation will delete progress and ALL session files. Are you sure you want to reset the simulation?" )
 	col1, col2 = st.columns(2)
 	with col1:
 		st.button("Yes", on_click=game_reset)
@@ -57,7 +57,7 @@ def render():
 
 	if not ss.setup_complete:
 		st.title('iBIKE Simulation Setup')
-		st.markdown('On this page, you will specify the number of student groups participating in the simulation. Each group must have 5 (and no more than 5) students. You will be able to monitor the groups\' progress, and at the end of the session download each group\'s data.')
+		st.markdown('On this page, you will specify the number of student groups participating in the simulation. Each group must have 5 (and no more than 5) students. You will be able to monitor the groups\' progress, and at the end of the session, download each group\'s data.')
 		init()
 
 	elif not ss.code_written:
@@ -95,7 +95,7 @@ def game_state_assign():
 	try:
 		group_num = int(ss.group_num_input)
 	except:
-		st.write('please enter an integer between 1 and 10 for your group number')
+		st.write('Please enter an integer between 1 and 10 for your group number.')
 	else:
 		game_state = game.init(ss.name, group_num)
 		ss.game_state = game_state
@@ -135,7 +135,7 @@ def display_groups():
 		group_state = group.load(groups[i])
 		with cols[i]:
 			st.write("GROUP "+str(i+1))
-			st.write(f"Player Count: {group_state['player_count']}")
+			st.write(f"User Count: {group_state['player_count']}")
 			st.write(f"Group Status: {group_state['status']}")
 			st.write(f"Current Orders: {len(group_state['orders'])}")
 			st.write(f"Completed Orders: {len(group_state['completed'])}")
@@ -164,7 +164,7 @@ def dashboard():
 	st.write(f"Number of student groups: {ss.game_state['group_num']}")
 	
 	display_groups()
-	st.title("Click on one of groups below to view their order progress")
+	st.title("Click on one of groups below to view their order progress.")
 	display_group_options()
 
 	if ss.view_group:
@@ -222,7 +222,7 @@ def display_teacher_code():
 	st.title(f"Instructor Rejoin Code:  {code}")
 	st.write("If you get disconnected from your session for any reason, use the code above to reconnect to the instructor dashboard.")
 	st.write("Please write down your code, and click 'CONTINUE' when you have done so.")
-	st.write("NOTE:  your instructor code contains ONLY lowercase letters and integers 0 - 9")
+	st.write("NOTE:  Your instructor code contains ONLY lowercase letters and integers 0 - 9.")
 
 	st.button("CONTINUE", on_click=code_written_switch)
 

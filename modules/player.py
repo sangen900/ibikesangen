@@ -4,7 +4,7 @@ from modules import game, group
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
+from modules import mainform as m_f, Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
 
 def render():
 	if 'setup_complete' not in ss:
@@ -64,9 +64,12 @@ def display_group_buttons():
 	for i in range(num):
 		with cols[i]:
 			st.button(f"{groups[i]}", on_click=group_assign,args=(groups[i], ))
-
+display_main_form():
 def display_role_page():
-
+#refresh button
+refresh_button = st.button("Refresh")
+if refresh_button:
+    st.write("This page has been refreshed!")
 	if ss.role == 'Project Manager':
 		pr_m.render()
 	elif ss.role == 'Design Engineer':

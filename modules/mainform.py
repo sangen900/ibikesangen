@@ -1,5 +1,5 @@
 import streamlit as st
-def main_form():
+def render():
     import form_0
     import form_1
     import form_2

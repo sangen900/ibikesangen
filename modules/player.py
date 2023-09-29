@@ -65,6 +65,7 @@ def display_group_buttons():
 		with cols[i]:
 			st.button(f"{groups[i]}", on_click=group_assign,args=(groups[i], ))
 display_main_form():
+m_f.render()
 def display_role_page():
 #refresh button
 refresh_button = st.button("Refresh")

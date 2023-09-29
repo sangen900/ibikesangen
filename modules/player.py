@@ -5,7 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
-from mainform import main_form
 
 def render():
 	if 'setup_complete' not in ss:
@@ -60,7 +59,6 @@ def display_group_buttons():
     refresh_role_button = st.button("Refresh Role Page")
     if refresh_role_button:
         st.experimental_rerun()
-    main_form()
     
     game_state = game.load()
     groups = game_state['available_groups']

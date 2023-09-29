@@ -4,7 +4,7 @@ from modules import game, group
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
+from modules import mainform, Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
 
 def render():
 	if 'setup_complete' not in ss:
@@ -56,7 +56,11 @@ def group_assign(group_key):
 	
 # a function to display the available groups to join based on the current state of the game.
 def display_group_buttons():
+    refresh_role_button = st.button("Refresh Role Page")
+    if refresh_role_button:
+        st.experimental_rerun()
     main_form()
+    
     game_state = game.load()
     groups = game_state['available_groups']
     num = len(groups)
@@ -64,11 +68,7 @@ def display_group_buttons():
     for i in range(num):
         with cols[i]:
             st.button(f"{groups[i]}", on_click=group_assign, args=(groups[i], ))
-    
-    refresh_role_button = st.button("Refresh Role Page")
-    if refresh_role_button:
-        st.experimental_rerun()
-
+		
 def display_role_page():
     if ss.role == 'Project Manager':
         pr_m.render()

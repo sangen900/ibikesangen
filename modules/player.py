@@ -69,6 +69,7 @@ def display_group_buttons():
 #refresh button
 refresh_button = st.button("Refresh")
 if refresh_button:
+st.write("Refresh button clicked!")
 
 def display_role_page():
 	if ss.role == 'Project Manager':

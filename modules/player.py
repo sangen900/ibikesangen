@@ -65,13 +65,12 @@ def display_group_buttons():
 		with cols[i]:
 			st.button(f"{groups[i]}", on_click=group_assign,args=(groups[i], ))
 
-
-#refresh button
-refresh_button = st.button("Refresh")
-if refresh_button:
-st.write("Refresh button clicked!")
-
 def display_role_page():
+	
+	refresh_role_button = st.button("Refresh Role Page")
+	if refresh_role_button:
+        st.experimental_rerun() 
+	
 	if ss.role == 'Project Manager':
 		pr_m.render()
 	elif ss.role == 'Design Engineer':

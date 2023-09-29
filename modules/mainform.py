@@ -1,20 +1,21 @@
 import streamlit as st
+
 def render():
     def main_form():
-    import form_0
-    import form_1
-    import form_2
-    import form_3
-    import form_4
-    import form_5
-    import form_6
-    import form_7
-    import form_8
-    import form_9
-    import form_10
-    import form_11
-    import form_12
-    import form_13
+        import form_0
+        import form_1
+        import form_2
+        import form_3
+        import form_4
+        import form_5
+        import form_6
+        import form_7
+        import form_8
+        import form_9
+        import form_10
+        import form_11
+        import form_12
+        import form_13
 
     if "page_index" not in st.session_state:
         st.session_state.page_index = 0

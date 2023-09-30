@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import time
 from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
 import time
-from modules import form_0, form_1, form_2, form_3, form_4, form_5, form_6, form_7, form_8, form_9, form_10, form_11, form_12, form_13, mainform
+import form_0, form_1, form_2, form_3, form_4, form_5, form_6, form_7, form_8, form_9, form_10, form_11, form_12, form_13, mainform
 
 def render():
 	if 'setup_complete' not in ss:

@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
+from mainform import main_form
 
 def render():
 	if 'setup_complete' not in ss:
@@ -156,6 +157,7 @@ def role_assign(role):
 		
 def display_role_buttons():
     refresh_role_button = st.button("Refresh Role Page") 
+    main_form()
     st.write(f"Alright, {ss.name}, you are now in {ss.group}.")
     st.write("Please select one of the available group roles below.")
     st.write("This will be your role for the rest of this session:")

@@ -56,4 +56,4 @@ def render():
     for title in text_titles:
         st.markdown(f'<div style="{css_style}">{title}:</div>', unsafe_allow_html=True)
         selected_option = st.radio("", ["Strongly Disagree", "Disagree", "Somewhat Disagree", "Neither Agree nor Disagree", "Somewhat Agree", "Agree", "Strongly Agree"], index=3, key=title)
-    
+    render()

@@ -69,6 +69,7 @@ def display_role_page():
 	refresh_role_button = st.button("Refresh Role Page")
     if refresh_role_button:
         st.experimental_rerun()
+	    main_form()
     if ss.role == 'Project Manager':
         pr_m.render()
     elif ss.role == 'Design Engineer':

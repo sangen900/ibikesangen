@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
-from mainform import main_form
+from modules import mainform
 def render():
 	if 'setup_complete' not in ss:
 		ss['setup_complete'] = False

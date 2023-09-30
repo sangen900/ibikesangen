@@ -154,14 +154,6 @@ def role_assign(role):
 			
 		group.save_group_state(group_state)
 
-# mainform.py
-
-def main_form():
-    # Display the welcome message or other information
-    pass
-
-# player.py
-
 from mainform import main_form
 
 def role_assign(role, main_form=None):
@@ -192,7 +184,6 @@ refresh_role_button = st.button("Refresh Role Page")
     for i in range(num):
         with cols[i]:
             st.button(f"{roles[i]}", on_click=role_assign,args=(roles[i], main_form))
-
 def init():
 	game_state = game.load()
 	size = len(game_state['available_groups'])

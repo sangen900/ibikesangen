@@ -177,7 +177,10 @@ def role_assign(role, main_form=None):
 # ...
 
 def display_role_buttons():
-    main_form() # This is the ideation fix
+refresh_role_button = st.button("Refresh Role Page")
+  if refresh_role_button:
+    st.experimental_rerun()
+    main_form() 
     st.write(f"Alright, {ss.name}, you are now in {ss.group}.")
     st.write(f"Please select one of the available group roles below.")
     st.write(f"This will be the your role for the rest of this session: ")

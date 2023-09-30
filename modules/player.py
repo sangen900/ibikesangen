@@ -20,7 +20,7 @@ import form_10
 import form_11 
 import form_12 
 import form_13 
-import mainform
+from modules import mainform
 
 def render():
 	if 'setup_complete' not in ss:

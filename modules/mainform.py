@@ -1,6 +1,7 @@
 import streamlit as st
 
 # Import your form modules
+import form_0
 import form_1
 import form_2
 import form_3
@@ -22,6 +23,7 @@ def main_form():
     
     # List of form rendering functions
     pages = [
+        form_0.render,
         form_1.render,
         form_2.render,
         form_3.render,

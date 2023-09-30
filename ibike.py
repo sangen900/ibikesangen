@@ -18,7 +18,7 @@ import form_10
 import form_11
 import form_12
 import form_13
-import mainform
+from module import mainform
 def switch_welcome():
 	ss.welcomed = True
 

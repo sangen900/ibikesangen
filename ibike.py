@@ -4,6 +4,21 @@ import os
 import shutil
 from modules import mainform, instructor, player, game, rejoin
 import time
+import form_0
+import form_1
+import form_2
+import form_3
+import form_4
+import form_5
+import form_6
+import form_7
+import form_8
+import form_9
+import form_10
+import form_11
+import form_12
+import form_13
+import mainform
 def switch_welcome():
 	ss.welcomed = True
 

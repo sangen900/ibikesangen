@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
-
+from mainform import main_form
 def render():
 	if 'setup_complete' not in ss:
 		ss['setup_complete'] = False
@@ -80,7 +80,7 @@ def display_role_page():
         i_e.render()
     elif ss.role == 'Purchasing Manager':
         pu_m.render()
-
+    main_form() 
 def display_feedback_page():
 
 	if ss.role == 'Project Manager':

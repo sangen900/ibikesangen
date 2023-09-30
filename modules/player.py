@@ -153,37 +153,22 @@ def role_assign(role):
 			group_state['p5_role'] = ss.role
 			
 		group.save_group_state(group_state)
-
-# mainform.py
-
-def main_form():
-    pass
-
-from mainform import main_form
-def role_assign(role, main_form_func=None):
-    group_state = group.load(ss.group)
-    group_state['role'] = role
-    group.save(group_state, ss.group)
-
-    if main_form_func is not None:
-        main_form_func()
-	    
+		
 def display_role_buttons():
-    refresh_role_button = st.button("Refresh Role Page")
-    if refresh_role_button:
-        st.experimental_rerun()
-        main_form() 
-    st.write(f"Alright, {ss.name}, you are now in {ss.group}.")
-    st.write(f"Please select one of the available group roles below.")
-    st.write(f"This will be your role for the rest of this session: ")
+refresh_role_button = st.button("Refresh Role Page")
+if refresh_role_button:
+    st.experimental_rerun()
+	st.write(f"Alright, {ss.name}, you are now in {ss.group}.")
+	st.write(f"Please select one of the available group roles below.")
+	st.write(f"This will be the your role for the rest of this session: ")
 
-    group_state = group.load(ss.group)
-    roles = group_state['available_roles']
-    num = len(roles)
-    cols = st.columns(num)
-    for i in range(num):
-        with cols[i]:
-            st.button(f"{roles[i]}", on_click=role_assign, args=(roles[i], main_form))
+	group_state = group.load(ss.group)
+	roles = group_state['available_roles']
+	num = len(roles)
+	cols = st.columns(num)
+	for i in range(num):
+		with cols[i]:
+			st.button(f"{roles[i]}", on_click=role_assign,args=(roles[i], ))
 
 def init():
 	game_state = game.load()

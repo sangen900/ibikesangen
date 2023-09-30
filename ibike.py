@@ -4,7 +4,6 @@ import os
 import shutil
 from modules import instructor, player, game, rejoin
 import time
-import mainform
 def switch_welcome():
 	ss.welcomed = True
 

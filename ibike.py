@@ -4,7 +4,7 @@ import os
 import shutil
 from modules import instructor, player, game, rejoin
 import time
-
+from mainform import main_form
 def switch_welcome():
 	ss.welcomed = True
 

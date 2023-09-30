@@ -82,7 +82,7 @@ def render():
     if selected_concentration == "Engineering (list specific concentration)":
         other_input_major = st.text_input("Please specify your major concentration", key="text_input_major")
     st.markdown("---")
-
+render()
 
 
 

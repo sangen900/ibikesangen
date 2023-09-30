@@ -155,10 +155,7 @@ def role_assign(role):
 		group.save_group_state(group_state)
 		
 def display_role_buttons():
-    refresh_role_button = st.button("Refresh Role Page")
-    if refresh_role_button:
-        st.experimental_rerun()
-    
+    refresh_role_button = st.button("Refresh Role Page") 
     st.write(f"Alright, {ss.name}, you are now in {ss.group}.")
     st.write("Please select one of the available group roles below.")
     st.write("This will be your role for the rest of this session:")

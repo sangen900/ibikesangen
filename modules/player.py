@@ -55,11 +55,7 @@ def group_assign(group_key):
 		group.save_group_state(group_state)
 	
 # a function to display the available groups to join based on the current state of the game.
-def display_group_buttons():
-    refresh_role_button = st.button("Refresh Role Page")
-    if refresh_role_button:
-        st.experimental_rerun()
-        
+def display_group_buttons():   
     game_state = game.load()
     groups = game_state['available_groups']
     num = len(groups)
@@ -67,8 +63,12 @@ def display_group_buttons():
     for i in range(num):
         with cols[i]:
             st.button(f"{groups[i]}", on_click=group_assign, args=(groups[i], ))
-	    main_form()
+
 def display_role_page():
+	
+	refresh_role_button = st.button("Refresh Role Page")
+    if refresh_role_button:
+        st.experimental_rerun()
     if ss.role == 'Project Manager':
         pr_m.render()
     elif ss.role == 'Design Engineer':

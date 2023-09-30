@@ -4,7 +4,7 @@ from modules import game, group
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
+from modules import mainform, Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
 
 def render():
 	if 'setup_complete' not in ss:
@@ -157,14 +157,9 @@ def role_assign(role):
 # mainform.py
 
 def main_form():
-    # Display the welcome message or other information
     pass
 
-# player.py
-
 from mainform import main_form
-import sys
-sys.path.append("/path/to/modules")
 def role_assign(role, main_form_func=None):
     group_state = group.load(ss.group)
     group_state['role'] = role
@@ -172,11 +167,7 @@ def role_assign(role, main_form_func=None):
 
     if main_form_func is not None:
         main_form_func()
-
-# ibike.py
-
-# ...
-
+	    
 def display_role_buttons():
     refresh_role_button = st.button("Refresh Role Page")
     if refresh_role_button:

@@ -14,7 +14,7 @@ import form_11
 import form_12
 import form_13
 
-def render():
+def main_form():
     if "page_index" not in st.session_state:
         st.session_state.page_index = 0
     
@@ -45,4 +45,4 @@ def render():
     if col3.button("Next", key="next_button", disabled=st.session_state.page_index == len(pages) - 1):
         st.session_state.page_index += 1
         st.session_state.page_index = max(0, min(st.session_state.page_index, len(pages) - 1))
-render()
+main_form()

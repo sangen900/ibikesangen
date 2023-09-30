@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import time
 from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
 import time
-import form_0, 
+import form_0 
 import form_1
 import form_2 
 import form_3

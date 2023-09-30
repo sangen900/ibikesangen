@@ -63,13 +63,14 @@ def display_group_buttons():
     for i in range(num):
         with cols[i]:
             st.button(f"{groups[i]}", on_click=group_assign, args=(groups[i], ))
-
+		
 def display_role_page():
-	 main_form() 
-	refresh_role_button = st.button("Refresh Role Page")
+    main_form()
+    
+    refresh_role_button = st.button("Refresh Role Page")
     if refresh_role_button:
         st.experimental_rerun()
-	    main_form()
+    
     if ss.role == 'Project Manager':
         pr_m.render()
     elif ss.role == 'Design Engineer':
@@ -80,6 +81,7 @@ def display_role_page():
         i_e.render()
     elif ss.role == 'Purchasing Manager':
         pu_m.render()
+
   
 def display_feedback_page():
 

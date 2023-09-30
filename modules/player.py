@@ -163,7 +163,8 @@ def main_form():
 # player.py
 
 from mainform import main_form
-
+import sys
+sys.path.append("/path/to/modules")
 def role_assign(role, main_form_func=None):
     group_state = group.load(ss.group)
     group_state['role'] = role

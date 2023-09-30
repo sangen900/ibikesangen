@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit import session_state as ss
 import os
 import shutil
-from modules import instructor, player, game, rejoin
+from modules import mainform, instructor, player, game, rejoin
 import time
 def switch_welcome():
 	ss.welcomed = True

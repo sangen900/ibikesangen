@@ -65,8 +65,6 @@ def display_group_buttons():
             st.button(f"{groups[i]}", on_click=group_assign, args=(groups[i], ))
 		
 def display_role_page():
-    main_form()
-    
     refresh_role_button = st.button("Refresh Role Page")
     if refresh_role_button:
         st.experimental_rerun()

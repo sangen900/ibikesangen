@@ -144,3 +144,4 @@ def render():
     ]
 
     selected_option_q4 = st.radio("", options_q4)
+    render()

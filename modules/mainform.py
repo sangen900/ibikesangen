@@ -16,7 +16,7 @@ import form_11
 import form_12
 import form_13
 
-def main_form():
+def render():
     # Check if "page_index" exists in session state, and initialize it to 0 if not present
     if "page_index" not in st.session_state:
         st.session_state.page_index = 0
@@ -54,8 +54,8 @@ def main_form():
         st.session_state.page_index += 1
         st.session_state.page_index = max(0, min(st.session_state.page_index, len(pages) - 1))
 
-# Streamlit app title
-st.title("Form Navigation")
+# # Streamlit app title
+# st.title("Form Navigation")
 
-# Call the main_form() function when the Streamlit app is run
-main_form()
+# # Call the main_form() function when the Streamlit app is run
+# main_form()

@@ -104,4 +104,3 @@ def render():
     option_9 = st.checkbox('Other')
     if option_9:
         other_input = st.text_input("Please specify the other class", key="text_input_76")
-render()

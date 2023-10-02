@@ -48,4 +48,3 @@ def render():
     )
     user_input6 = st.text_area("", key="text_area_6")
     st.markdown("---")
-    render()

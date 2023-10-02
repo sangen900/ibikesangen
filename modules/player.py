@@ -4,7 +4,7 @@ from modules import game, group
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
+from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m, mainform
 
 def render():
 	if 'setup_complete' not in ss:
@@ -180,6 +180,8 @@ def init():
 			st.text_input('What is your name?', key='name_input' , on_change=name_assign)
 	elif not ss.group:
 		st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
+		if st.button("I would like to take the survey"):
+			mainform.render()
 		display_group_buttons()
 
 	if ss.group and not ss.role:

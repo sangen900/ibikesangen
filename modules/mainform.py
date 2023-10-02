@@ -1,20 +1,20 @@
 import streamlit as st
 
 # Import your form modules
-import form_0
-import form_1
-import form_2
-import form_3
-import form_4
-import form_5
-import form_6
-import form_7
-import form_8
-import form_9
-import form_10
-import form_11
-import form_12
-import form_13
+from modules import form_0
+from modules import form_1
+from modules import form_2
+from modules import form_3
+from modules import form_4
+from modules import form_5
+from modules import form_6
+from modules import form_7
+from modules import form_8
+from modules import form_9
+from modules import form_10
+from modules import form_11
+from modules import form_12
+from modules import form_13
 
 def render():
     # Check if "page_index" exists in session state, and initialize it to 0 if not present

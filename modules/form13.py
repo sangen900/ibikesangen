@@ -1,5 +1,5 @@
 import streamlit as st
-def form_14():
+def form_13():
     st.markdown(
             """
             <p style='font-size: 20px; margin-bottom: 0;'>Thank you for participating in survey.</p>

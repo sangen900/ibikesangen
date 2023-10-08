@@ -13,7 +13,6 @@ from form_10 import form_11
 from form_11 import form_12
 from form_12 import form_13
 from form_13 import form_14
-
 def main_form():
     page_names1001 = ["form_0", "form_1", "form_2", "form_3", "form_4", "form_5", "form_6", "form_7", "form_8", "form_9", "form_10", "form_11", "form_12", "form_13"]
     user_selected_page = st.sidebar.radio("Please read the form carefully and fill the below form.", page_names1001)

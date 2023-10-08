@@ -4,7 +4,7 @@ import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-def form_2():
+def form_1():
     first_name, last_name, selected_date, option_1, option_2, option_3, option_4, option_5, option_6, option_7, option_8, option_9, other_input = "", "", date(2023, 10, 1), False, False, False, False, False, False, False, False, False, ""
     javascript_code = """
     <script>

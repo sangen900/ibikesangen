@@ -175,14 +175,13 @@ def init():
 	if size == 0: 
 		st.write("I'm sorry, this simulation is full. Please wait for the next round")
 	elif not ss.name:
-		 if st.button('I would like to take the survey'):
-			   survey.main_form()
 			st.title('Welcome to the User Page!')
 			st.write('On this page, you will choose your group and role.')
 			st.text_input('What is your name?', key='name_input' , on_change=name_assign)
 	elif not ss.group:
 		if st.button('I would like to take the survey'):
 			survey.main_form()
+		st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
 		display_group_buttons()
 
 	if ss.group and not ss.role:

@@ -170,24 +170,50 @@ def display_role_buttons():
 
 
 def init():
-	game_state = game.load()
-	size = len(game_state['available_groups'])
-	if size == 0: 
-		st.write("I'm sorry, this simulation is full. Please wait for the next round")
-	elif not ss.name:
-			st.title('Welcome to the User Page!')
-			st.write('On this page, you will choose your group and role.')
-			st.text_input('What is your name?', key='name_input' , on_change=name_assign)
-	elif not ss.group:
-		if st.button('I would like to take the survey'):
-			survey.main_form()
-		st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
-		display_group_buttons()
+    game_state = game.load()
+    size = len(game_state['available_groups'])
+    
+    if size == 0:
+        st.write("I'm sorry, this simulation is full. Please wait for the next round")
+    elif not ss.name:
+        st.title('Welcome to the User Page!')
+        st.write('On this page, you will choose your group and role.')
+        st.text_input('What is your name?', key='name_input', on_change=name_assign)
+    elif not ss.group:
+        st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
+        display_group_buttons()
+    elif ss.group and not ss.role:
+        display_role_buttons()
+        sync_game_settings()
 
-	if ss.group and not ss.role:
-		display_role_buttons()
-		sync_game_settings()
+    if ss.group and ss.name and not ss.role:
+        survey_button = st.button('I would like to take the survey')
+        if survey_button:
+            st.empty() 
+            survey.main_form()
+def init():
+    game_state = game.load()
+    size = len(game_state['available_groups'])
+    
+    if size == 0:
+        st.write("I'm sorry, this simulation is full. Please wait for the next round")
+    elif not ss.name:
+        st.title('Welcome to the User Page!')
+        st.write('On this page, you will choose your group and role.')
+        st.text_input('What is your name?', key='name_input', on_change=name_assign)
+    elif not ss.group:
+        st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
+        display_group_buttons()
+    elif ss.group and not ss.role:
+        display_role_buttons()
+        sync_game_settings()
 
+    if ss.group and ss.name and not ss.role:
+        survey_button = st.button('I would like to take the survey')
+        if survey_button:
+            st.empty() 
+            survey.main_form()
+		
 def sync_game_settings():
 
 	game_state = game.load()

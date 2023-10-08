@@ -4,7 +4,7 @@ from modules import game, group
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m, mainform
+from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m, mainform as survey
 
 def render():
 	if 'setup_complete' not in ss:
@@ -175,6 +175,8 @@ def init():
 	if size == 0: 
 		st.write("I'm sorry, this simulation is full. Please wait for the next round")
 	elif not ss.name:
+		 if st.button('I would like to take the survey'):
+			   survey.main_form()
 			st.title('Welcome to the User Page!')
 			st.write('On this page, you will choose your group and role.')
 			st.text_input('What is your name?', key='name_input' , on_change=name_assign)

@@ -1,7 +1,7 @@
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-def form_3():
+def form_2():
     javascript_code = """
     <script>
     document.addEventListener('DOMContentLoaded', function() {

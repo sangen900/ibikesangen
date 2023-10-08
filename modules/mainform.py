@@ -18,33 +18,33 @@ def main_form():
     page_names1001 = ["form_0", "form_1", "form_2", "form_3", "form_4", "form_5", "form_6", "form_7", "form_8", "form_9", "form_10", "form_11", "form_12", "form_13"]
     user_selected_page = st.sidebar.radio("Please read the form carefully and fill the below form.", page_names1001)
     
-    if user_selected_page == "form1":
+    if user_selected_page == "form_0":
         form_1()
-    elif user_selected_page == "form2":
+    elif user_selected_page == "form_1":
         form_2()
-    elif user_selected_page == "form3":
+    elif user_selected_page == "form_2":
         form_3()
-    elif user_selected_page == "form4":
+    elif user_selected_page == "form_3":
         form_4()
-    elif user_selected_page == "form5":
+    elif user_selected_page == "form_4":
         form_5()
-    elif user_selected_page == "form6":
+    elif user_selected_page == "form_5":
         form_6()
-    elif user_selected_page == "form7":
+    elif user_selected_page == "form_6":
         form_7()
-    elif user_selected_page == "form8":
+    elif user_selected_page == "form_7":
         form_8()
-    elif user_selected_page == "form9":
+    elif user_selected_page == "form_8":
         form_9()
-    elif user_selected_page == "form10":
+    elif user_selected_page == "form_9":
         form_10()
-    elif user_selected_page == "form11":
+    elif user_selected_page == "form_10":
         form_11()
-    elif user_selected_page == "form12":
+    elif user_selected_page == "form_11":
         form_12()
-    elif user_selected_page == "form13":
+    elif user_selected_page == "form_12":
         form_13()
-    elif user_selected_page == "form14":
+    elif user_selected_page == "form_13":
         form_14()
 if __name__ == "__main__":
     main_form()

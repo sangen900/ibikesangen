@@ -1,7 +1,7 @@
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-def form_8():
+def form_7():
     with st.form("form8"):
         st.markdown(
             """

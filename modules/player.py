@@ -181,9 +181,8 @@ def init():
 			st.write('On this page, you will choose your group and role.')
 			st.text_input('What is your name?', key='name_input' , on_change=name_assign)
 	elif not ss.group:
-		st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
-		if st.button("I would like to take the survey"):
-			mainform.render()
+		if st.button('I would like to take the survey'):
+			survey.main_form()
 		display_group_buttons()
 
 	if ss.group and not ss.role:

@@ -187,8 +187,8 @@ def init():
 	elif not ss.group:
 		if st.button('I would like to take the survey'):
 			survey.main_form()
-		st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
-		display_group_buttons()
+		# st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
+		# display_group_buttons()
 
 	if ss.group and not ss.role:
 		display_role_buttons()

@@ -65,17 +65,16 @@ def display_group_buttons():
             st.button(f"{groups[i]}", on_click=group_assign, args=(groups[i], ))
 		
 def display_role_page():
-
-    if ss.role == 'Project Manager':
-        pr_m.render()
-    elif ss.role == 'Design Engineer':
-        d_e.render()
-    elif ss.role == 'Mechanical Engineer':
-        m_e.render()
-    elif ss.role == 'Industrial Engineer':
-        i_e.render()
-    elif ss.role == 'Purchasing Manager':
-        pu_m.render()
+	if ss.role == 'Project Manager':
+		pr_m.render()
+	elif ss.role == 'Design Engineer':
+		d_e.render()
+	elif ss.role == 'Mechanical Engineer':
+		m_e.render()
+	elif ss.role == 'Industrial Engineer':
+		i_e.render()
+	elif ss.role == 'Purchasing Manager':
+		pu_m.render()
 
   
 def display_feedback_page():
@@ -155,7 +154,8 @@ def role_assign(role):
 		group.save_group_state(group_state)
 		
 def display_role_buttons():
-    refresh_role_button = st.button("Refresh Role Page") 
+    if st.button("Refresh button"):
+       st.write("Your page has been refreshed")
     st.write(f"Alright, {ss.name}, you are now in {ss.group}.")
     st.write("Please select one of the available group roles below.")
     st.write("This will be your role for the rest of this session:")
@@ -170,50 +170,25 @@ def display_role_buttons():
 
 
 def init():
-    game_state = game.load()
-    size = len(game_state['available_groups'])
-    
-    if size == 0:
-        st.write("I'm sorry, this simulation is full. Please wait for the next round")
-    elif not ss.name:
-        st.title('Welcome to the User Page!')
-        st.write('On this page, you will choose your group and role.')
-        st.text_input('What is your name?', key='name_input', on_change=name_assign)
-    elif not ss.group:
-        st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
-        display_group_buttons()
-    elif ss.group and not ss.role:
-        display_role_buttons()
-        sync_game_settings()
+	game_state = game.load()
+	size = len(game_state['available_groups'])
+	if size == 0: 
+		st.write("I'm sorry, this simulation is full. Please wait for the next round")
+	elif not ss.name:
+			st.title('Welcome to the User Page!')
+			st.write('On this page, you will choose your group and role.')
+			st.text_input('What is your name?', key='name_input' , on_change=name_assign)
+	elif not ss.group:
+		if st.button('I would like to take the survey'):
+			survey.main_form()
+		else:
+		st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
+		display_group_buttons()
 
-    if ss.group and ss.name and not ss.role:
-        survey_button = st.button('I would like to take the survey')
-        if survey_button:
-            st.empty() 
-            survey.main_form()
-def init():
-    game_state = game.load()
-    size = len(game_state['available_groups'])
-    
-    if size == 0:
-        st.write("I'm sorry, this simulation is full. Please wait for the next round")
-    elif not ss.name:
-        st.title('Welcome to the User Page!')
-        st.write('On this page, you will choose your group and role.')
-        st.text_input('What is your name?', key='name_input', on_change=name_assign)
-    elif not ss.group:
-        st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
-        display_group_buttons()
-    elif ss.group and not ss.role:
-        display_role_buttons()
-        sync_game_settings()
+	if ss.group and not ss.role:
+		display_role_buttons()
+		sync_game_settings()
 
-    if ss.group and ss.name and not ss.role:
-        survey_button = st.button('I would like to take the survey')
-        if survey_button:
-            st.empty() 
-            survey.main_form()
-		
 def sync_game_settings():
 
 	game_state = game.load()

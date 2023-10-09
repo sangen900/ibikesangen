@@ -186,14 +186,14 @@ def init():
 			st.text_input('What is your name?', key='name_input' , on_change=name_assign)
 	elif not ss.group:
 		if st.button('I would like to take the survey'):
-		   survey.main_form()
-		else:
-		   st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
-		   display_group_buttons()
+			survey.main_form()
+		st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
+		display_group_buttons()
 
 	if ss.group and not ss.role:
 		display_role_buttons()
 		sync_game_settings()
+
 
 def sync_game_settings():
 

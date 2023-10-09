@@ -153,12 +153,18 @@ def role_assign(role):
 			
 		group.save_group_state(group_state)
 		
+
+refreshed = False
 def display_role_buttons():
+    global refreshed
     if st.button("Refresh button"):
-       st.write("Your page has been refreshed")
-    st.write(f"Alright, {ss.name}, you are now in {ss.group}.")
-    st.write("Please select one of the available group roles below.")
-    st.write("This will be your role for the rest of this session:")
+        refreshed = True
+    if refreshed:
+        st.write("Your page has been refreshed")
+    else:
+        st.write(f"Alright, {ss.name}, you are now in {ss.group}.")
+        st.write("Please select one of the available group roles below.")
+        st.write("This will be your role for the rest of this session:")
 
     group_state = group.load(ss.group)
     roles = group_state['available_roles']

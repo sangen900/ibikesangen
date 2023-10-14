@@ -71,9 +71,9 @@ def form_9():
         for statement in text_statements1012:
             st.markdown(f'<div style="{css_style}">{statement}</div>', unsafe_allow_html=True)
             selected_option1012 = st.radio("", ["Applies", "Does NOT Apply"], index=0, key=statement)
-            selected_options1012.append(selected_option1012) 
-        with open("my-credentials.json", 'r') as file_obj:
-             credentials = json.load(file_obj)
+            selected_options1012.append(selected_option1012)
+        with open("path/to/modules/my-credentials.json", 'r') as file_obj:
+            credentials = json.load(file_obj)
         submit_button10 = st.form_submit_button("Submit Form")
         if submit_button10:
             scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]

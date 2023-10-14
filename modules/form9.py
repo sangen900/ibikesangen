@@ -80,7 +80,7 @@ def form_9():
         if submit_button10:
             scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
             credentials = ServiceAccountCredentials.from_json_keyfile_name("my-credentials.json", scope)
-            gc = gspread.authorize(credentials)
+            gc = gspread.service_account_from_dict(credentials)
             spreadsheet_id = "1UiBuyoFudQnvgzgIxlh__6ktEBKK7zJvqoWYwz_2WuE" 
             sheet = gc.open_by_key(spreadsheet_id)
             worksheet_title = "Sheet6"

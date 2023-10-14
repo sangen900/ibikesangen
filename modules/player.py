@@ -4,7 +4,8 @@ from modules import game, group
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m, mainform as survey
+from modules import Project_Manager as pr_m, Design_Engineer as d_e, Mechanical_Engineer as m_e, Industrial_Engineer as i_e, Purchasing_Manager as pu_m
+from modules import mainform as survey, form13 as form
 
 def render():
 	if 'setup_complete' not in ss:
@@ -176,23 +177,34 @@ def display_role_buttons():
 
 
 def init():
-	game_state = game.load()
-	size = len(game_state['available_groups'])
-	if size == 0: 
-		st.write("I'm sorry, this simulation is full. Please wait for the next round")
-	elif not ss.name:
-			st.title('Welcome to the User Page!')
-			st.write('On this page, you will choose your group and role.')
-			st.text_input('What is your name?', key='name_input' , on_change=name_assign)
-	elif not ss.group:
-		if st.button('I would like to take the survey'):
-			survey.main_form()
-		st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
-		display_group_buttons()
+    game_state = game.load()
+    size = len(game_state['available_groups'])
+    
+    show_group_selection = not ss.group  # Flag to control group selection display
 
-	if ss.group and not ss.role:
-		display_role_buttons()
-		sync_game_settings()
+    if 'survey_active' not in ss:
+        ss.survey_active = False;
+
+    if size == 0:
+        st.write("I'm sorry, this simulation is full. Please wait for the next round")
+    elif not ss.name:
+        st.title('Welcome to the User Page!')
+        st.write('On this page, you will choose your group and role.')
+        st.text_input('What is your name?', key='name_input', on_change=name_assign)
+    elif not ss.group and show_group_selection:
+        print("Survey State: " + str(ss.survey_active));
+        if(not ss.survey_active):
+            st.button('I would like to take the survey', on_click=form.toggle_survey_state)
+                #ss.survey_active = True;
+            
+            st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
+            display_group_buttons()        
+        else:
+            survey.main_form()      
+        
+    if ss.group and not ss.role:
+        display_role_buttons()
+        sync_game_settings()
 
 
 def sync_game_settings():

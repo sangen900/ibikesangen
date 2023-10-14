@@ -36,7 +36,7 @@ def welcome_instructor():
     """
     iBIKE is an online simuation developed to create 
     an environment for **Mechanical Engineers**, **Electrical Engineers**, 
-    **Industrial Engineers**, and **Product Managers** to practice their skills
+    **Industrial Engineers**, and **Purchasing Managers** to practice their skills
     in selecting the appropriate parts, their order quantities, best materials 
     and manufacturing processes, parcticing supply chain management, and more.
     """
@@ -55,7 +55,7 @@ def welcome_player():
     """
     iBIKE is an online simuation developed to create 
     an environment for **Mechanical Engineers**, **Electrical Engineers**, 
-    **Industrial Engineers**, and **Product Managers** to practice their skills
+    **Industrial Engineers**, and **Purchasing managers** to practice their skills
     in selecting the appropriate parts, their order quantities, best materials 
     and manufacturing processes, parcticing supply chain management, and more.
 

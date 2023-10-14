@@ -3,8 +3,9 @@ import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 def form_9():
-    with open("path/to/modules/my-credentials.json", 'r') as file_obj:
-            credentials = json.load(file_obj)
+   json_file_path = "modules/my-credentials.json"
+   with open(json_file_path, 'r') as file_obj:
+    credentials = json.load(file_obj)
     with st.form("form10"):
         st.markdown(
                     """

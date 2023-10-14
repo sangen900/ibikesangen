@@ -33,6 +33,7 @@ def form_11():
         """,
         unsafe_allow_html=True
         )
+        st.image('files/images/ibike.jpg')
         title_manufacturing = ["Lean manufacturing", "Craft production", "Personalized production", "Mass customization", "Mass production"]
         css_style = f"font-size: 20px;"
         selected_choices1001 = []

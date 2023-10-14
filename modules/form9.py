@@ -79,7 +79,7 @@ def form_9():
         submit_button10 = st.form_submit_button("Submit Form")
         if submit_button10:
             scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-            credentials = ServiceAccountCredentials.from_service_account_file(json_file_path, scopes=scope)
+            credentials = ServiceAccountCredentials.from_service_account_info(credentials, scopes=scope)
             gc=gspread.authorize(credentials)
             spreadsheet_id = "1UiBuyoFudQnvgzgIxlh__6ktEBKK7zJvqoWYwz_2WuE" 
             sheet = gc.open_by_key(spreadsheet_id)

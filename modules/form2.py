@@ -114,10 +114,10 @@ def form_2():
             st.warning("Please fill in all the required fields.")
         elif submit_button:
                 scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-                credentials = ServiceAccountCredentials.from_json_keyfile_name("json_file_path", scope)
+                credentials = ServiceAccountCredentials.from_json_keyfile_name(json_file_path, scope)
                 gc = gspread.authorize(credentials)
                 #gsspreadsheet where data will be stored
-                spreadsheet_id = "1UiBuyoFudQnvgzgIxlh__6ktEBKK7zJvqoWYwz_2WuE"  # Replace with your Spreadsheet ID
+                spreadsheet_id = "1UiBuyoFudQnvgzgIxlh__6ktEBKK7zJvqoWYwz_2WuE"  
                 sheet = gc.open_by_key(spreadsheet_id)
                 worksheet_title = "Sheet2"
                 worksheet = sheet.worksheet(worksheet_title)

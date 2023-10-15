@@ -5,6 +5,9 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 def form_1():
+    json_file_path = "./modules/my-credentials.json"
+    with open(json_file_path, 'r') as file_obj:
+        credentials = json.load(file_obj)
     first_name, last_name, selected_date, option_1, option_2, option_3, option_4, option_5, option_6, option_7, option_8, option_9, other_input = "", "", date(2023, 10, 1), False, False, False, False, False, False, False, False, False, ""
     javascript_code = """
     <script>
@@ -127,7 +130,7 @@ def form_1():
              st.warning("\n".join(warnings))
             else:
                 scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-                credentials = ServiceAccountCredentials.from_json_keyfile_name("my-credentials.json", scope)
+                credentials = ServiceAccountCredentials.from_json_keyfile_name(json_file_path, scope)
                 gc = gspread.authorize(credentials)
                 #gsspreadsheet where data will be stored
                 spreadsheet_id = "1UiBuyoFudQnvgzgIxlh__6ktEBKK7zJvqoWYwz_2WuE"  # Replace with your Spreadsheet ID

@@ -2,6 +2,9 @@ import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 def form_12():
+    json_file_path = "./modules/my-credentials.json"
+    with open(json_file_path, 'r') as file_obj:
+        credentials = json.load(file_obj)
     with st.form("Form13"):
     #radio1
         st.markdown(
@@ -162,7 +165,7 @@ def form_12():
         submit_button13 = st.form_submit_button("Submit Form")
         if submit_button13:
             scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-            credentials = ServiceAccountCredentials.from_json_keyfile_name("my-credentials.json", scope)
+            credentials = ServiceAccountCredentials.from_json_keyfile_name(json_file_path, scope))
             gc = gspread.authorize(credentials)
             #gsspreadsheet where data will be stored
             spreadsheet_id = "1UiBuyoFudQnvgzgIxlh__6ktEBKK7zJvqoWYwz_2WuE"  # Replace with your Spreadsheet ID

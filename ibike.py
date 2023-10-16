@@ -72,8 +72,8 @@ def welcome_player():
 	st.image('files/images/bike_image.png')
 	st.markdown("""
         In this game, you can choose to be a "New User" or "Rejoin" an existing session. 
-	New users pick a group, potentially take a survey, and assume roles like **Project Manager**, **Design Engineer**,** Mechanical Engineer**, **Industrial Engineer**, and **Purchasing manager**. 
-        The game concludes after a set number of completed customer orders.""")
+	New users pick a group, potentially take a survey, and can pick up roles like **Project Manager**, **Design Engineer**,**Mechanical Engineer**, **Industrial Engineer**, and **Purchasing manager**. 
+        The game concludes after a set number of completed customer orders. Below is the flowchart on how game works.""")
 	st.image('files/images/flowchart for ibike game (1).png')
 
 def main():

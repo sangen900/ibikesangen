@@ -46,6 +46,8 @@ def welcome_instructor():
 	st.button("CONTINUE", on_click=switch_welcome)
 
 	st.image('files/images/bike_image.png')
+	st.markdown(""" Instruction on how to play:""")
+	st.image('files/images/flowchart for ibike game (1).png')
 
 def welcome_player():
 

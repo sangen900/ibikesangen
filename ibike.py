@@ -46,8 +46,6 @@ def welcome_instructor():
 	st.button("CONTINUE", on_click=switch_welcome)
 
 	st.image('files/images/bike_image.png')
-	st.markdown(""" Instruction on how to play:""")
-	st.image('files/images/flowchart for ibike game (1).png')
 
 def welcome_player():
 
@@ -72,6 +70,11 @@ def welcome_player():
 		st.button("REJOINING", on_click=switch_rejoin)
 
 	st.image('files/images/bike_image.png')
+	st.markdown("""
+        In this game, you can choose to be a "New User" or "Rejoin" an existing session. 
+	New users pick a group, potentially take a survey, and assume roles like **Project Manager**, **Design Engineer**,** Mechanical Engineer**, **Industrial Engineer**, and **Purchasing manager**. 
+        The game concludes after a set number of completed customer orders.""")
+	st.image('files/images/flowchart for ibike game (1).png')
 
 def main():
 

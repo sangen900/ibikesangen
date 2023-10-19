@@ -13,10 +13,17 @@ from .form10 import form_10
 from .form11 import form_11
 from .form12 import form_12
 from .form13 import form_13
+
 def main_form():
     page_names1001 = ["form0", "form1", "form2", "form3", "form4", "form5", "form6", "form7", "form8", "form9", "form10", "form11", "form12", "form13"]
+    form_status = {page: False for page in page_names1001}
     user_selected_page = st.sidebar.radio("Please read the form carefully and fill the below form.", page_names1001)
-    
+
+    form_completed = False
+
+    if user_selected_page == "form0" or user_selected_page == "form3" or user_selected_page == "form5" or user_selected_page == "form8":
+        form_completed = st.checkbox("Form Completed", key=user_selected_page)
+
     if user_selected_page == "form0":
         form_0()
     elif user_selected_page == "form1":
@@ -45,5 +52,12 @@ def main_form():
         form_12()
     elif user_selected_page == "form13":
         form_13()
+
+    if form_completed:
+        form_status[user_selected_page] = True
+
+    if form_status[user_selected_page]:
+        st.success(f"{user_selected_page} marked as completed!")
+
 if __name__ == "__main__":
     main_form()

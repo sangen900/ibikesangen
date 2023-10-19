@@ -22,9 +22,16 @@ def main_form():
     
     user_selected_page = st.sidebar.radio("Please read the form carefully and fill the below form.", page_names)
     
-    # Create checkboxes in the sidebar for each form
+    # Check if the selected form is one of the auto-completed forms (form0, form3, form5, form8, form13)
+    auto_completed_forms = ["form0", "form3", "form5", "form8", "form13"]
+    
+    # Display checkboxes right next to the radio button options
     for page in page_names:
         form_status[page] = st.sidebar.checkbox(f"{page} Completed", key=page)
+
+    # Check if the selected page is an auto-completed form and automatically check the checkbox
+    if user_selected_page in auto_completed_forms:
+        form_status[user_selected_page] = True
     
     # Display the form corresponding to the selected page
     form_functions = {
@@ -47,9 +54,10 @@ def main_form():
     if user_selected_page in form_functions:
         form_functions[user_selected_page]()
 
-    # Show success message when the user manually checks the form as completed
-    if form_status[user_selected_page]:
-        st.success(f"{user_selected_page} marked as completed!")
+    # Check if the user has submitted the form successfully and update the checkbox
+    if st.button("Submit Form"):
+        if user_selected_page not in auto_completed_forms:
+            form_status[user_selected_page] = True
 
 if __name__ == "__main__":
     main_form()

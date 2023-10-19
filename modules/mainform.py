@@ -16,6 +16,26 @@ from .form11 import form_11
 from .form12 import form_12
 from .form13 import form_13
 
+# Use CSS to style the sidebar layout
+st.write(
+    """
+    <style>
+    .sidebar-content {
+        display: flex;
+        flex-direction: column;
+    }
+    .sidebar-radio-container {
+        display: flex;
+        align-items: center;
+    }
+    .sidebar-radio-label {
+        margin-right: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 def main_form():
     page_names = ["form0", "form1", "form2", "form3", "form4", "form5", "form6", "form7", "form8", "form9", "form10", "form11", "form12", "form13"]
     form_status = {page: False for page in page_names}
@@ -25,7 +45,7 @@ def main_form():
     # Check if the selected form is one of the auto-completed forms (form0, form3, form5, form8, form13)
     auto_completed_forms = ["form0", "form3", "form5", "form8", "form13"]
     
-    # Display checkboxes right next to the radio button options
+    # Display the checkboxes in a more flexible way
     for page in page_names:
         form_status[page] = st.sidebar.checkbox(f"{page} Completed", key=page)
 

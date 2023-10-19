@@ -46,3 +46,4 @@ def main_form():
     elif user_selected_page == "form13":
         form_13()
 if __name__ == "__main__":
+    main_form()

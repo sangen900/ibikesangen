@@ -27,11 +27,6 @@ def main_form():
     # Display the checkboxes and radio buttons in a loop
     for page in page_names:
         checkbox_status[page] = st.sidebar.checkbox(page, key=f"{page}_checkbox")
-
-    # Check if the user selected a form
-    if user_selected_page:
-        # Display the selected form based on the user's choice
-        st.write(f"Form selected: {user_selected_page}")
         if user_selected_page == "form0":
             form_0()
         elif user_selected_page == "form1":

@@ -13,21 +13,10 @@ from .form10 import form_10
 from .form11 import form_11
 from .form12 import form_12
 from .form13 import form_13
-
 def main_form():
     page_names1001 = ["form0", "form1", "form2", "form3", "form4", "form5", "form6", "form7", "form8", "form9", "form10", "form11", "form12", "form13"]
+    user_selected_page = st.sidebar.radio("Please read the form carefully and fill the below form.", page_names1001)
     
-    # Create a dictionary to track the checkbox status for each form
-    form_status = {page: False for page in page_names1001}
-    
-    # Display checkboxes for each form
-    for page in page_names1001:
-        form_status[page] = st.sidebar.checkbox(page, key=f"{page}_checkbox")
-
-    # Get the user-selected page
-    user_selected_page = st.sidebar.selectbox("Please read the form carefully and fill the below form.", page_names1001)
-
-    # Display the form based on the user's choices
     if user_selected_page == "form0":
         form_0()
     elif user_selected_page == "form1":
@@ -56,6 +45,4 @@ def main_form():
         form_12()
     elif user_selected_page == "form13":
         form_13()
-
 if __name__ == "__main__":
-    main_form()

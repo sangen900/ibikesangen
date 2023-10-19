@@ -15,7 +15,7 @@ from .form12 import form_12
 from .form13 import form_13
 def main_form():
     page_names1001 = ["form0", "form1", "form2", "form3", "form4", "form5", "form6", "form7", "form8", "form9", "form10", "form11", "form12", "form13"]
-    user_selected_page = st.sidebar.radio("Please read the form carefully and fill the below form.", page_names1001)
+    user_selected_page = st.sidebar.checkbox("Please read the form carefully and fill the below form.", page_names1001)
     
     if user_selected_page == "form0":
         form_0()

@@ -1,6 +1,4 @@
 import streamlit as st
-
-# Import your form functions here with the dot prefix.
 from .form0 import form_0
 from .form1 import form_1
 from .form2 import form_2

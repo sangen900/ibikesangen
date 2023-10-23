@@ -1,4 +1,5 @@
 import streamlit as st
+import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -6,6 +7,7 @@ def form_2():
     json_file_path = "./modules/my-credentials.json"
     with open(json_file_path, 'r') as file_obj:
         credentials = json.load(file_obj)
+    
     javascript_code = """
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -18,11 +20,9 @@ def form_2():
     });
     </script>
     """
-    with st.form(key='my_form2'):
-        selected_age, selected_option_q40, other_input_gender = "", "", ""
-        selected_option_q41, other_input_race = "", ""
-        selected_gpa, selected_option, other_input_college = "", "", ""
-        input_major = ""
+    
+    with st.form(key='my_form3'):
+        selected_age, selected_option_q40, other_input_gender, selected_option_q41, other_input_race, selected_gpa, selected_option, other_input_college, input_major = "", "", "", "", "", "", "", "", ""
         
         st.markdown(
             """
@@ -49,6 +49,7 @@ def form_2():
             "Not Listed"
         ]
         selected_option_q40 = st.radio("", options_q40)
+        
         other_input_gender = ""
         if selected_option_q40 == "Not Listed":
             other_input_gender = st.text_input("Please specify your gender", key="text_input_gender")
@@ -70,6 +71,7 @@ def form_2():
             "A Race/ethnicity not listed here"
         ]
         selected_option_q41 = st.radio("", options_q41)
+        
         other_input_race = ""
         if selected_option_q41 == "A Race/ethnicity not listed here":
             other_input_race = st.text_input("Please specify your race/ethnicity", key="text_input_race")
@@ -90,6 +92,7 @@ def form_2():
             unsafe_allow_html=True
         )
         selected_option = st.radio("", ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Not Listed"], key="selected_option34")
+        
         other_input_college = ""
         if selected_option == "Not Listed":
             other_input_college = st.text_input("Please specify your college year", key="text_input_college")
@@ -103,8 +106,7 @@ def form_2():
         )
         input_major = st.text_input("Please specify your engineering major:", key="text_input_major")
         
-        submit_button = st.form_submit_button("Submit Form2")
-        
+        submit_button = st.form_submit_button("Submit Form")
         required_fields_empty = False
 
         if selected_option_q40 == "Not Listed" and not other_input_gender:
@@ -123,13 +125,14 @@ def form_2():
             st.warning("Please fill in all the required fields.")
         elif submit_button:
             scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-            credentials = ServiceAccountCredentials.from_json_keyfile_name("my-credentials.json", scope)
+            credentials = ServiceAccountCredentials.from_json_keyfile_name(json_file_path, scope)
             gc = gspread.authorize(credentials)
-            # Google spreadsheet where data will be stored
+            #gsspreadsheet where data will be stored
             spreadsheet_id = "1UiBuyoFudQnvgzgIxlh__6ktEBKK7zJvqoWYwz_2WuE"  # Replace with your Spreadsheet ID
             sheet = gc.open_by_key(spreadsheet_id)
             worksheet_title = "Sheet2"
             worksheet = sheet.worksheet(worksheet_title)
+            
             form_data1 = {
                 'Age': selected_age,
                 'Gender': selected_option_q40,
@@ -141,10 +144,8 @@ def form_2():
                 'Other College Year': other_input_college,
                 'Major': input_major
             }
+            
             num_rows = len(worksheet.get_all_values())
             worksheet.insert_rows([list(form_data1.values())], num_rows+1)
-            st.success("Form 2 has been successfully submitted")
+            st.success("Form 3 has been successfully submitted")
             return True
-
-if __name__ == "__main__":
-    form_2()

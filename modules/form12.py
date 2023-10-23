@@ -180,3 +180,4 @@ def form_12():
             ]
             worksheet.insert_rows([data_to_insert], len(worksheet.get_all_values()) + 1)
             st.success("Form 13 has been successfully submitted")
+            return True

@@ -1,7 +1,18 @@
 import streamlit as st
+import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 def form_4():
+    json_file_path = "./modules/my-credentials.json"
+    with open(json_file_path, 'r') as file_obj:
+        credentials = json.load(file_obj)
+    user_input1 = ""
+    user_input2 = ""
+    user_input3 = ""
+    user_input4 = ""
+    user_input5 = ""
+    user_input6 = ""
+    warnings = []
     javascript_code = """
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -14,14 +25,7 @@ def form_4():
     });
     </script>
     """
-    with st.form("form4"):
-        user_input1 = ""
-        user_input2 = ""
-        user_input3 = ""
-        user_input4 = ""
-        user_input5 = ""
-        user_input6 = ""
-        warnings = []
+    with st.form("form5"):
         st.markdown(
             """
             <p style='font-size: 20px; margin-bottom: 0;'>In your own words, define manufacturing.</p>
@@ -70,15 +74,15 @@ def form_4():
         )
         user_input6 = st.text_area("", key="text_area_6")
         #submit button
-        submit_button = st.form_submit_button("Submit Form4")
-        if submit_button:
+        submit_button2 = st.form_submit_button("Submit Form")
+        if submit_button2:
            if not user_input1 or not user_input2 or not user_input3 or not user_input4 or not user_input5 or not user_input6:
              warnings.append("Please fill all the required forms:")
            if warnings:
                 st.warning("\n".join(warnings))
            else:
                 scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-                credentials = ServiceAccountCredentials.from_json_keyfile_name("my-credentials.json", scope)
+                credentials = ServiceAccountCredentials.from_json_keyfile_name(json_file_path, scope)
                 gc = gspread.authorize(credentials)
                 #gsspreadsheet where data will be stored
                 spreadsheet_id = "1UiBuyoFudQnvgzgIxlh__6ktEBKK7zJvqoWYwz_2WuE"  # Replace with your Spreadsheet ID
@@ -95,6 +99,7 @@ def form_4():
                         }
                 num_rows = len(worksheet.get_all_values())
                 worksheet.insert_rows([list(form_data2.values())], num_rows+1)
-                st.success("Form 4 has been successfully submitted.")
+                st.success(f"Form 5 has been successfully submitted:")
                 return True
-                
+
+        

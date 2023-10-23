@@ -120,3 +120,4 @@ def form_11():
             data_to_insert = [selected_option_q5] + selected_choices1001 + [selected_option_q1, selected_option_q2, selected_option_q3, selected_option_q4]
             worksheet.insert_rows([data_to_insert], len(worksheet.get_all_values()) + 1)
             st.success("Form 12 has been successfully submitted")
+            return True

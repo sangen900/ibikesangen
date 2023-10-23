@@ -1,4 +1,5 @@
 import streamlit as st
+import json
 from datetime import date
 import pandas as pd
 import gspread
@@ -8,28 +9,16 @@ def form_1():
     json_file_path = "./modules/my-credentials.json"
     with open(json_file_path, 'r') as file_obj:
         credentials = json.load(file_obj)
-    first_name = ""
-    last_name = ""
-    selected_date = date(2023, 10, 1)
-    option_1 = False
-    option_2 = False
-    option_3 = False
-    option_4 = False
-    option_5 = False
-    option_6 = False
-    option_7 = False
-    option_8 = False
-    other_input = ""
-
+    first_name, last_name, selected_date, option_1, option_2, option_3, option_4, option_5, option_6, option_7, option_8, option_9, other_input = "", "", date(2023, 10, 1), False, False, False, False, False, False, False, False, False, ""
     javascript_code = """
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const textArea = document.querySelector('textarea');
-        textArea.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-            }
-        });
+    const textArea = document.querySelector('textarea');
+    textArea.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        }
+    });
     });
     </script>
     """
@@ -56,10 +45,10 @@ def form_1():
         st.markdown("__Benefits__: We hope the integrated curriculum will bring improved learning experiences for students. As educators, we hope to create high quality curriculum and better prepare engineering students for the real world. The study does not provide participants with monetary benefits other than a random drawing for Amazon gift cards.")
         st.markdown("")
         st.markdown("")
-        st.markdown("__Duration/time__: The study will last three years, and each course takes one semester, some concurrently. The short surveys will likely be filled in regular class time. Participants will not need to meet outside of class for the research.")
+        st.markdown("__Duration/time__: The study will last three years, and each course takes one semester, some con-currently. The short surveys will likely be filled in regular class time. Participants will not need to meet outside of class for the research.")
         st.markdown("")
         st.markdown("")
-        st.markdown("Right to Ask Questions: Please contact Drs. Qi Dunsworth and Daniell DiFrancesca if you have questions or concerns about this research.  You can also call this number if you feel this study has harmed you. If you have questions about your rights as a research participant, contact the University of Louisville.")
+        st.markdown("Right to Ask Questions: Please contact Drs. Qi Dunsworth and Daniell DiFrancesca if you have questions or concerns about this research.  You can also call this number if you feel this study has harmed you. If you have questions about your rights as a research participant, contact university of Louisville.")
         st.markdown("")
         st.markdown("")
         st.markdown("__Voluntary Participation__:  Your decision on whether to have your data included in this research is voluntary.  You can withdraw at any time.  You do not have to answer any survey questions if you do not feel comfortable answering. Participation or non-participation in the study will have no effect on grades or status with your instructor or the university.")
@@ -68,7 +57,7 @@ def form_1():
         st.markdown("")
         st.markdown("By typing your name below and submitting this form, you agree to take part in this research study and the information outlined above.")
         st.markdown("")
-        # Hyperlink
+        #hyperlink
         css = """
         <style>
         /* Style the hyperlink text */
@@ -87,7 +76,7 @@ def form_1():
             """,
             unsafe_allow_html=True
         )
-        selected_option100 = st.radio("", ["I consent to participate in the above-described research study.", "I DO NOT consent to participate in the above-described research study."], key="consent_form_radio")
+        selected_option100 = st.radio("",["I consent to participate in the above described research study.", "I DO NOT consent to participate in the above described research study."], key="consent_form_radio")
         st.markdown("---")
         st.markdown(
             """
@@ -116,7 +105,7 @@ def form_1():
             unsafe_allow_html=True
         )
         selected_date = st.date_input("", date(2023, 10, 1))
-        date_string = selected_date.strftime("%Y-%m-%d")
+        date_string = selected_date.strftime("%Y-%m-d")
         st.markdown("___")
         st.markdown("<span style='font-size:20px;'>Which class are you currently enrolled in that shared this survey with you?</span>", unsafe_allow_html=True)
         option_1 = st.checkbox('IE 305')
@@ -127,26 +116,29 @@ def form_1():
         option_6 = st.checkbox('ME 465 (lab)')
         option_7 = st.checkbox('IE 470')
         option_8 = st.checkbox('MIS 404')
-        other_input = st.text_input("If not mentioned. Please specify the other class", key="text_input_76")
-       
-        submit_button = st.form_submit_button("Submit Form1")
+        option_9 = st.checkbox('Other')
+        if option_9:
+            other_input = st.text_input("Please specify the other class", key="text_input_76")
+        else:
+            other_input = ""
+        submit_button = st.form_submit_button("Submit Form")
         if submit_button:
             warnings = []
-            if not first_name or not last_name or not (option_1 or option_2 or option_3 or option_4 or option_5 or option_6 or option_7 or option_8 or other_input):
+            if not first_name or not last_name or not (option_1 or option_2 or option_3 or option_4 or option_5 or option_6 or option_7 or option_8 or (option_9 and other_input)):
                 warnings.append("Please fill all the required forms.")
-            
+
             if warnings:
                 st.warning("\n".join(warnings))
             else:
                 scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-                 credentials = ServiceAccountCredentials.from_json_keyfile_name(json_file_path, scope)
+                credentials = ServiceAccountCredentials.from_json_keyfile_name(json_file_path, scope)
                 gc = gspread.authorize(credentials)
-                # Google Spreadsheet where data will be stored
+                #gsspreadsheet where data will be stored
                 spreadsheet_id = "1UiBuyoFudQnvgzgIxlh__6ktEBKK7zJvqoWYwz_2WuE"  # Replace with your Spreadsheet ID
                 sheet = gc.open_by_key(spreadsheet_id)
                 worksheet_title = "Sheet1"
                 worksheet = sheet.worksheet(worksheet_title)
-                # Dictionary to hold the form data
+                #dictionary to hold the form data
                 form_data = {
                     'Consent': selected_option100,
                     'First Name': first_name,
@@ -163,10 +155,6 @@ def form_1():
                     'Other': other_input
                 }
                 num_rows = len(worksheet.get_all_values())
-                worksheet.insert_rows([list(form_data.values())], num_rows + 1)
-                st.success(f"Form 1 submitted with name: {first_name} {last_name}")
+                worksheet.insert_rows([list(form_data.values())], num_rows+1)
+                st.success(f"Form 2 submitted with name: {first_name} {last_name}")
                 return True
-
-if __name__ == "__main__":
-    form_1()
-              

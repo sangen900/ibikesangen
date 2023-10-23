@@ -88,3 +88,4 @@ def form_9():
             data_to_insert = selected_options1010 + selected_options1011 + selected_options1012
             worksheet.insert_rows([data_to_insert], len(worksheet.get_all_values()) + 1)
             st.success("Form 10 has been successfully submitted")
+            return True

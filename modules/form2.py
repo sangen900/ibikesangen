@@ -3,6 +3,21 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 def form_2():
+    json_file_path = "./modules/my-credentials.json"
+    with open(json_file_path, 'r') as file_obj:
+        credentials = json.load(file_obj)
+    javascript_code = """
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const textArea = document.querySelector('textarea');
+    textArea.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        }
+    });
+    });
+    </script>
+    """
     with st.form(key='my_form2'):
         selected_age, selected_option_q40, other_input_gender = "", "", ""
         selected_option_q41, other_input_race = "", ""

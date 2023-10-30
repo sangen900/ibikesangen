@@ -41,12 +41,10 @@ def welcome_instructor():
     """
     )
 
-    st.write("Click 'CONTINUE' below to begin setup.")
-    st.button("CONTINUE", on_click=switch_welcome)
-    st.write("**A message for the instructors: You have the option to access the instructions by downloading the Word file provided for instructional guidance.**")
-    st.markdown('[Instruction to instructors](https://docs.google.com/document/d/1gGwgesyoiNQ07i3R5m1dFpoPCqgp1xbP/edit?usp=sharing)')
-
-
+   	st.write("Click 'CONTINUE' below to begin setup.")
+        st.button("CONTINUE", on_click=switch_welcome)
+    	st.write("**A message for the instructors: You have the option to access the instructions by downloading the Word file provided for instructional guidance.**")
+        st.markdown('[Instruction to instructors](https://docs.google.com/document/d/1gGwgesyoiNQ07i3R5m1dFpoPCqgp1xbP/edit?usp=sharing)')
 	st.write('# Welcome to iBIKE! 👋')
 
 	st.markdown(

@@ -47,6 +47,7 @@ def welcome_instructor():
 	After that the users have the opportunity to assume roles such as **Project Manager**, **Design Engineer**, **Mechanical Engineer**, **Industrial Engineer**, and **Purchasing Manager**. The game concludes after a predetermined number of completed customer orders that you get to set.
 	Below is a flowchart illustrating how the game operates.""")
 	st.image('files/images/flowchart for ibike game (1).png')
+	
 	st.write("**A message for the instructors: You have the option to access the instructions by downloading the Word file provided for instructional guidance.**")
         st.markdown('[Instruction to instructors](https://docs.google.com/document/d/1gGwgesyoiNQ07i3R5m1dFpoPCqgp1xbP/edit?usp=sharing)')
 	

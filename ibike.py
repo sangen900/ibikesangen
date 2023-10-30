@@ -29,48 +29,60 @@ def display_developer_buttons():
 		st.button("SIMULATION RESET", on_click=game_reset)
 
 def welcome_instructor():
-    st.write('# Welcome to iBIKE! 👋')
 
-    st.markdown(
-    """
-    iBIKE is an online simulation developed to create 
-    an environment for **Mechanical Engineers**, **Electrical Engineers**, 
-    **Industrial Engineers**, and **Purchasing Managers** to practice their skills
-    in selecting the appropriate parts, their order quantities, best materials 
-    and manufacturing processes, practicing supply chain management, and more.
-    """
-    )
-
-   	st.write("Click 'CONTINUE' below to begin setup.")
-        st.button("CONTINUE", on_click=switch_welcome)
-    	st.write("**A message for the instructors: You have the option to access the instructions by downloading the Word file provided for instructional guidance.**")
-        st.markdown('[Instruction to instructors](https://docs.google.com/document/d/1gGwgesyoiNQ07i3R5m1dFpoPCqgp1xbP/edit?usp=sharing)')
 	st.write('# Welcome to iBIKE! 👋')
 
 	st.markdown(
     """
     iBIKE is an online simuation developed to create 
-    an environment for **Mechanical Engineers**, **Electrical Engineers**, 
-    **Industrial Engineers**, and **Purchasing managers** to practice their skills
+    an environment for **Mechanical Engineers**, **Design Engineers**, 
+    **Industrial Engineers**, **Project Managers**, and **Purchasing Managers** to practice their decision-making skills
     in selecting the appropriate parts, their order quantities, best materials 
     and manufacturing processes, parcticing supply chain management, and more.
-
-    **WARNING:  Do NOT close your browser while playing iBIKE! If you do close your tab by accident or get disconnected for any reason, your instructor will be able to provide you with a code to rejoin your session.**
     """
 	)
+	
+	st.markdown("""
+        In this simulation, you will serve as the instructor, and your participants will select a group to join and potentially participate in a survey.
+	After that the users have the opportunity to assume roles such as **Project Manager**, **Design Engineer**, **Mechanical Engineer**, **Industrial Engineer**, and **Purchasing Manager**. The game concludes after a predetermined number of completed customer orders that you get to set.
+	Below is a flowchart illustrating how the game operates.""")
+	st.image('files/images/flowchart for ibike game (1).png')
+
+	st.write("Click 'CONTINUE' below to begin setup.")
+	st.button("CONTINUE", on_click=switch_welcome)
+
+def welcome_player():
+
+	st.write('# Welcome to iBIKE! 👋')
+
+	st.markdown(
+    """
+    iBIKE is an online simuation developed to create 
+    an environment for **Mechanical Engineers**, **Design Engineers**, 
+    **Industrial Engineers**, **Project Managers**, and **Purchasing Managers** to practice their decision-making skills
+    in selecting the appropriate parts, their order quantities, best materials 
+    and manufacturing processes, parcticing supply chain management, and more.    
+    """
+	)	
+	
+	st.markdown("""
+        In this simulation, you have the option to choose between being a 'New User' or 'Rejoining' an existing session.
+	New users can select a group, potentially participate in a survey, and have the opportunity to assume roles such as **Project Manager**, **Design Engineer**, **Mechanical Engineer**, **Industrial Engineer**, and **Purchasing Manager**. The game concludes after a predetermined number of completed customer orders.
+	Below is a flowchart illustrating how the game operates.""")
+	st.image('files/images/flowchart for ibike game (1).png')
+
+	st.markdown(
+	"""
+ 	**WARNING:  Do NOT close your browser while in the iBIKE simulation! If you do close your tab by accident or get disconnected for any reason, your instructor will be able to provide you with a code to rejoin your session.**
+ 	"""
+	)
+
 	st.write("Are you a New User or are you Rejoining an existing iBIKE session?")
 	col1, col2 = st.columns(2)
 	with col1:
 		st.button("NEW USER", on_click=switch_welcome)
 	with col2:
 		st.button("REJOINING", on_click=switch_rejoin)
-
-	st.image('files/images/bike_image.png')
-	st.markdown("""
-        In this game, you have the option to choose between being a 'New User' or 'Rejoining' an existing session.
-	New users can select a group, potentially participate in a survey, and have the opportunity to assume roles such as **Project Manager**, **Design Engineer**, **Mechanical Engineer**, **Industrial Engineer**, and **Purchasing Manager**. The game concludes after a predetermined number of completed customer orders.
-	Below is a flowchart illustrating how the game operates.""")
-	st.image('files/images/flowchart for ibike game (1).png')
 
 def main():
 

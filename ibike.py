@@ -83,7 +83,7 @@ def welcome_player():
     with col1:
         st.button("NEW USER", on_click=switch_welcome)
     with col2:
-        st.button("REJOINING", on-click=switch_rejoin)
+        st.button("REJOINING", on_click=switch_rejoin)
 
 def main():
 

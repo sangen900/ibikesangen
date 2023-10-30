@@ -44,14 +44,8 @@ def welcome_instructor():
 	
 	st.write("Click 'CONTINUE' below to begin setup.")
 	st.button("CONTINUE", on_click=switch_welcome)
-
-	github_username = "sangenrai009"
-	repo_name = "sangenibike"
-	file_path = "modules/instruction for instructor.docx"
-	
-	word_doc_link = f"https://github.com/{github_username}/{repo_name}/raw/main/{file_path}"
-	st.markdown(f'[Download Word Document]({word_doc_link})')
-
+	st.write("**A message for the instructors: You have the option to access the instructions by downloading the Word file provided for instructional guidance.**")
+        st.markdown('[Instruction to instructors](https://docs.google.com/document/d/1gGwgesyoiNQ07i3R5m1dFpoPCqgp1xbP/edit?usp=sharing)')
 def welcome_player():
 
 	st.write('# Welcome to iBIKE! 👋')

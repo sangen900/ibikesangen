@@ -45,14 +45,14 @@ def welcome_instructor():
 	st.write("Click 'CONTINUE' below to begin setup.")
 	st.button("CONTINUE", on_click=switch_welcome)
 	st.write("**A message for the instructors: You have the option to access the instructions by downloading the Word file provided for instructional guidance.**")
-	def download_link(text, filename):
+def download_link(text, filename):
         href = f'<a href="data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,{text}" download="{filename}.docx">Click here to download {filename}.docx</a>'
-        return href
+    return href
         with open("path/to/your/modules/instruction for instructor.docx", "rb") as file:
         docx_file_data = file.read()
         docx_file_base64 = base64.b64encode(docx_file_data).decode()
         download_link(docx_file_base64, "instruction for instructor")
-	st.image('files/images/bike_image.png')
+        st.image('files/images/bike_image.png')
 
 def welcome_player():
 

@@ -44,13 +44,13 @@ def welcome_instructor():
 	
 	st.write("Click 'CONTINUE' below to begin setup.")
 	st.button("CONTINUE", on_click=switch_welcome)
-	st.write("**A message for the instructors: You have the option to access the instructions by downloading the Word file provided for instructional guidance.**")
-        github_username = "sangenrai009"
-        repo_name = "sangenibike"
-        file_path = "modules/instruction for instructor.docx"
-        word_doc_link = f"https://github.com/{github_username}/{repo_name}/raw/main/{file_path}"
-        st.markdown(f'[Download Word Document]({word_doc_link})')
-        st.image('files/images/bike_image.png')
+
+	github_username = "sangenrai009"
+	repo_name = "sangenibike"
+	file_path = "modules/instruction for instructor.docx"
+	
+	word_doc_link = f"https://github.com/{github_username}/{repo_name}/raw/main/{file_path}"
+	st.markdown(f'[Download Word Document]({word_doc_link})')
 
 def welcome_player():
 

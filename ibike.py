@@ -44,6 +44,8 @@ def welcome_instructor():
 	
 	st.write("Click 'CONTINUE' below to begin setup.")
 	st.button("CONTINUE", on_click=switch_welcome)
+	<a href="https://example.com/path-to-your-file.docx">Click here to download the Word file</a>
+
 
 	st.image('files/images/bike_image.png')
 

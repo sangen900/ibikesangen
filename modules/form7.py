@@ -131,3 +131,4 @@ def form_7():
             # Insert the data into the worksheet without wrapping it in an additional list
             worksheet.insert_rows([data_to_insert], len(worksheet.get_all_values()) + 1)
             st.success("Form 8 has been successfully submitted.")
+            return True

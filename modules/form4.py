@@ -74,8 +74,8 @@ def form_4():
     )
     user_input6 = st.text_area("", key="text_area_6")
     #submit button
-    submit_button2 = st.form_submit_button("Submit Form")
-    if submit_button2:
+    submit_button = st.form_submit_button("Submit Form")
+    if submit_button:
        if not user_input1 or not user_input2 or not user_input3 or not user_input4 or not user_input5 or not user_input6:
          warnings.append("Please fill all the required forms:")
        if warnings:
@@ -99,7 +99,7 @@ def form_4():
                     }
             num_rows = len(worksheet.get_all_values())
             worksheet.insert_rows([list(form_data2.values())], num_rows+1)
-            st.success(f"Form 5 has been successfully submitted:")
+            st.success(f"Form 4 has been successfully submitted:")
             return True
 
     

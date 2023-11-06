@@ -123,3 +123,4 @@ def form_11():
 
         worksheet.insert_rows([data_to_insert], len(worksheet.get_all_values()) + 1)
         st.success("Form 12 has been successfully submitted.")
+        return True

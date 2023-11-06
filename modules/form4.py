@@ -43,3 +43,4 @@ def form_4():
             num_rows = len(worksheet.get_all_values())
             worksheet.insert_rows([list(form_data.values())], num_rows + 1)
             st.success("Form data has been successfully submitted.")
+            return True

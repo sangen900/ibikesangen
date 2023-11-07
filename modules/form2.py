@@ -67,6 +67,7 @@ def form_2():
         "Native American or Alaskan native", 
         "White or Caucasian", 
         "Multiracial or Biracial", 
+        "Prefer not to say",
         "A Race/ethnicity not listed here"
     ]
     selected_option_q41 = st.radio("", options_q41)

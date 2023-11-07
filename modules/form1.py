@@ -27,10 +27,10 @@ def form_1():
     st.markdown("")
     st.markdown("")
     st.write("Dear students,")
-    st.markdown("The School of Engineering is conducting an educational research study on the impact of a curriculum that integrates business with industrial knowledge and engineering (iBIKE) to improve manufacturing education (NSF funding pending). 
+    st.markdown("""The School of Engineering is conducting an educational research study on the impact of a curriculum that integrates business with industrial knowledge and engineering (iBIKE) to improve manufacturing education (NSF funding pending). 
                  The curriculum is consisted of several modules that will be implemented in the following courses: IE 305, EE380, EE383 (lab), ME 465 (lab), ME 468, ME 469, IE 470, and MIS 404. 
                  All students enrolled in these courses are invited to participate in the study.__The purpose of the study__ is to transform manufacturing education and develop associated skills by integrating manufacturing concepts across engineering.
-                 The curriculum modules will be designed and improved based on student feedback over a period of three years.")
+                 The curriculum modules will be designed and improved based on student feedback over a period of three years.""")
     st.markdown("")
     st.markdown("")
     st.markdown("__Procedure__: This study will not change or add class meeting time if you are enrolled in the above listed courses. 

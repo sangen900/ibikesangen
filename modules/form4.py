@@ -9,12 +9,17 @@ def form_4():
         credentials = json.load(file_obj)
 
     user_input1 = st.text_area("In your own words, define manufacturing:")
+    st.write(f'<div style="font-size: 20px">{user_input1}</div>', unsafe_allow_html=True)
     user_input2 = st.text_area("In your own words, define manufacturing pillars:")
+    st.write(f'<div style="font-size: 20px">{user_input2}</div>', unsafe_allow_html=True)
     user_input3 = st.text_area("List and briefly describe the six pillars:")
+    st.write(f'<div style="font-size: 20px">{user_input3}</div>', unsafe_allow_html=True)
     user_input4 = st.text_area("In your own words, define manufacturing systems:")
+    st.write(f'<div style="font-size: 20px">{user_input4}</div>', unsafe_allow_html=True)
     user_input5 = st.text_area("In your own words, define manufacturing technologies?")
+    st.write(f'<div style="font-size: 20px">{user_input5}</div>', unsafe_allow_html=True)
     user_input6 = st.text_area("In your own words, define product development lifecycle:")
-
+    st.write(f'<div style="font-size: 20px">{user_input6}</div>', unsafe_allow_html=True)
     submit_button = st.button("Submit")
 
     if submit_button:

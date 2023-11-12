@@ -40,7 +40,7 @@ def main_form():
         "form3": "Manufacturing Knowledge Form",
         "form4": "Defining Manufacturing Terms Form",
         "form5": "YouTube Video 1 Form",
-        "form6": "Agreement Form",
+        "form6": "Level of Agreement Form",
         "form7": "iBike Part 1 Form",
         "form8": "YouTube Video 2 Form",
         "form9": "iBike Part 2 Form",

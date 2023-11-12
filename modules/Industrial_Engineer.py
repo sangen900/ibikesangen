@@ -162,78 +162,106 @@ def render():
 def feedback():
 	# writing
 	st.header("Feedback **:red[TO]**")
-	st.markdown("---")
 	text = ""
 	if path.isfile(ss.filepath+'fb_i_d.txt'):
 		with open(ss.filepath+'fb_i_d.txt', 'r') as f:
 			text = f.read()
 
-	fb_i_d = st.text_area("Your feedback to the Design Engineer:", text)
-	if fb_i_d != "":
-		with open(ss.filepath+"fb_i_d.txt", "w") as f:
-			f.write(fb_i_d)
-		st.markdown("---")
-
-	if st.button('Clear Feedback', key=0):
-		if path.isfile(ss.filepath+'fb_i_d.txt'):
-			os.remove(ss.filepath+'fb_i_d.txt')
-
-
-	st.markdown("---")
+	with st.form("ind_des_feedback"):
+		fb_i_d = st.text_area("Your feedback to the Design Engineer:", text)
+		col1, whitespace, col2 = st.columns((100, 400, 129))
+		with col1:
+			feedback_submission = st.form_submit_button("Submit")
+		with whitespace:
+			st.write("") #no content, this column is just to properly align the clear feedback button
+		with col2:
+			clear_submission = st.form_submit_button("Clear Feedback")
+		
+		if (feedback_submission and fb_i_d != ""):
+			with open(ss.filepath+"fb_i_d.txt", "w") as f:
+				f.write(fb_i_d)
+			st.experimental_rerun() #causes the submit button to only need to be pressed once
+		elif (clear_submission):
+			if path.isfile(ss.filepath+'fb_i_d.txt'):
+				os.remove(ss.filepath+'fb_i_d.txt')
+			st.experimental_rerun() #causes the submit button to only need to be pressed once
+	
 	text = ""
 	if path.isfile(ss.filepath+'fb_i_m.txt'):
 		with open(ss.filepath+'fb_i_m.txt', 'r') as f:
 			text = f.read()
 
-	fb_i_m = st.text_area("Your feedback to the Mechanical Engineer:", text)
-	if fb_i_m != "":
-		with open(ss.filepath+"fb_i_m.txt", "w") as f:
-			f.write(fb_i_m)
-		st.markdown("---")
-
-	if st.button('Clear Feedback', key=1):
-		if path.isfile(ss.filepath+'fb_i_m.txt'):
-			os.remove(ss.filepath+'fb_i_m.txt')
-
+	with st.form("ind_mech_feedback"):
+		fb_i_m = st.text_area("Your feedback to the Mechanical Engineer:", text)
+		col1, whitespace, col2 = st.columns((100, 400, 129))
+		with col1:
+			feedback_submission = st.form_submit_button("Submit")
+		with whitespace:
+			st.write("") #no content, this column is just to properly align the clear feedback button
+		with col2:
+			clear_submission = st.form_submit_button("Clear Feedback")
+		
+		if (feedback_submission and fb_i_m != ""):
+			with open(ss.filepath+"fb_i_m.txt", "w") as f:
+				f.write(fb_i_m)
+			st.experimental_rerun()
+		elif (clear_submission):
+			if path.isfile(ss.filepath+'fb_i_m.txt'):
+				os.remove(ss.filepath+'fb_i_m.txt')
+			st.experimental_rerun()
 	
-	st.markdown("---")
 	text = ""
 	if path.isfile(ss.filepath+'fb_i_pm.txt'):
 		with open(ss.filepath+'fb_i_pm.txt', 'r') as f:
 			text = f.read()
 
-	fb_i_pm = st.text_area("Your feedback to the Project Manager:", text)
-	if fb_i_pm != "":
-		with open(ss.filepath+"fb_i_pm.txt", "w") as f:
-			f.write(fb_i_pm)
-		st.markdown("---")
-
-	if st.button('Clear Feedback', key=2):
-		if path.isfile(ss.filepath+'fb_i_pm.txt'):
-			os.remove(ss.filepath+'fb_i_pm.txt')
-
-
-	st.markdown("---")
+	with st.form("ind_proj_feedback"):
+		fb_i_pm = st.text_area("Your feedback to the Project Manager:", text)
+		col1, whitespace, col2 = st.columns((100, 400, 129))
+		with col1:
+			feedback_submission = st.form_submit_button("Submit")
+		with whitespace:
+			st.write("") #no content, this column is just to properly align the clear feedback button
+		with col2:
+			clear_submission = st.form_submit_button("Clear Feedback")
+		
+		if (feedback_submission and fb_i_pm != ""):
+			with open(ss.filepath+"fb_i_pm.txt", "w") as f:
+				f.write(fb_i_pm)
+			st.experimental_rerun()
+		elif (clear_submission):
+			if path.isfile(ss.filepath+'fb_i_pm.txt'):
+				os.remove(ss.filepath+'fb_i_pm.txt')
+			st.experimental_rerun()
+	
 	text = ""
 	if path.isfile(ss.filepath+'fb_i_pum.txt'):
 		with open(ss.filepath+'fb_i_pum.txt', 'r') as f:
 			text = f.read()
 
-	fb_i_pum = st.text_area("Your feedback to the Purchasing Manager:", text)
-	if fb_i_pum != "":
-		with open(ss.filepath+"fb_i_pum.txt", "w") as f:
-			f.write(fb_i_pum)
-		st.markdown("---")
-
-	if st.button('Clear Feedback', key=3):
-		if path.isfile(ss.filepath+'fb_i_pum.txt'):
-			os.remove(ss.filepath+'fb_i_pum.txt')
-
-
+	with st.form("ind_pur_feedback"):
+		fb_i_pum = st.text_area("Your feedback to the Purchasing Manager:", text)
+		col1, whitespace, col2 = st.columns((100, 400, 129))
+		with col1:
+			feedback_submission = st.form_submit_button("Submit")
+		with whitespace:
+			st.write("") #no content, this column is just to properly align the clear feedback button
+		with col2:
+			clear_submission = st.form_submit_button("Clear Feedback")
+		
+		if (feedback_submission and fb_i_pum != ""):
+			with open(ss.filepath+"fb_i_pum.txt", "w") as f:
+				f.write(fb_i_pum)
+			st.experimental_rerun()
+		elif (clear_submission):
+			if path.isfile(ss.filepath+'fb_i_pum.txt'):
+				os.remove(ss.filepath+'fb_i_pum.txt')
+			st.experimental_rerun()
+	
 	# reading
 	st.header("Feedback **:red[From]**")
-	if path.isfile(ss.filepath+'fb_d_i.txt'):
-		st.markdown("---")
+	st.markdown("---")
+	if path.isfile(ss.filepath+'fb_d_i.txt'):		
 		st.write("Feedback from the **:red[Design Engineer]**:")
 		with open(ss.filepath+'fb_d_i.txt', 'r') as f:
 			text = f.read()
@@ -241,7 +269,6 @@ def feedback():
 		st.markdown("---")
 
 	if path.isfile(ss.filepath+'fb_m_i.txt'):
-		st.markdown("---")
 		st.write("Feedback from the **:red[Mechanical Engineer]**:")
 		with open(ss.filepath+'fb_m_i.txt', 'r') as f:
 			text = f.read()
@@ -250,7 +277,6 @@ def feedback():
 
 
 	if path.isfile(ss.filepath+'fb_pm_m.txt'):
-		st.markdown("---")
 		st.write("Feedback from the **:red[Project Manager]**:")
 		with open(ss.filepath+'fb_pm_m.txt', 'r') as f:
 			text = f.read()
@@ -259,7 +285,6 @@ def feedback():
 
 
 	if path.isfile(ss.filepath+'fb_pum_m.txt'):
-		st.markdown("---")
 		st.write("Feedback from the **:red[Purchasing Manager]**:")
 		with open(ss.filepath+'fb_pum_m.txt', 'r') as f:
 			text = f.read()

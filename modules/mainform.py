@@ -49,55 +49,48 @@ def main_form():
         "form12": "Manufacturing Form",
         "form13": "Ending Form",
     }
-
-    # Always display the sidebar
     st.sidebar.header("Please read the form carefully and fill in the below form.")
-
-    # Sidebar menu with radio buttons
     form_statuses = st.session_state.form_statuses
     user_selected_page = st.sidebar.radio("Select a form", list(form_statuses.keys()), format_func=lambda x: form_names[x])
 
     # Forms to exclude from status bar updates
     forms_to_exclude = ["form0", "form3", "form5", "form8", "form10", "form13"]
-
-    # Display the content of the selected form, including excluded forms
     if user_selected_page == "form0":
         form_0()
     elif user_selected_page == "form1":
         if form_1():
-            form_statuses["form1"] = True  # Mark form as completed
+            form_statuses["form1"] = True  
     elif user_selected_page == "form2":
         if form_2():
-            form_statuses["form2"] = True  # Mark form as completed
+            form_statuses["form2"] = True 
     elif user_selected_page == "form3":
         form_3()
     elif user_selected_page == "form4":
         if form_4():
-            form_statuses["form4"] = True  # Mark form as completed
+            form_statuses["form4"] = True  
     elif user_selected_page == "form5":
         form_5()
     elif user_selected_page == "form6":
         if form_6():
-            form_statuses["form6"] = True  # Mark form as completed
+            form_statuses["form6"] = True  
     elif user_selected_page == "form7":
-        form_7()
+        if form_7():
+            form_statuses["form7"] = True  
     elif user_selected_page == "form8":
         form_8()
     elif user_selected_page == "form9":
         if form_9():
-            form_statuses["form9"] = True  # Mark form as completed
+            form_statuses["form9"] = True 
     elif user_selected_page == "form10":
         form_10()
     elif user_selected_page == "form11":
         if form_11():
-            form_statuses["form11"] = True  # Mark form as completed
+            form_statuses["form11"] = True  
     elif user_selected_page == "form12":
         if form_12():
-            form_statuses["form12"] = True  # Mark form as completed
+            form_statuses["form12"] = True 
     elif user_selected_page == "form13":
         form_13()
-
-    # Display the completion status for each form in the sidebar, excluding the specified forms
     st.sidebar.header("Form Completion Status")
     for page, completed in form_statuses.items():
         if page not in forms_to_exclude:

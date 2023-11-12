@@ -57,12 +57,16 @@ def main_form():
 
     forms_to_exclude = ["form0", "form3", "form5", "form8", "form10", "form13"]
 
-    if user_selected_page not in forms_to_exclude:
-        form_key = [key for key, value in form_display_names.items() if value == user_selected_page][0]
-        if form_key in form_statuses:
-            form_function = globals()[form_key]
-            if form_function():
-                form_statuses[form_key] = True
+    try:
+        form_key = next(key for key, value in form_display_names.items() if value == user_selected_page)
+    except StopIteration:
+        # Handle the case where the selected page name doesn't match any values
+        form_key = None
+
+    if form_key and form_key not in forms_to_exclude and form_key in form_statuses:
+        form_function = globals()[form_key]
+        if form_function():
+            form_statuses[form_key] = True
 
     st.sidebar.header("Form Completion Status")
     for page, completed in form_statuses.items():
@@ -73,20 +77,20 @@ def main_form():
             else:
                 st.sidebar.write(f"{display_name}: ❌")
 
-    if user_selected_page == "Starting Form":
+    if form_key == "Starting Form":
         form_0()
-    elif user_selected_page == "Manufacturing Knowledge Form":
+    elif form_key == "Manufacturing Knowledge Form":
         form_3()
-    elif user_selected_page == "YouTube Video 1 Form":
+    elif form_key == "YouTube Video 1 Form":
         form_5()
-    elif user_selected_page == "YouTube Video 2 Form":
+    elif form_key == "YouTube Video 2 Form":
         form_8()
-    elif user_selected_page == "YouTube Video 3 Form":
+    elif form_key == "YouTube Video 3 Form":
         form_10()
-    elif user_selected_page == "Ending Form":
+    elif form_key == "Ending Form":
         form_13()
-    else:
-        form_function = globals()[user_selected_page.lower().replace(" ", "_")]
+    elif form_key:
+        form_function = globals()[form_key.lower().replace(" ", "_")]
         form_function()
 
 if __name__ == "__main__":

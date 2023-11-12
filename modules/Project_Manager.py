@@ -1,111 +1,166 @@
 import streamlit as st
+from streamlit import session_state as ss
+from modules import group
 import numpy as np
 import pandas as pd
-from os import path
 import os
-import time
-from streamlit import session_state as ss
-from modules import order, group
-from enum import Enum
-from shutil import make_archive
-import decimal
+from os import path
 
-class ReportState(Enum):
-	INACTIVE = 1
-	CONFIRMING = 2
-	GENERATING = 3
-	FINISHED = 4
-	INVALID = 5
+def render():
 
-def render():	
-	st.title('Project Manager')
+    if 'part_ordered' not in ss:
+        ss['part_ordered'] = False
+    if 'part_cost' not in ss:
+        ss['part_cost'] = 0.0
+
+    st.title('Purchasing Manager')
 	
-	st.write("Welcome to the Project Manager Page!")
-	
-	st.markdown(
-	        """
-	        Your role is to generate customer orders, monitor the progress of your team members, delegate tasks, and provide constructive feedback.
-	        """)
-	if 'order_requested' not in ss:
-		ss['orders_requested'] = False
-	if 'display_orders' not in ss:
-		ss['display_orders'] = False
-	if 'orders_full' not in ss:
-		ss['orders_full'] = False
+    st.write("Welcome to the Purchasing Manager Page!")
 
-	st.markdown("Specify the number of orders you would like to place using the slider, and then click \"Generate Customer Orders\".")
+    st.markdown(
+        """
+        Your role revolves around monitoring the order quantities selected by the :blue[Industrial Engineer], 
+        the annual demand, the ordering cost, and the holding cost. The :red[Economic Order Quantity (EOQ)] will
+        be calculated for you, and your task will be to give feedback to the :blue[Industrial Engineer] on their
+        performance.
+        """)
 
-	col1, col2 = st.columns([1, 2])
 
-	with col1:
-		
-		order_request = st.button('Generate Customer Orders',on_click=create_orders)
-		
-		if ss.orders_requested:
-			st.write(f"{ss.orders_created} orders have been recieved. There are {len(ss.group_state['orders'])} ongoing orders. Click on 'View/Hide Orders' to see order details.")
-			
-		if ss.orders_full:
-			st.write(f"WARNING: That number of incoming orders will exceed the current limit of {ss.order_limit} ongoing customer orders. Select a smaller number of orders.")
-			
-	with col2:
-		
-		num_requested = st.slider('Select the number of orders you would like to generate:', key="num_orders", min_value=1, max_value=ss.order_limit, value=1)
+    parts = ['Frame',
+            'Handlebars',
+            'Stem',
+            'Suspension Fork',
+            'Disc Brake Rotor',
+            'Tire',
+            'Rim',
+            'Hub',
+            'Spoke',
+            'Pedal',
+            'Crank Arm',
+            'Crank Set',
+            'Cassette',
+            'Chain',
+            'Seat Post',
+            'Seat',
+            ]
 
-	if 'report_status' not in ss:
-    		ss.report_status = ReportState.INACTIVE
+    st.markdown('---')
+    vendors = ['GoBike', 'FastBike', 'LazyBiker']
+    st.markdown('**:blue[Select Vendor]**')
+    vendor = st.selectbox('Vendor',
+                        options=vendors,
+                        label_visibility='collapsed')
+    if vendor == 'GoBike':
+        seed = 123
+    elif vendor == 'FastBike':
+        seed = 321
+    else:
+        seed = 512
+    np.random.seed(seed)
+    ordering_cost = np.random.randint(10, 1000, size=(len(parts)))
+    holding_cost = np.round(0.05 * ordering_cost, 2)
+    annual_demand = np.random.randint(100, 10000, size=(len(parts)))
+    distance = np.random.randint(500, 7000)
+    lead_time = ((distance / 100) * np.random.uniform(20, 50, size=(len(parts)))) / 24
 
-	#this is checked up here so that clicking "Refresh" will immediately show if the report is ready
-	if(ss.report_status == ReportState.GENERATING):
-		check_report()
-	
-	st.write(f"As Project Manager, you can report your progress to the instructor by creating a downloadable report.")
-	#report button
-	if(ss.report_status == ReportState.INACTIVE):
-		st.button('Create Report', on_click=advance_state)
-	elif(ss.report_status == ReportState.CONFIRMING):
-		st.button('Cancel Report', on_click=reset_state)
-	elif(ss.report_status == ReportState.GENERATING):
-		st.button('Refresh') #this button doesn't really do anything, but clicking it will cause the check_report to be run again
-	elif(ss.report_status == ReportState.FINISHED):
-		st.button('Close Report', on_click=advance_state)
-	else:
-		print('State Error - Button') #this should never be reached unless an error occurs
+    eco_df = pd.DataFrame({'Part': parts,
+                            'Ordering Cost ($)': ordering_cost,
+                            'Annual Demand': annual_demand,
+                            'Holding Cost ($)': holding_cost,
+                            'Distance (miles)': distance,
+                            'Lead Time (Days)': np.round(lead_time, 2)
+                            })
 
-	#revealed items that appear once the button is clicked for the first time
-	if(ss.report_status != ReportState.INACTIVE):
-		if(ss.report_status == ReportState.CONFIRMING):
-			st.write(f"Are you sure you want to make a report? You can continue playing, but your additional progress will not be reflected in the report.")
-			st.button('Confirm', on_click=generate_report) #this function call will advance the report state
-		elif(ss.report_status == ReportState.GENERATING):
-			st.write(f"Input confirmed, generating...")			
-		elif(ss.report_status == ReportState.FINISHED):
-			st.write(f"Report generated successfully. You may now close this report.")
-		else:
-			print('State Error - Revealed Area') #this also should never be reached unless an error occurs
-	
-	if path.isfile(ss.filepath+'parts_selction.csv'):
-	    st.header(":blue[Mechanical Engineer]")
-	    st.markdown("Parts, materials, and manufacturing processes selected by the :blue[Mechanical Engineer]")
-	    selection_df = pd.read_csv(ss.filepath+'parts_selction.csv')
-	    selection_df.index = list(range(1, len(selection_df)+1))
-	    st.dataframe(selection_df, width=3000)
-	
-	if path.isfile(ss.filepath+'parts_material_process_justification.csv'):
-	    st.markdown("Justifications of the :blue[Mechanical Engineer]")
-	    just_df = pd.read_csv(ss.filepath+'parts_material_process_justification.csv')
-	    just_df.index = list(range(1, len(just_df)+1))
-	    st.dataframe(just_df, width=3000)
+    eco_df.index = list(range(1, len(eco_df)+1))
+    st.write('')
+    with st.expander('Expand to see the part economics table'):
+        st.write('**:blue[Part Economics Table]**')
+        st.dataframe(eco_df, width=3000)
+
+    st.markdown('---')
+    st.write('')
+    if path.isfile(ss.filepath + 'orders.csv'):
+        orders = pd.read_csv(ss.filepath + 'orders.csv')
+        orders.index = list(range(1, len(orders)+1))
+        orders = orders.merge(eco_df, on='Part', how='left')
+        orders['Ordering Cost ($)'] *= orders['Qty']
+        orders['Holding Cost ($)'] *= orders['Qty']
+        orders['EOQ'] = round(np.sqrt((2*orders["Ordering Cost ($)"]*orders['Annual Demand'])/orders["Holding Cost ($)"]), 3)
+        orders.index = list(range(1, len(orders)+1))
+        
+        st.write('**Orders by the :blue[Industrial Engineer]**')
+        st.dataframe(orders, width=3000)
+
+        st.markdown('---')
+        total_order_cost = round(orders["Ordering Cost ($)"].sum(),2)
+        total_hold_cost = round(orders["Holding Cost ($)"].sum(),2)
+        total_ann_demand = orders['Annual Demand'].sum()
+
+        st.write(f'Total Ordering Cost: **:red[${total_order_cost:,}]**')
+        st.write(f'Total Holding Cost : **:red[${total_hold_cost:,}]**')
+        #st.write(f'Total Annual Demand: **:red[{total_ann_demand:,}]**')
+        #st.write(f'**:blue[Economic Order Quantity]: :red[{round(np.sqrt((2*total_order_cost*total_ann_demand)/total_hold_cost), 2):,}]**')
+        st.markdown('---')
+
+        if path.isfile('vendors.csv'):
+            if st.button('Reset Vendor Selection!'):
+                os.system('rm vendors.csv')
+                vendor_df = pd.DataFrame(columns=['Part', 'Vendor'])
+            else:
+                vendor_df = pd.read_csv('vendors.csv')
+        else:
+            vendor_df = pd.DataFrame(columns=['Part', 'Vendor'])
+
+        st.markdown('**:blue[Select vendor for each part]**')
+        ordered_parts = orders.Part.tolist()
+        col1, col2 = st.columns(2)
+        with col1:
+            part_for_vendor = st.selectbox('Part for vendor',
+                                            options=['Select Part'] + ordered_parts,
+                                            label_visibility='collapsed',)
+        with col2:
+            vendor_for_part = st.radio('Vendor for part',
+                                        options=vendors,
+                                        label_visibility='collapsed',)
+        
+        if part_for_vendor != 'Select Part':
+            vendor_df.loc[len(vendor_df), :] = [part_for_vendor, vendor_for_part]
+            vendor_df = vendor_df.drop_duplicates(subset='Part', keep='last')
+            vendor_df.index = list(range(1, len(vendor_df)+1))
+            vendor_df.to_csv('vendors.csv', index=False)
+
+	#since vendor_df must exist, it is submitted here if group_state indicates that it should be
+            group_state = group.load(ss.group_state.get('group_key'))
+            if(group_state['roles_reported'][3] == False):
+                submit_report_info(vendor_df, group_state)
+
+        if len(vendor_df) > 0:
+            st.dataframe(vendor_df, width=3000)
+
+        with st.expander('Give Feedback!'):
+            if path.isfile('purchasing_manager_feedback'):
+                with open('purchasing_manager_feedback', 'rb') as f:
+                    previous_feedback = f.read().decode()
+                feedback = st.text_area('feedback ...',
+                                        value=previous_feedback,
+                                        label_visibility='collapsed')        
+            else:
+                feedback = st.text_area('feedback ...',
+                                        value='Your feedback...',
+                                        label_visibility='collapsed')
+            with open('purchasing_manager_feedback', 'w') as f:
+                f.write(feedback)
 	
 def feedback():
 	st.header("Feedback **:red[TO]**")
-	
-	text = ""
-	if path.isfile(ss.filepath+'fb_pm_m.txt'):
-	    with open(ss.filepath+'fb_pm_m.txt', 'r') as f:
-	        text = f.read()
 
-	with st.form("proj_mech_feedback"):
-		fb_pm_m = st.text_area("Your feedback to the Mechanical Engineer:", text)
+	text = ""
+	if path.isfile(ss.filepath+'fb_pum_d.txt'):
+		with open(ss.filepath+'fb_pum_d.txt', 'r') as f:
+			text = f.read()
+
+	with st.form("pur_des_feedback"):
+		fb_pum_d = st.text_area("Your feedback to the Design Engineer:", text)
 		col1, whitespace, col2 = st.columns((100, 400, 129))
 		with col1:
 			feedback_submission = st.form_submit_button("Submit")
@@ -114,29 +169,22 @@ def feedback():
 		with col2:
 			clear_submission = st.form_submit_button("Clear Feedback")
 		
-		if (feedback_submission and fb_pm_m != ""):
-			with open(ss.filepath+"fb_pm_m.txt", "w") as f:
-				f.write(fb_pm_m)
+		if (feedback_submission and fb_pum_d != ""):
+			with open(ss.filepath+"fb_pum_d.txt", "w") as f:
+				f.write(fb_pum_d)
 			st.experimental_rerun() #causes the submit button to only need to be pressed once
 		elif (clear_submission):
-			if path.isfile(ss.filepath+'fb_pm_m.txt'):
-				os.remove(ss.filepath+'fb_pm_m.txt')
+			if path.isfile(ss.filepath+'fb_pum_d.txt'):
+				os.remove(ss.filepath+'fb_pum_d.txt')
 			st.experimental_rerun() #causes the submit button to only need to be pressed once
 	
-	if path.isfile(ss.filepath+'orders.csv'):
-	    st.header(":blue[Industrial Engineer]")
-	    st.markdown("Orders by the :blue[Industrial Engineer]")
-	    orders_df = pd.read_csv(ss.filepath+'orders.csv')
-	    orders_df.index = list(range(1, len(orders_df)+1))
-	    st.dataframe(orders_df, width=3000)
-	
 	text = ""
-	if path.isfile(ss.filepath+'fb_pm_i.txt'):
-	    with open(ss.filepath+'fb_pm_i.txt', 'r') as f:
-	        text = f.read()
+	if path.isfile(ss.filepath+'fb_pum_i.txt'):
+		with open(ss.filepath+'fb_pum_i.txt', 'r') as f:
+			text = f.read()
 
-	with st.form("proj_ind_feedback"):
-		fb_pm_i = st.text_area("Your feedback to the Industrial Engineer:", text)
+	with st.form("pur_ind_feedback"):
+		fb_pum_i = st.text_area("Your feedback to the Industrial Engineer:", text)
 		col1, whitespace, col2 = st.columns((100, 400, 129))
 		with col1:
 			feedback_submission = st.form_submit_button("Submit")
@@ -145,22 +193,22 @@ def feedback():
 		with col2:
 			clear_submission = st.form_submit_button("Clear Feedback")
 		
-		if (feedback_submission and fb_pm_i != ""):
-			with open(ss.filepath+"fb_pm_i.txt", "w") as f:
-				f.write(fb_pm_i)
+		if (feedback_submission and fb_pum_i != ""):
+			with open(ss.filepath+"fb_pum_i.txt", "w") as f:
+				f.write(fb_pum_i)
 			st.experimental_rerun()
 		elif (clear_submission):
-			if path.isfile(ss.filepath+'fb_pm_i.txt'):
-				os.remove(ss.filepath+'fb_pm_i.txt')
+			if path.isfile(ss.filepath+'fb_pum_i.txt'):
+				os.remove(ss.filepath+'fb_pum_i.txt')
 			st.experimental_rerun()
 	
 	text = ""
-	if path.isfile(ss.filepath+'fb_pm_pum.txt'):
-	    with open(ss.filepath+'fb_pm_pum.txt', 'r') as f:
-	        text = f.read()
+	if path.isfile(ss.filepath+'fb_pum_pm.txt'):
+		with open(ss.filepath+'fb_pum_pm.txt', 'r') as f:
+			text = f.read()
 
-	with st.form("proj_pur_feedback"):
-		fb_pm_pum = st.text_area("Your feedback to the Purchasing Manager:", text)
+	with st.form("pur_proj_feedback"):
+		fb_pum_pm = st.text_area("Your feedback to the Project Manager:", text)
 		col1, whitespace, col2 = st.columns((100, 400, 129))
 		with col1:
 			feedback_submission = st.form_submit_button("Submit")
@@ -169,22 +217,22 @@ def feedback():
 		with col2:
 			clear_submission = st.form_submit_button("Clear Feedback")
 		
-		if (feedback_submission and fb_pm_pum != ""):
-			with open(ss.filepath+"fb_pm_pum.txt", "w") as f:
-				f.write(fb_pm_pum)
+		if (feedback_submission and fb_pum_pm != ""):
+			with open(ss.filepath+"fb_pum_pm.txt", "w") as f:
+				f.write(fb_pum_pm)
 			st.experimental_rerun()
 		elif (clear_submission):
-			if path.isfile(ss.filepath+'fb_pm_pum.txt'):
-				os.remove(ss.filepath+'fb_pm_pum.txt')
+			if path.isfile(ss.filepath+'fb_pum_pm.txt'):
+				os.remove(ss.filepath+'fb_pum_pm.txt')
 			st.experimental_rerun()
-			
+	
 	text = ""
-	if path.isfile(ss.filepath+'fb_pm_d.txt'):
-	    with open(ss.filepath+'fb_pm_d.txt', 'r') as f:
-	        text = f.read()
+	if path.isfile(ss.filepath+'fb_pum_m.txt'):
+		with open(ss.filepath+'fb_pum_m.txt', 'r') as f:
+			text = f.read()
 
-	with st.form("proj_des_feedback"):
-		fb_pm_d = st.text_area("Your feedback to the Design Engineer:", text)
+	with st.form("pur_mech_feedback"):
+		fb_pum_m = st.text_area("Your feedback to the Mechanical Engineer:", text)
 		col1, whitespace, col2 = st.columns((100, 400, 129))
 		with col1:
 			feedback_submission = st.form_submit_button("Submit")
@@ -193,112 +241,141 @@ def feedback():
 		with col2:
 			clear_submission = st.form_submit_button("Clear Feedback")
 		
-		if (feedback_submission and fb_pm_d != ""):
-			with open(ss.filepath+"fb_pm_d.txt", "w") as f:
-				f.write(fb_pm_d)
+		if (feedback_submission and fb_pum_m != ""):
+			with open(ss.filepath+"fb_pum_m.txt", "w") as f:
+				f.write(fb_pum_m)
 			st.experimental_rerun()
 		elif (clear_submission):
-			if path.isfile(ss.filepath+'fb_pm_d.txt'):
-				os.remove(ss.filepath+'fb_pm_d.txt')
+			if path.isfile(ss.filepath+'fb_pum_m.txt'):
+				os.remove(ss.filepath+'fb_pum_m.txt')
 			st.experimental_rerun()
 	
 	# reading
 	st.header("Feedback **:red[From]**")
 	st.markdown("---")
-	if path.isfile(ss.filepath+'fb_d_pm.txt'):
+	if path.isfile(ss.filepath+'fb_d_pum.txt'):
 		st.write("Feedback from the **:red[Design Engineer]**:")
-		with open(ss.filepath+'fb_d_pm.txt', 'r') as f:
+		with open(ss.filepath+'fb_d_pum.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
 		st.markdown("---")
 
-	if path.isfile(ss.filepath+'fb_i_pm.txt'):
+	if path.isfile(ss.filepath+'fb_i_pum.txt'):
 		st.write("Feedback from the **:red[Industrial Engineer]**:")
-		with open(ss.filepath+'fb_i_pm.txt', 'r') as f:
+		with open(ss.filepath+'fb_i_pum.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
 		st.markdown("---")
 
 
-	if path.isfile(ss.filepath+'fb_m_pm.txt'):
+	if path.isfile(ss.filepath+'fb_pm_pum.txt'):
+		st.write("Feedback from the **:red[Project Manager]**:")
+		with open(ss.filepath+'fb_pm_pum.txt', 'r') as f:
+			text = f.read()
+		st.write(text)
+		st.markdown("---")
+
+
+	if path.isfile(ss.filepath+'fb_m_pum.txt'):
 		st.write("Feedback from the **:red[Mechanical Engineer]**:")
-		with open(ss.filepath+'fb_m_pm.txt', 'r') as f:
+		with open(ss.filepath+'fb_m_pum.txt', 'r') as f:
 			text = f.read()
 		st.write(text)
 		st.markdown("---")
 
+def order_part():
 
-	if path.isfile(ss.filepath+'fb_pum_pm.txt'):
-		st.write("Feedback from the **:red[Purchasing Manager]**:")
-		with open(ss.filepath+'fb_pum_pm.txt', 'r') as f:
-			text = f.read()
-		st.write(text)
-		st.markdown("---")
+	ss.part_ordered = True
 
-def create_orders():
-		
-	if len(ss.group_state['orders']) + ss.num_orders <= ss.order_limit:
-		for i in range(ss.num_orders):
-			group.add_new_order(ss.group)
-		ss.orders_requested = True
-		ss.orders_full = False
-		ss['orders_created'] = ss.num_orders
-	else:
-		ss.orders_requested = False
-		ss.orders_full = True
+	parts = ['Frame',
+			'Handlebars',
+			'Stem',
+			'Suspension Fork',
+			'Disc Brake Rotor',
+			'Tire',
+			'Rim',
+			'Hub',
+			'Spoke',
+			'Pedal',
+			'Crank Arm',
+			'Crank Set',
+			'Cassette',
+			'Chain',
+			'Seat Post',
+			'Seat',
+			]
+#Actual bike part prices as found on bikeparts.com 	
+	MountainPrices = [2250.00,
+                     168.30,
+                     109.99,
+                     958.00,
+                     49.99,
+                     185.00,
+                     105.90,
+                     565.90,
+                     8.00,
+                     35.99,
+                     86.99,
+                     216.95,
+                     83.68,
+                     25.64,
+                     59.99,
+                     52.79,
+                     ]
 	
-def switch_orders_display():
-	if ss.display_orders == True:
-		ss.display_orders = False
-	else:
-		ss.display_orders = True
+	FastPrices = [5500.00,
+                 129.99,
+                 119.99,
+                 1099.99,
+                 55.99,
+                 89.99,
+                 74.99,
+                 588.00,
+                 8.00,
+                 37.00,
+                 110.00,
+                 216.95,
+                 93.87,
+                 55.45,
+                 62.10,
+                 59.99,
+                 ]
+	
+	LazyPrices = [1350.00,
+                 34.58,
+                 49.99,
+                 549.00,
+                 43.00,
+                 62.95,
+                 59.90,
+                 130.00,
+                 8.00,
+                 12.36,
+                 68.53,
+                 100.00,
+                 39.99,
+                 30.00,
+                 58.99,
+                 50.00
+                 ]
+	
+	idx = parts.index(ss.part_choice)
+	
+	if ss.vendor_choice == 'GoBike':
+		price = MountainPrices[idx]
 
-def advance_state():
-	ss.report_status = ReportState(ss.report_status.value + 1)
-	if (ss.report_status.value > 4):
-		reset_state()
+	if ss.vendor_choice == 'FastBike':
+		price = FastPrices[idx]
 
-def reset_state():
-	ss.report_status = ReportState(1)
+	if ss.vendor_choice == 'LazyBike':
+		price = LazyPrices[idx]
 
-def generate_report():
-	group_state = group.load(ss.group_state.get('group_key'))
-	#setting this boolean array to all false prompts the other roles to create heir files for the report
-	for i in range(4):
-		(group_state['roles_reported'])[i] = False
+	ss.part_cost = price
+
+def submit_report_info(vendor_df, group_state):
+	if not os.path.exists(ss.filepath+'report/'):
+		os.makedirs(ss.filepath+'report/')
+	with open(ss.filepath+'report/'+ 'PurchasingManager' + '.txt', 'w') as f:
+		f.write(vendor_df.to_string(index=False))
+	group_state['roles_reported'][3] = True
 	group.save_group_state(group_state)
-	
-	advance_state()
-
-def check_report():
-	#all other roles must update their page in order to automatically submit the info for the report, so that is checked here
-	group_state = group.load(ss.group_state.get('group_key'))
-	submission_count = 0
-
-	#checking how many players have submitted
-	for i in range(4):
-		if((group_state['roles_reported'])[i] == True):
-			submission_count += 1
-
-	if(submission_count == group_state['player_count'] - 1):
-		#resetting boolean array so that new players who join don't try to submit a report
-		if(group_state['player_count'] < 4):
-			for i in range(4):
-				(group_state['roles_reported'])[i] = True
-
-		#making the zip file and adding additional group info file if there is at least one other player
-		if(group_state['player_count'] > 1):
-			elapsed_time = decimal.Decimal(time.time() - group_state['start_time'])
-			elapsed_minutes = decimal.Decimal(elapsed_time / 60)
-			decimal.getcontext().rounding = decimal.ROUND_DOWN
-			elapsed_minutes = round(elapsed_minutes, 0)				
-			decimal.getcontext().rounding = decimal.ROUND_HALF_EVEN
-			elapsed_seconds = round(decimal.Decimal(elapsed_time - (elapsed_minutes * 60)), 1)
-			
-			with open(ss.filepath+'report/'+ 'GroupInformation' + '.txt', 'w') as f:							
-				f.write(str(elapsed_time) + " Time Elapsed: " + str(elapsed_minutes) +" minutes and " + str(elapsed_seconds) + " seconds.\n"
-				       +"Orders Fufilled: " + str(len(ss.group_state['completed'])) + "\n"
-				       +"Unfilled Orders: " + str(len(ss.group_state['orders'])) + "\n"
-				       +"Remaining Orders Needed for Completion: " + str(ss.completed_limit - len(ss.group_state['completed']) - len(ss.group_state['orders'])))
-			make_archive(ss.group_state.get('group_key')+'_report', 'zip', ss.filepath, 'report')
-		advance_state()

@@ -1,3 +1,6 @@
+Certainly! Here's the updated code for the entire `main_form` function:
+
+```python
 import streamlit as st
 from .form0 import form_0
 from .form1 import form_1
@@ -32,7 +35,7 @@ def main_form():
             "form12": False,
             "form13": False,
         }
-    
+
     form_display_names = {
         "form0": "Starting Form",
         "form1": "Consent Form",
@@ -60,7 +63,6 @@ def main_form():
     try:
         form_key = next(key for key, value in form_display_names.items() if value == user_selected_page)
     except StopIteration:
-        # Handle the case where the selected page name doesn't match any values
         form_key = None
 
     if form_key and form_key not in forms_to_exclude and form_key in form_statuses:
@@ -77,21 +79,15 @@ def main_form():
             else:
                 st.sidebar.write(f"{display_name}: ❌")
 
-    if form_key == "Starting Form":
-        form_0()
-    elif form_key == "Manufacturing Knowledge Form":
-        form_3()
-    elif form_key == "YouTube Video 1 Form":
-        form_5()
-    elif form_key == "YouTube Video 2 Form":
-        form_8()
-    elif form_key == "YouTube Video 3 Form":
-        form_10()
-    elif form_key == "Ending Form":
-        form_13()
-    elif form_key:
+    st.write("\n\n")  # Add some space for better layout
+
+    if form_key:
+        st.subheader(form_display_names[form_key])
         form_function = globals()[form_key.lower().replace(" ", "_")]
         form_function()
 
 if __name__ == "__main__":
     main_form()
+```
+
+Please replace your existing `main_form` function with this code. If you encounter any issues or have further questions, feel free to ask!

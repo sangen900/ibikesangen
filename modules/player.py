@@ -33,37 +33,6 @@ def render():
 	#time.sleep(30)
 	#st.experimental_rerun()
 	#synchronize()
-
-# Callback function that first checks availability and assigns a user to a group if it is not already full.
-# if a user is the 5th member of a group, that group will be removed from the available, displayed groups for all other users
-def group_assign(group_key):
-
-	group_state = group.load(group_key)
-	game_state = game.load()
-	groups = game_state['available_groups']
-	if group_key not in groups:
-		st.write("I'm sorry, the group you chose is full. Please select a different group.")
-	else:
-		ss.group = group_key
-		ss['filepath'] = 'files/data/'+ss.group+'/'
-		group_state['player_count'] += 1
-		ss['player'] = group_state['player_count']
-		if group_state['player_count'] == 5:
-			groups.remove(group_key)
-			game_state['available_groups'] = groups
-			game.save_game_state(game_state)
-			group_state['status'] = 'in progress'
-		group.save_group_state(group_state)
-	
-# a function to display the available groups to join based on the current state of the game.
-def display_group_buttons():   
-    game_state = game.load()
-    groups = game_state['available_groups']
-    num = len(groups)
-    cols = st.columns(num)
-    for i in range(num):
-        with cols[i]:
-            st.button(f"{groups[i]}", on_click=group_assign, args=(groups[i], ))
 		
 def display_role_page():
 	if ss.role == 'Project Manager':
@@ -79,7 +48,6 @@ def display_role_page():
 
   
 def display_feedback_page():
-
 	if ss.role == 'Project Manager':
 		pr_m.feedback()
 	elif ss.role == 'Design Engineer':
@@ -92,7 +60,6 @@ def display_feedback_page():
 		pu_m.feedback()
 
 def display_group_info():
-
 	p_roles = ['p1_role','p2_role','p3_role','p4_role','p5_role']
 	p_names = ['p1_name','p2_name','p3_name','p4_name','p5_name']
 	
@@ -118,63 +85,125 @@ def display_game_complete():
 	st.title("The Simulation is Over")
 	st.write("Thank you for playing!")
 
-# Callback function to assign text input widget value to session state name variable
-def name_assign():
-	if len(ss.name_input) > 0:
-		ss.name = ss.name_input
-
-def role_assign(role):
+# this function first checks availability and then assigns a user to a group if it is not already full.
+# if a user is the 5th member of a group, that group will be removed from the available, displayed groups for all other users
+def group_assign(group_key):
+	group_state = group.load(group_key)
+	game_state = game.load()
+	groups = game_state['available_groups']
 	
-	group_state = group.load(ss.group)
-	roles = group_state['available_roles']
+	ss.group = group_key
+	ss['filepath'] = 'files/data/'+ss.group+'/'
+	group_state['player_count'] += 1
+	ss['player'] = group_state['player_count']
+	if group_state['player_count'] == 1:
+		group_state['start_time'] = time.time()
+	elif group_state['player_count'] == 5:
+		groups.remove(group_key)
+		game_state['available_groups'] = groups
+		game.save_game_state(game_state)
+		group_state['status'] = 'in progress'
+	group.save_group_state(group_state)
 	
-	if role not in roles:
-		st.write("I'm sorry, the role you chose is already filled. Please select a different role.")
-		
-	else:
-		ss.role = role
-		roles.remove(role)
-		group_state['available_roles'] = roles
-		
-		if ss.player == 1:
-			group_state['p1_name'] = ss.name
-			group_state['p1_role'] = ss.role
-		elif ss.player == 2:
-			group_state['p2_name'] = ss.name
-			group_state['p2_role'] = ss.role
-		elif ss.player == 3:
-			group_state['p3_name'] = ss.name
-			group_state['p3_role'] = ss.role
-		elif ss.player == 4:
-			group_state['p4_name'] = ss.name
-			group_state['p4_role'] = ss.role
-		else:
-			group_state['p5_name'] = ss.name
-			group_state['p5_role'] = ss.role
-			
-		group.save_group_state(group_state)
-		
-
-refreshed = False
-def display_role_buttons():
-    global refreshed
-    if st.button("Refresh button"):
-        refreshed = True
-    if refreshed:
-        st.write("Your page has been refreshed")
-    else:
-        st.write(f"Alright, {ss.name}, you are now in {ss.group}.")
-        st.write("Please select one of the available group roles below.")
-        st.write("This will be your role for the rest of this session:")
-
-    group_state = group.load(ss.group)
-    roles = group_state['available_roles']
-    num = len(roles)
+# a function to display the available groups to join based on the current state of the game.
+def display_group_buttons():
+    st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
+    
+    game_state = game.load()
+    groups = game_state['available_groups']
+    num = len(groups)
     cols = st.columns(num)
     for i in range(num):
         with cols[i]:
-            st.button(f"{roles[i]}", on_click=role_assign, args=(roles[i], ))
+            st.button(f"{groups[i]}", on_click=update_init_selection, args=(0, groups[i]))
 
+def role_assign(role):
+	group_state = group.load(ss.init_selection[0])
+	roles = group_state['available_roles']
+	
+	ss.role = role
+	roles.remove(role)
+	group_state['available_roles'] = roles
+	
+	if ss.player == 1:
+		group_state['p1_name'] = ss.name
+		group_state['p1_role'] = ss.role
+	elif ss.player == 2:
+		group_state['p2_name'] = ss.name
+		group_state['p2_role'] = ss.role
+	elif ss.player == 3:
+		group_state['p3_name'] = ss.name
+		group_state['p3_role'] = ss.role
+	elif ss.player == 4:
+		group_state['p4_name'] = ss.name
+		group_state['p4_role'] = ss.role
+	else:
+		group_state['p5_name'] = ss.name
+		group_state['p5_role'] = ss.role
+			
+	group.save_group_state(group_state)
+		
+def display_role_buttons(selected_group): 
+    st.write(f"Alright, {ss.name}, you have now selected {selected_group}.")    
+
+    group_state = group.load(selected_group)
+    roles = group_state['available_roles']
+    num = len(roles)    
+    if(num != 0):
+        #text that should only print when the selection is valid
+        st.write("Please select one of the available group roles below.")
+        st.write("This will be your role for the rest of this session:")
+	    
+        cols = st.columns(num)
+        for i in range(num):
+            with cols[i]:
+                st.button(f"{roles[i]}", on_click=update_init_selection, args=(1, roles[i]))
+    else:
+        #edge case where the user has yet to choose a group but the last role in that group is taken just before they select the group
+        ss.init_selection[0] = ''
+
+        st.write("I'm sorry, the group you chose is full. Please select a different group.")
+        st.button('Try Again')
+
+#called by both display_buttons functions in a callback once the user has made their selection
+#num indicates whether it is the group (0) or the role (1) and str contains the user's selection
+def update_init_selection(num, str):
+	#input validation is not needed on num or str since the user clicks buttons to select these values, not direct input
+	ss.init_selection[num] = str
+
+def check_init_selection():
+	game_state = game.load()
+	groups = game_state['available_groups']
+	group_state = group.load(ss.init_selection[0])
+	roles = group_state['available_roles']
+	
+	if ss.init_selection[0] not in groups:
+		st.write("I'm sorry, the group you chose is full. Please select a different group.")
+		return False
+	elif ss.init_selection[1] not in roles:
+		st.write("I'm sorry, the role you chose is already filled. Please select a different role.")
+		return False
+	else:
+		return True
+
+def process_init_selection():
+	if(check_init_selection()):
+		group_assign(ss.init_selection[0])
+		role_assign(ss.init_selection[1])
+		sync_game_settings()
+	else:
+		ss.init_selection[0] = ''
+		ss.init_selection[1] = ''
+
+		#the following button allows the user to start again by rerunning streamlit when they are ready
+		st.button('Try Again')
+
+def sync_game_settings():
+	game_state = game.load()
+	ss.order_limit = game_state['order_limit']
+	ss.completed_limit = game_state['completed_limit']
+	ss.setup_complete = True
+	st.experimental_rerun()
 
 def init():
     game_state = game.load()
@@ -184,35 +213,37 @@ def init():
 
     if 'survey_active' not in ss:
         ss.survey_active = False;
+    if 'init_selection' not in ss:
+        ss.init_selection = ['', ''];
 
     if size == 0:
         st.write("I'm sorry, this simulation is full. Please wait for the next round")
+    
     elif not ss.name:
         st.title('Welcome to the User Page!')
         st.write('On this page, you will choose your group and role.')
-        st.text_input('What is your name?', key='name_input', on_change=name_assign)
-    elif not ss.group and show_group_selection:
+        
+        with st.form("name_form"):
+            name_query = st.text_input("What is your name?")
+            name_submission = st.form_submit_button("Submit")
+            if (name_submission and len(name_query) > 0):
+                ss.name = name_query
+                st.experimental_rerun() #causes the submit button to only need to be pressed once
+
+    elif not ss.group and not ss.role:
         print("Survey State: " + str(ss.survey_active));
         if(not ss.survey_active):
             st.button('I would like to take the survey', on_click=form.toggle_survey_state)
-                #ss.survey_active = True;
-            
-            st.write(f"Hello, {ss.name}! Please select one of the available groups below:")
-            display_group_buttons()        
+
+            if(ss.init_selection[0] == ''):                
+                display_group_buttons()
+            elif(ss.init_selection[1] == ''):
+                display_role_buttons(ss.init_selection[0])
+            else:
+                process_init_selection()
+                   
         else:
-            survey.main_form()      
-        
-    if ss.group and not ss.role:
-        display_role_buttons()
-        sync_game_settings()
-
-
-def sync_game_settings():
-
-	game_state = game.load()
-	ss.order_limit = game_state['order_limit']
-	ss.completed_limit = game_state['completed_limit']
-	ss.setup_complete = True
+            survey.main_form()
 
 def switch_order_view():
 	if ss.order_view == True:
@@ -221,7 +252,6 @@ def switch_order_view():
 		ss.order_view = True
 
 def move_order(order_key):
-
 	idx = ss.roles.index(ss.role)
 	# get most up-to-date group state first:
 	group_state = group.load(ss.group)
@@ -237,7 +267,6 @@ def move_order(order_key):
 # Function to be called on each user page to display widgets to select orders and pass
 # them on to the next role.
 def display_current_orders():
-
 	st.write("Click the \"Refresh Orders\" button below in order to refresh your page and view current orders.")
 	st.button("Refresh Orders")
 	

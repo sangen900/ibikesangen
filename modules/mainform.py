@@ -62,7 +62,9 @@ def main_form():
 
     # Update the status of the selected form if it's not excluded
     if user_selected_page not in forms_to_exclude:
-        current_form_key = [key for key, value in form_names.items() if value == user_selected_page][0]
+        matching_keys = [key for key, value in form_names.items() if value == user_selected_page]
+        current_form_key = matching_keys[0] if matching_keys else None
+
         if current_form_key == "form1":
             if form_1():
                 form_statuses["form1"] = True  # Mark form as completed

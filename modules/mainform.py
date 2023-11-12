@@ -63,7 +63,7 @@ def main_form():
 
     # Update the status of the selected form if it's not excluded
     if user_selected_page not in forms_to_exclude:
-        form_function = globals().get(user_selected_page)
+        form_function = globals().get(f"form_{user_selected_page.split('_')[1]}")
         if form_function and form_function():
             form_statuses[user_selected_page] = True  # Mark form as completed
 
@@ -78,7 +78,7 @@ def main_form():
                 st.sidebar.write(f"{form_name}: ❌")
 
     # Display the content of the selected form, including excluded forms
-    form_function = globals().get(user_selected_page)
+    form_function = globals().get(f"form_{user_selected_page.split('_')[1]}")
     if form_function:
         form_function()
 

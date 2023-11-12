@@ -3,10 +3,12 @@ import numpy as np
 import pandas as pd
 from os import path
 import os
+import time
 from streamlit import session_state as ss
 from modules import order, group
 from enum import Enum
 from shutil import make_archive
+import decimal
 
 class ReportState(Enum):
 	INACTIVE = 1
@@ -15,9 +17,11 @@ class ReportState(Enum):
 	FINISHED = 4
 	INVALID = 5
 
-def render():
-	
+def render():	
 	st.title('Project Manager')
+	
+	st.write("Welcome to the Project Manager Page!")
+	
 	st.markdown(
 	        """
 	        Your role is to generate customer orders, monitor the progress of your team members, delegate tasks, and provide constructive feedback.
@@ -50,7 +54,7 @@ def render():
 	if 'report_status' not in ss:
     		ss.report_status = ReportState.INACTIVE
 
-	#this is checked up here so that clicking "Refresh" will immediately show if the report is eady
+	#this is checked up here so that clicking "Refresh" will immediately show if the report is ready
 	if(ss.report_status == ReportState.GENERATING):
 		check_report()
 	
@@ -94,22 +98,30 @@ def render():
 	
 def feedback():
 	st.header("Feedback **:red[TO]**")
-	st.markdown("---")
 	
 	text = ""
 	if path.isfile(ss.filepath+'fb_pm_m.txt'):
 	    with open(ss.filepath+'fb_pm_m.txt', 'r') as f:
 	        text = f.read()
-	
-	fb_pm_m = st.text_area("Your feedback to the Mechanical Engineer:", text)
-	if fb_pm_m != "":
-	    with open(ss.filepath+"fb_pm_m.txt", "w") as f:
-	        f.write(fb_pm_m)
-	    st.markdown("---")
-	
-	if st.button('Clear Feedback', key=0):
-	    if path.isfile(ss.filepath+'fb_pm_m.txt'):
-	        os.remove(ss.filepath+'fb_pm_m.txt')
+
+	with st.form("proj_mech_feedback"):
+		fb_pm_m = st.text_area("Your feedback to the Mechanical Engineer:", text)
+		col1, whitespace, col2 = st.columns((100, 400, 129))
+		with col1:
+			feedback_submission = st.form_submit_button("Submit")
+		with whitespace:
+			st.write("") #no content, this column is just to properly align the clear feedback button
+		with col2:
+			clear_submission = st.form_submit_button("Clear Feedback")
+		
+		if (feedback_submission and fb_pm_m != ""):
+			with open(ss.filepath+"fb_pm_m.txt", "w") as f:
+				f.write(fb_pm_m)
+			st.experimental_rerun() #causes the submit button to only need to be pressed once
+		elif (clear_submission):
+			if path.isfile(ss.filepath+'fb_pm_m.txt'):
+				os.remove(ss.filepath+'fb_pm_m.txt')
+			st.experimental_rerun() #causes the submit button to only need to be pressed once
 	
 	if path.isfile(ss.filepath+'orders.csv'):
 	    st.header(":blue[Industrial Engineer]")
@@ -122,54 +134,78 @@ def feedback():
 	if path.isfile(ss.filepath+'fb_pm_i.txt'):
 	    with open(ss.filepath+'fb_pm_i.txt', 'r') as f:
 	        text = f.read()
+
+	with st.form("proj_ind_feedback"):
+		fb_pm_i = st.text_area("Your feedback to the Industrial Engineer:", text)
+		col1, whitespace, col2 = st.columns((100, 400, 129))
+		with col1:
+			feedback_submission = st.form_submit_button("Submit")
+		with whitespace:
+			st.write("") #no content, this column is just to properly align the clear feedback button
+		with col2:
+			clear_submission = st.form_submit_button("Clear Feedback")
+		
+		if (feedback_submission and fb_pm_i != ""):
+			with open(ss.filepath+"fb_pm_i.txt", "w") as f:
+				f.write(fb_pm_i)
+			st.experimental_rerun()
+		elif (clear_submission):
+			if path.isfile(ss.filepath+'fb_pm_i.txt'):
+				os.remove(ss.filepath+'fb_pm_i.txt')
+			st.experimental_rerun()
 	
-	fb_pm_i = st.text_area("Your feedback to the Industrial Engineer:", text)
-	if fb_pm_i != "":
-	    with open(ss.filepath+"fb_pm_i.txt", "w") as f:
-	        f.write(fb_pm_i)
-	
-	if st.button('Clear Feedback', key=1):
-	    if path.isfile(ss.filepath+'fb_pm_i.txt'):
-	        os.remove(ss.filepath+'fb_pm_i.txt')
-	
-	st.markdown("---")
 	text = ""
 	if path.isfile(ss.filepath+'fb_pm_pum.txt'):
 	    with open(ss.filepath+'fb_pm_pum.txt', 'r') as f:
 	        text = f.read()
-	
-	fb_pm_pum = st.text_area("Your feedback to the Purchasing Manager:", text)
-	if fb_pm_pum != "":
-	    with open(ss.filepath+"fb_pm_pum.txt", "w") as f:
-	        f.write(fb_pm_pum)
-	    st.markdown("---")
-	
-	if st.button('Clear Feedback', key=2):
-	    if path.isfile(ss.filepath+'fb_pm_pum.txt'):
-	        os.remove(ss.filepath+'fb_pm_pum.txt')
-	
-	
-	st.markdown("---")
+
+	with st.form("proj_pur_feedback"):
+		fb_pm_pum = st.text_area("Your feedback to the Purchasing Manager:", text)
+		col1, whitespace, col2 = st.columns((100, 400, 129))
+		with col1:
+			feedback_submission = st.form_submit_button("Submit")
+		with whitespace:
+			st.write("") #no content, this column is just to properly align the clear feedback button
+		with col2:
+			clear_submission = st.form_submit_button("Clear Feedback")
+		
+		if (feedback_submission and fb_pm_pum != ""):
+			with open(ss.filepath+"fb_pm_pum.txt", "w") as f:
+				f.write(fb_pm_pum)
+			st.experimental_rerun()
+		elif (clear_submission):
+			if path.isfile(ss.filepath+'fb_pm_pum.txt'):
+				os.remove(ss.filepath+'fb_pm_pum.txt')
+			st.experimental_rerun()
+			
 	text = ""
 	if path.isfile(ss.filepath+'fb_pm_d.txt'):
 	    with open(ss.filepath+'fb_pm_d.txt', 'r') as f:
 	        text = f.read()
-	
-	fb_pm_d = st.text_area("Your feedback to the Design Engineer:", text)
-	if fb_pm_d != "":
-	    with open(ss.filepath+"fb_pm_d.txt", "w") as f:
-	        f.write(fb_pm_d)
-	    st.markdown("---")
-	
-	if st.button('Clear Feedback', key=3):
-	    if path.isfile(ss.filepath+'fb_pm_d.txt'):
-	        os.remove(ss.filepath+'fb_pm_d.txt')
 
-
+	with st.form("proj_des_feedback"):
+		fb_pm_d = st.text_area("Your feedback to the Design Engineer:", text)
+		col1, whitespace, col2 = st.columns((100, 400, 129))
+		with col1:
+			feedback_submission = st.form_submit_button("Submit")
+		with whitespace:
+			st.write("") #no content, this column is just to properly align the clear feedback button
+		with col2:
+			clear_submission = st.form_submit_button("Clear Feedback")
+		
+		if (feedback_submission and fb_pm_d != ""):
+			with open(ss.filepath+"fb_pm_d.txt", "w") as f:
+				f.write(fb_pm_d)
+			st.experimental_rerun()
+		elif (clear_submission):
+			if path.isfile(ss.filepath+'fb_pm_d.txt'):
+				os.remove(ss.filepath+'fb_pm_d.txt')
+			st.experimental_rerun()
+	
 	# reading
 	st.header("Feedback **:red[From]**")
+	st.markdown("---")
 	if path.isfile(ss.filepath+'fb_d_pm.txt'):
-		st.markdown("---")
 		st.write("Feedback from the **:red[Design Engineer]**:")
 		with open(ss.filepath+'fb_d_pm.txt', 'r') as f:
 			text = f.read()
@@ -177,7 +213,6 @@ def feedback():
 		st.markdown("---")
 
 	if path.isfile(ss.filepath+'fb_i_pm.txt'):
-		st.markdown("---")
 		st.write("Feedback from the **:red[Industrial Engineer]**:")
 		with open(ss.filepath+'fb_i_pm.txt', 'r') as f:
 			text = f.read()
@@ -186,7 +221,6 @@ def feedback():
 
 
 	if path.isfile(ss.filepath+'fb_m_pm.txt'):
-		st.markdown("---")
 		st.write("Feedback from the **:red[Mechanical Engineer]**:")
 		with open(ss.filepath+'fb_m_pm.txt', 'r') as f:
 			text = f.read()
@@ -195,7 +229,6 @@ def feedback():
 
 
 	if path.isfile(ss.filepath+'fb_pum_pm.txt'):
-		st.markdown("---")
 		st.write("Feedback from the **:red[Purchasing Manager]**:")
 		with open(ss.filepath+'fb_pum_pm.txt', 'r') as f:
 			text = f.read()
@@ -253,7 +286,19 @@ def check_report():
 			for i in range(4):
 				(group_state['roles_reported'])[i] = True
 
-		#making the zip file if there is at least one other player
+		#making the zip file and adding additional group info file if there is at least one other player
 		if(group_state['player_count'] > 1):
+			elapsed_time = decimal.Decimal(time.time() - group_state['start_time'])
+			elapsed_minutes = decimal.Decimal(elapsed_time / 60)
+			decimal.getcontext().rounding = decimal.ROUND_DOWN
+			elapsed_minutes = round(elapsed_minutes, 0)				
+			decimal.getcontext().rounding = decimal.ROUND_HALF_EVEN
+			elapsed_seconds = round(decimal.Decimal(elapsed_time - (elapsed_minutes * 60)), 1)
+			
+			with open(ss.filepath+'report/'+ 'GroupInformation' + '.txt', 'w') as f:							
+				f.write(str(elapsed_time) + " Time Elapsed: " + str(elapsed_minutes) +" minutes and " + str(elapsed_seconds) + " seconds.\n"
+				       +"Orders Fufilled: " + str(len(ss.group_state['completed'])) + "\n"
+				       +"Unfilled Orders: " + str(len(ss.group_state['orders'])) + "\n"
+				       +"Remaining Orders Needed for Completion: " + str(ss.completed_limit - len(ss.group_state['completed']) - len(ss.group_state['orders'])))
 			make_archive(ss.group_state.get('group_key')+'_report', 'zip', ss.filepath, 'report')
 		advance_state()

@@ -64,36 +64,38 @@ def main_form():
     if user_selected_page == "form0":
         form_0()
     elif user_selected_page == "form1":
-        form_1()
+        if form_1():
+            form_statuses["form1"] = True  # Mark form as completed
     elif user_selected_page == "form2":
-        form_2()
+        if form_2():
+            form_statuses["form2"] = True  # Mark form as completed
     elif user_selected_page == "form3":
         form_3()
     elif user_selected_page == "form4":
-        form_4()
+        if form_4():
+            form_statuses["form4"] = True  # Mark form as completed
     elif user_selected_page == "form5":
         form_5()
     elif user_selected_page == "form6":
-        form_6()
+        if form_6():
+            form_statuses["form6"] = True  # Mark form as completed
     elif user_selected_page == "form7":
         form_7()
     elif user_selected_page == "form8":
         form_8()
     elif user_selected_page == "form9":
-        form_9()
+        if form_9():
+            form_statuses["form9"] = True  # Mark form as completed
     elif user_selected_page == "form10":
         form_10()
     elif user_selected_page == "form11":
-        form_11()
+        if form_11():
+            form_statuses["form11"] = True  # Mark form as completed
     elif user_selected_page == "form12":
-        form_12()
+        if form_12():
+            form_statuses["form12"] = True  # Mark form as completed
     elif user_selected_page == "form13":
         form_13()
-
-    # Update the status of the selected form if it's not excluded
-    if user_selected_page not in forms_to_exclude:
-        if form_statuses[user_selected_page] is False:
-            form_statuses[user_selected_page] = True
 
     # Display the completion status for each form in the sidebar, excluding the specified forms
     st.sidebar.header("Form Completion Status")

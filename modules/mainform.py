@@ -32,13 +32,14 @@ def main_form():
             "form12": False,
             "form13": False,
         }
-
-    form_display_names = {
+    
+    # Form names
+    form_names = {
         "form0": "Starting Form",
         "form1": "Consent Form",
         "form2": "Basic Information Form",
         "form3": "Manufacturing Knowledge Form",
-        "form4": "Defining Manufacturing Terms Form",
+        "form4": "Defining the Manufacturing Terms Form",
         "form5": "YouTube Video 1 Form",
         "form6": "Agreement Form",
         "form7": "iBike Part 1 Form",
@@ -50,38 +51,34 @@ def main_form():
         "form13": "Ending Form",
     }
 
+    # Always display the sidebar
     st.sidebar.header("Please read the form carefully and fill the below form.")
 
+    # Sidebar menu with radio buttons
     form_statuses = st.session_state.form_statuses
-    user_selected_page = st.sidebar.radio("Select a form", list(form_statuses.keys()), format_func=lambda x: form_display_names[x])
+    user_selected_page = st.sidebar.radio("Select a form", list(form_statuses.keys()))
 
+    # Forms to exclude from status bar updates
     forms_to_exclude = ["form0", "form3", "form5", "form8", "form10", "form13"]
 
-    try:
-        form_key = next(key for key, value in form_display_names.items() if value == user_selected_page)
-    except StopIteration:
-        form_key = None
+    # Update the status of the selected form if it's not excluded
+    if user_selected_page not in forms_to_exclude:
+        form_key = user_selected_page
+        form_name = form_names[form_key]
+        if eval(f"{form_key}()"):
+            form_statuses[form_key] = True  # Mark form as completed
 
-    if form_key and form_key not in forms_to_exclude and form_key in form_statuses:
-        form_function = globals()[form_key]
-        if form_function():
-            form_statuses[form_key] = True
-
+    # Display the completion status for each form in the sidebar, excluding the specified forms
     st.sidebar.header("Form Completion Status")
     for page, completed in form_statuses.items():
         if page not in forms_to_exclude:
-            display_name = form_display_names[page]
             if completed:
-                st.sidebar.write(f"{display_name}: ✔️")
+                st.sidebar.write(f"{form_names[page]}: ✔️")
             else:
-                st.sidebar.write(f"{display_name}: ❌")
+                st.sidebar.write(f"{form_names[page]}: ❌")
 
-    st.write("\n\n")  # Add some space for better layout
-
-    if form_key:
-        st.subheader(form_display_names[form_key])
-        form_function = globals()[form_key.lower().replace(" ", "_")]
-        form_function()
+    # Display the content of the selected form, including excluded forms
+    eval(f"{user_selected_page}()")
 
 if __name__ == "__main__":
     main_form()

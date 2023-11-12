@@ -1,6 +1,3 @@
-Certainly! Here's the updated code for the entire `main_form` function:
-
-```python
 import streamlit as st
 from .form0 import form_0
 from .form1 import form_1
@@ -88,6 +85,3 @@ def main_form():
 
 if __name__ == "__main__":
     main_form()
-```
-
-Please replace your existing `main_form` function with this code. If you encounter any issues or have further questions, feel free to ask!

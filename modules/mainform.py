@@ -18,37 +18,37 @@ def main_form():
     if "form_statuses" not in st.session_state:
         st.session_state.form_statuses = {
             "form0": False,
-            "form1": False,
-            "form2": False,
-            "form3": False,
-            "form4": False,
-            "form5": False,
-            "form6": False,
-            "form7": False,
-            "form8": False,
-            "form9": False,
-            "form10": False,
-            "form11": False,
-            "form12": False,
-            "form13": False,
+            "consent_form": False,
+            "basic_info_form": False,
+            "manufacturing_knowledge_form": False,
+            "defining_manufacturing_terms_form": False,
+            "youtube_video1_form": False,
+            "agreement_form": False,
+            "ibike_part1_form": False,
+            "youtube_video2_form": False,
+            "ibike_part2_form": False,
+            "youtube_video3_form": False,
+            "ibike_part3_form": False,
+            "manufacturing_form": False,
+            "ending_form": False,
         }
     
-    # Form names
+    # Form names mapping
     form_names = {
         "form0": "Starting Form",
-        "form1": "Consent Form",
-        "form2": "Basic Information Form",
-        "form3": "Manufacturing Knowledge Form",
-        "form4": "Defining the Manufacturing Terms Form",
-        "form5": "YouTube Video 1 Form",
-        "form6": "Agreement Form",
-        "form7": "iBike Part 1 Form",
-        "form8": "YouTube Video 2 Form",
-        "form9": "iBike Part 2 Form",
-        "form10": "YouTube Video 3 Form",
-        "form11": "iBike Part 3 Form",
-        "form12": "Manufacturing Form",
-        "form13": "Ending Form",
+        "consent_form": "Consent Form",
+        "basic_info_form": "Basic Information Form",
+        "manufacturing_knowledge_form": "Manufacturing Knowledge Form",
+        "defining_manufacturing_terms_form": "Defining Manufacturing Terms Form",
+        "youtube_video1_form": "YouTube Video 1 Form",
+        "agreement_form": "Agreement Form",
+        "ibike_part1_form": "iBike Part 1 Form",
+        "youtube_video2_form": "YouTube Video 2 Form",
+        "ibike_part2_form": "iBike Part 2 Form",
+        "youtube_video3_form": "YouTube Video 3 Form",
+        "ibike_part3_form": "iBike Part 3 Form",
+        "manufacturing_form": "Manufacturing Form",
+        "ending_form": "Ending Form",
     }
 
     # Always display the sidebar
@@ -59,26 +59,28 @@ def main_form():
     user_selected_page = st.sidebar.radio("Select a form", list(form_statuses.keys()))
 
     # Forms to exclude from status bar updates
-    forms_to_exclude = ["form0", "form3", "form5", "form8", "form10", "form13"]
+    forms_to_exclude = ["form0", "manufacturing_knowledge_form", "youtube_video1_form", "youtube_video2_form", "youtube_video3_form", "ending_form"]
 
     # Update the status of the selected form if it's not excluded
     if user_selected_page not in forms_to_exclude:
-        form_key = user_selected_page
-        form_name = form_names[form_key]
-        if eval(f"{form_key}()"):
-            form_statuses[form_key] = True  # Mark form as completed
+        form_function = globals().get(user_selected_page)
+        if form_function and form_function():
+            form_statuses[user_selected_page] = True  # Mark form as completed
 
     # Display the completion status for each form in the sidebar, excluding the specified forms
     st.sidebar.header("Form Completion Status")
     for page, completed in form_statuses.items():
         if page not in forms_to_exclude:
+            form_name = form_names.get(page, page.capitalize())
             if completed:
-                st.sidebar.write(f"{form_names[page]}: ✔️")
+                st.sidebar.write(f"{form_name}: ✔️")
             else:
-                st.sidebar.write(f"{form_names[page]}: ❌")
+                st.sidebar.write(f"{form_name}: ❌")
 
     # Display the content of the selected form, including excluded forms
-    eval(f"{user_selected_page}()")
+    form_function = globals().get(user_selected_page)
+    if form_function:
+        form_function()
 
 if __name__ == "__main__":
     main_form()

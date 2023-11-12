@@ -136,7 +136,14 @@ def display_rejoin_page():
 
 	st.title("User Rejoin Page")
 	st.write("Your instructor can provide you with a code to rejoin your session.")
-	st.text_input("Enter your rejoin code:", on_change=sync_player, key='code_input')
+	st.write("If you have trouble submitting your code, refreshing the page should fix the issue.")
+	
+	with st.form("rejoin_form"):
+		code_query = st.text_input("Enter your rejoin code:", key='code_input')
+		code_submission = st.form_submit_button("Submit")
+		if (code_submission and len(code_query) > 0):
+			sync_player()
+			st.experimental_rerun() #causes the submit button to only need to be pressed once
 
 def sync_player():
 

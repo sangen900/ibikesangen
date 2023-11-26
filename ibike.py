@@ -42,7 +42,8 @@ def welcome_instructor():
     """
 	)
 	st.write("**A message for the instructors: You have the option to access the instructions by downloading the Word file provided for instructional guidance.**")
-	st.markdown('[Instruction to instructors](https://docs.google.com/document/d/1gGwgesyoiNQ07i3R5m1dFpoPCqgp1xbP/edit?usp=sharing)')
+	file_url = "hhttps://github.com/sangen900/ibikesangen/blob/e4e01fe081f1f0a6b19993504c5475784802ef88/modules/Instruction%20for%20instructor.docx"
+        st.markdown(f'<a href="{file_url}" download>Instructions for instructors</a>', unsafe_allow_html=True)
 
 	st.markdown("""
         In this simulation, you will serve as the instructor, and your participants will select a group to join and potentially participate in a survey.

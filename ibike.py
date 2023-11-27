@@ -42,9 +42,8 @@ def welcome_instructor():
     """
 	)
 	st.write("**A message for the instructors: You have the option to access the instructions by downloading the Word file provided for instructional guidance.**")
-	file_url = "hhttps://github.com/sangen900/ibikesangen/blob/e4e01fe081f1f0a6b19993504c5475784802ef88/modules/Instruction%20for%20instructor.docx"
-        st.markdown(f'<a href="{file_url}" download>Instructions for instructors</a>', unsafe_allow_html=True)
-
+	github_url = f"https://github.com/sangen900/ibikesangen/raw/main/modules/Instruction%20for%20instructor.docx"
+        st.markdown(f'<a href="{github_url}" download>Instructions for instructors</a>', unsafe_allow_html=True)
 	st.markdown("""
         In this simulation, you will serve as the instructor, and your participants will select a group to join and potentially participate in a survey.
 	After that the users have the opportunity to assume roles such as **Project Manager**, **Design Engineer**, **Mechanical Engineer**, **Industrial Engineer**, and **Purchasing Manager**. The game concludes after a predetermined number of completed customer orders that you get to set.
